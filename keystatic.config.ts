@@ -23,6 +23,12 @@ export default config({
         ),
         content: fields.mdx({
           label: 'Content',
+          options: {
+            image: {
+              directory: 'public/images/blog',
+              publicPath: '/images/blog/'
+            }
+          },
           components: {
             YouTube: {
               label: 'YouTube Video',
