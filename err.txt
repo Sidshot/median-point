@@ -1,0 +1,30 @@
+[33m[1m15:00:47[22m [WARN] [router][39m The route "/api/keystatic/[...params]" is defined in both "src/pages/api/keystatic/[...params].ts" and "node_modules/@keystatic/astro/internal/keystatic-api.js" using SSR mode. A dynamic SSR route cannot be defined more than once.
+[33m[1m15:00:47[22m [WARN] [router][39m A collision will result in a hard error in following versions of Astro.
+[33m[1m15:00:47[22m [WARN] [router][39m The route "/keystatic/[...params]" is defined in both "src/pages/keystatic/[...params].astro" and "node_modules/@keystatic/astro/internal/keystatic-astro-page.astro" using SSR mode. A dynamic SSR route cannot be defined more than once.
+[33m[1m15:00:47[22m [WARN] [router][39m A collision will result in a hard error in following versions of Astro.
+[33m[1m15:00:47[22m [WARN] [router][39m The route "/api/keystatic/[...params]" is defined in both "src/pages/api/keystatic/[...params].ts" and "node_modules/@keystatic/astro/internal/keystatic-api.js" using SSR mode. A dynamic SSR route cannot be defined more than once.
+[33m[1m15:00:47[22m [WARN] [router][39m A collision will result in a hard error in following versions of Astro.
+[33m[1m15:00:47[22m [WARN] [router][39m The route "/keystatic/[...params]" is defined in both "src/pages/keystatic/[...params].astro" and "node_modules/@keystatic/astro/internal/keystatic-astro-page.astro" using SSR mode. A dynamic SSR route cannot be defined more than once.
+[33m[1m15:00:47[22m [WARN] [router][39m A collision will result in a hard error in following versions of Astro.
+[2m15:00:47[22m [34m[vite][39m Re-optimizing dependencies because lockfile has changed
+[2m15:00:50[22m [34m[content][39m Syncing content
+[2m15:00:50[22m [34m[content][39m Astro config changed
+[2m15:00:50[22m [34m[content][39m Clearing content store
+[2m15:00:50[22m [34m[content][39m Synced content
+[2m15:00:50[22m [34m[types][39m Generated [2m3.04s[22m
+[2m15:00:50[22m [34m[build][39m output: [34m"server"[39m
+[2m15:00:50[22m [34m[build][39m mode: [34m"server"[39m
+[2m15:00:50[22m [34m[build][39m directory: [34mD:\IDE - My sites\Median Point IDE\dist\[39m
+[2m15:00:50[22m [34m[build][39m adapter: [32m@astrojs/vercel[39m
+[2m15:00:50[22m [34m[build][39m Collecting build info...
+[2m15:00:50[22m [34m[build][39m [32m✓ Completed in 3.09s.[39m
+[2m15:00:50[22m [34m[build][39m Building server entrypoints...
+[2m15:00:51[22m [34m[vite][39m [32m✓ built in 780ms[39m
+[33m[1m15:00:52[22m [WARN] [router][39m getStaticPaths() ignored in dynamic page [1m/src/pages/blog/[...slug].astro[22m. Add `export const prerender = true;` to prerender the page as static HTML during the build process.
+
+[31m[1m15:00:52[22m [ERROR] [vite][39m [31m✗[39m Build failed in 945ms
+Could not resolve "../../../keystatic.config" from "src/pages/api/keystatic/[...params].ts"
+file: D:/IDE - My sites/Median Point IDE/src/pages/api/keystatic/[...params].ts
+  [1mStack trace:[22m
+[2m    at getRollupError (file:///D:/IDE%20-%20My%20sites/Median%20Point%20IDE/node_modules/rollup/dist/es/shared/parseAst.js:406:41)
+    at ModuleLoader.handleInvalidResolvedId (file:///D:/IDE%20-%20My%20sites/Median%20Point%20IDE/node_modules/rollup/dist/es/shared/node-entry.js:22106:24)[22m
