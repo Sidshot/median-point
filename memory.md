@@ -35,6 +35,10 @@
    - Created a GitHub App (`median-point`) for OAuth authentication.
    - Environment variables set in Vercel: `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`, `KEYSTATIC_SECRET`, `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`.
    - **DO NOT commit `.env` to Git** — it contains secrets and is in `.gitignore`.
+7. **Build & Image Fixes:**
+   - Switched Vercel adapter output to `static` for optimal performance.
+   - Removed `.vercel` folder from git tracking to prevent build cache conflicts.
+   - Configured Keystatic to globally save images dynamically into the `public/images/blog` directory to enable seamless drag-and-drop support that works instantly with Astro's MDX renderer without broken paths.
 
 ## Publishing Workflow
 1. Go to https://median-point.vercel.app/keystatic
@@ -42,11 +46,13 @@
 3. Click "Blog Posts" → "+ Add"
 4. Fill in title, description, date, author, tags
 5. Write content in the visual editor (supports copy-paste from Word)
-6. Use `/` command to insert YouTube or Tweet embeds
-7. Click "Save" → Keystatic commits to GitHub → Vercel auto-deploys
+6. **Images:** Drag and drop images directly into the text editor. They will automatically upload and display correctly on the live site.
+7. **Embeds:** Use `/` command to insert YouTube or Tweet embeds.
+8. Click "Save" → Keystatic commits to GitHub → Vercel auto-deploys
 
 ## Important Notes
-- **Astro 6 + Keystatic:** Keystatic officially supports Astro 2-5. We use `legacy-peer-deps` to work around this. The production build works fine, but the local dev server may show Vite errors on the `/keystatic` route. This doesn't affect the live site.
+- **Astro 6 + Keystatic:** Keystatic officially supports Astro 2-5. We use `legacy-peer-deps` to work around this. The production build works fine, but the local dev server may show Vite errors on the `/keystatic` route or when redirecting after GitHub Auth. This doesn't affect the live site.
+- **Images:** Legacy manually added images may break if the path isn't perfectly configured. From now on, just drag and drop via the Editor, and it will handle the markdown path automatically.
 - **Local development:** Use `npm run dev` for the blog site. The Keystatic admin works best on the deployed Vercel URL.
 
 ## Next Session Action Items
