@@ -13,7 +13,7 @@ export default config({
       format: { contentField: 'content' },
       schema: {
         title: fields.slug({ name: { label: 'Title' } }),
-        description: fields.text({ label: 'Description', multiline: true }),
+        description: fields.text({ label: 'Description', multiline: true, validation: { isRequired: true } }),
         pubDate: fields.date({ label: 'Publish Date', validation: { isRequired: true } }),
         author: fields.text({ label: 'Author' }),
         category: fields.text({ label: 'Category' }),
