@@ -8,34 +8,103 @@ import { SITE_TITLE } from '../consts';
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={`About | ${SITE_TITLE}`} description="About Median Point and its Author." />
+		<BaseHead title={`About | Sudhanshu Verma`} description="Analyzing the median point of international relations and military affairs." />
 	</head>
-	<body class="flex flex-col min-h-screen">
+	<body class="flex flex-col min-h-screen bg-bg dark:bg-bg-dark transition-colors duration-300">
 		<Header />
-		<main class="flex-grow max-w-[720px] mx-auto px-4 py-12 w-full">
-			<h1 class="text-4xl font-black mb-8">About</h1>
-			
-			<div class="prose dark:prose-invert prose-lg block max-w-none font-serif leading-relaxed text-gray-800 dark:text-gray-200">
-				<p>
-					Welcome to <strong>Median Point</strong>, your premium destination for geopolitical analysis. 
-					In an increasingly fragmented world, clarity is our most valuable asset. My name is Sid, and 
-					I act as your guide through the interwoven narratives of international relations, economics, and 
-					security.
-				</p>
+		
+		<main class="flex-grow max-w-[900px] mx-auto px-4 py-16 w-full">
+			<!-- Hero Section -->
+			<div class="flex flex-col md:flex-row items-center md:items-start gap-12 mb-20 animate-fade-in-up">
+				<!-- Image Placeholder / Profile Photo -->
+				<div class="shrink-0 w-48 h-48 md:w-64 md:h-64 rounded-2xl overflow-hidden shadow-xl shadow-brand/10 border-4 border-white dark:border-gray-800 transition-transform duration-500 hover:scale-105 group relative">
+					<img 
+						src="/sudhanshu.png" 
+						alt="Sudhanshu Verma" 
+						class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+					/>
+					<div class="absolute inset-0 ring-1 ring-inset ring-black/10 dark:ring-white/10 rounded-2xl pointer-events-none"></div>
+				</div>
+
+				<div class="flex-grow text-center md:text-left">
+					<h1 class="text-4xl md:text-5xl font-black mb-4 font-sans tracking-tight text-gray-900 dark:text-white">
+						Hi, I'm <span class="text-brand dark:text-brand-dark">Sudhanshu Verma</span>
+					</h1>
+					<h2 class="text-xl md:text-2xl font-serif italic text-gray-600 dark:text-gray-400 mb-6">
+						Navigating the complexities of global power.
+					</h2>
+					<div class="prose dark:prose-invert prose-lg max-w-none font-serif leading-relaxed text-gray-800 dark:text-gray-200">
+						<p>
+							Welcome to <strong>Median Point</strong>. With a Bachelor's degree in Political Science, my focus lies at the leading edge 
+							of international relations, military dynamics, and the intricate geopolitical shifts shaping India's future on the global stage.
+						</p>
+						<p>
+							In an increasingly fragmented world, <em>clarity is our most valuable asset</em>. Here, I analyze 
+							the signal amidst the noise of grand strategy, historical context, and military affairs.
+						</p>
+					</div>
+				</div>
 			</div>
 
-			<div class="mt-12 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-8 rounded-sm">
-				<h2 class="text-2xl font-bold mb-4 font-sans flex items-center">
-					<span class="bg-brand w-1.5 h-6 mr-3 block"></span> 
-					Mission Statement
-				</h2>
-				<p class="font-serif text-lg leading-relaxed text-gray-700 dark:text-gray-300 italic mb-0">
-					"The 'Median Point' philosophy is rooted in finding the signal amidst the noise of global affairs. 
-					We avoid sensationalism, prioritizing rigorous analysis, historical context, and objective forecasting 
-					to navigate the true center of global power."
+			<!-- Core Focus Area -->
+			<div class="mb-16">
+				<h3 class="text-2xl font-bold mb-8 font-sans flex items-center opacity-90">
+					<span class="bg-brand w-1.5 h-6 mr-3 block rounded-sm"></span> 
+					Core Focus Areas
+				</h3>
+				
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<!-- Card 1 -->
+					<div class="bg-gray-50/50 dark:bg-gray-900/50 backdrop-blur-sm border border-gray-200 dark:border-gray-800 p-6 rounded-xl hover:border-brand/40 dark:hover:border-brand-dark/40 transition-colors group">
+						<div class="text-sm font-bold text-brand dark:text-brand-dark mb-2 tracking-widest uppercase">01 / India-Centric Geopolitics</div>
+						<h4 class="text-xl font-bold font-sans text-gray-900 dark:text-white mb-2 group-hover:translate-x-1 transition-transform">Regional Hegemony & Strategy</h4>
+						<p class="font-serif text-gray-600 dark:text-gray-400">Analyzing India's strategic imperatives, border security, and its evolving role amid great power competition in the Global South.</p>
+					</div>
+					
+					<!-- Card 2 -->
+					<div class="bg-gray-50/50 dark:bg-gray-900/50 backdrop-blur-sm border border-gray-200 dark:border-gray-800 p-6 rounded-xl hover:border-brand/40 dark:hover:border-brand-dark/40 transition-colors group">
+						<div class="text-sm font-bold text-brand dark:text-brand-dark mb-2 tracking-widest uppercase">02 / Military Dynamics</div>
+						<h4 class="text-xl font-bold font-sans text-gray-900 dark:text-white mb-2 group-hover:translate-x-1 transition-transform">Defense Tactics & Procurement</h4>
+						<p class="font-serif text-gray-600 dark:text-gray-400">Deep dives into military capabilities, operational doctrines, structural reforms, and the technological evolution of warfare.</p>
+					</div>
+
+					<!-- Card 3 -->
+					<div class="bg-gray-50/50 dark:bg-gray-900/50 backdrop-blur-sm border border-gray-200 dark:border-gray-800 p-6 rounded-xl hover:border-brand/40 dark:hover:border-brand-dark/40 transition-colors group">
+						<div class="text-sm font-bold text-brand dark:text-brand-dark mb-2 tracking-widest uppercase">03 / Historical Context</div>
+						<h4 class="text-xl font-bold font-sans text-gray-900 dark:text-white mb-2 group-hover:translate-x-1 transition-transform">The Long Arch of History</h4>
+						<p class="font-serif text-gray-600 dark:text-gray-400">Grounding contemporary flashpoints in the deep history of conflicts, treaties, and civilizational shifts that explain today's realities.</p>
+					</div>
+
+					<!-- Card 4 -->
+					<div class="bg-gray-50/50 dark:bg-gray-900/50 backdrop-blur-sm border border-gray-200 dark:border-gray-800 p-6 rounded-xl hover:border-brand/40 dark:hover:border-brand-dark/40 transition-colors group">
+						<div class="text-sm font-bold text-brand dark:text-brand-dark mb-2 tracking-widest uppercase">04 / International Relations</div>
+						<h4 class="text-xl font-bold font-sans text-gray-900 dark:text-white mb-2 group-hover:translate-x-1 transition-transform">Diplomacy & Statecraft</h4>
+						<p class="font-serif text-gray-600 dark:text-gray-400">Decoding the diplomatic maneuvering, economic statecraft, and shifting alliances defining the 21st century's multipolar order.</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Mission Statement / Closing -->
+			<div class="bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-[#161616] border border-gray-200 dark:border-gray-800 p-8 md:p-12 rounded-2xl text-center shadow-sm">
+				<p class="font-serif text-xl md:text-2xl leading-relaxed text-gray-800 dark:text-gray-300 italic mb-6">
+					"Finding the signal amidst the noise of global affairs. No sensationalism—just objective forecasting, history, and raw analysis to navigate the true center of global power."
 				</p>
+				<a href="/contact" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all shadow-lg hover:shadow-brand/30 dark:focus:ring-offset-gray-900 mt-2">
+					Collaborate & Connect
+				</a>
 			</div>
 		</main>
+
 		<Footer />
+		
+		<style>
+			@keyframes fadeInUp {
+				from { opacity: 0; transform: translateY(20px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
+			.animate-fade-in-up {
+				animation: fadeInUp 0.8s ease-out forwards;
+			}
+		</style>
 	</body>
 </html>
