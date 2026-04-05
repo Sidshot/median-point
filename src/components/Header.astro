@@ -6,7 +6,7 @@ import HeaderLink from './HeaderLink.astro';
 	<div id="progress-bar" class="h-full bg-brand dark:bg-brand-dark w-0 transition-[width] duration-150 ease-out"></div>
 </div>
 
-<header class="border-b border-gray-200 dark:border-gray-800 bg-bg/90 dark:bg-bg-dark/90 sticky top-0 z-40 backdrop-blur-lg">
+<header class="border-b border-gray-200 dark:border-gray-800 bg-bg/90 dark:bg-bg-dark/90 sticky top-0 z-40 backdrop-blur-lg" transition:persist>
 	<nav class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
 		<h2 class="font-sans font-black text-xl tracking-tight">
 			<a href="/" class="flex items-center gap-2 text-base dark:text-base-dark hover:opacity-80 transition-opacity no-underline group">
@@ -24,21 +24,22 @@ import HeaderLink from './HeaderLink.astro';
 			<HeaderLink href="/about" class="text-gray-600 dark:text-gray-400 hover:text-brand dark:hover:text-brand-dark">About</HeaderLink>
 			<HeaderLink href="/contact" class="text-gray-600 dark:text-gray-400 hover:text-brand dark:hover:text-brand-dark">Contact</HeaderLink>
 			
-			<!-- RSS Link (Item 13) -->
+			<!-- RSS Link -->
 			<a href="/rss.xml" target="_blank" class="text-gray-400 hover:text-brand dark:hover:text-brand-dark transition-colors" aria-label="RSS Feed" title="RSS Feed">
 				<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.18 15.64a2.18 2.18 0 010 4.36 2.18 2.18 0 010-4.36M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44m0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/></svg>
 			</a>
 
-			<button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-sm p-2 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700 transition-colors" aria-label="Toggle dark mode">
-				<svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-				<svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+			<!-- Theme Toggle (Desktop) -->
+			<button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-sm p-2 focus:outline-none transition-colors" aria-label="Toggle dark mode">
+				<svg id="theme-toggle-dark-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+				<svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
 			</button>
 		</div>
 
-		<!-- Mobile Hamburger Button (Item 9) -->
+		<!-- Mobile Controls -->
 		<div class="flex items-center gap-2 md:hidden">
 			<button id="theme-toggle-mobile" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-sm p-2 focus:outline-none transition-colors" aria-label="Toggle dark mode">
-				<svg id="theme-toggle-dark-icon-mobile" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+				<svg id="theme-toggle-dark-icon-mobile" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
 				<svg id="theme-toggle-light-icon-mobile" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
 			</button>
 			<button id="mobile-menu-btn" type="button" class="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg p-2 transition-colors" aria-label="Open menu">
@@ -59,7 +60,7 @@ import HeaderLink from './HeaderLink.astro';
 	</div>
 </header>
 
-<!-- Scroll to Top Button (Item 10) -->
+<!-- Scroll to Top Button -->
 <button id="scroll-top-btn" class="fixed bottom-6 right-6 z-50 bg-brand hover:bg-red-800 text-white w-11 h-11 rounded-full shadow-lg flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 hover:-translate-y-1" aria-label="Scroll to top">
 	<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"></path></svg>
 </button>
@@ -74,77 +75,93 @@ import HeaderLink from './HeaderLink.astro';
 	}
 </style>
 
-<script>
-	// Theme toggle (desktop)
-	const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-	const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-	const themeToggleBtn = document.getElementById('theme-toggle');
-
-	// Theme toggle (mobile)
-	const themeToggleDarkIconMobile = document.getElementById('theme-toggle-dark-icon-mobile');
-	const themeToggleLightIconMobile = document.getElementById('theme-toggle-light-icon-mobile');
-	const themeToggleBtnMobile = document.getElementById('theme-toggle-mobile');
-
-	function syncIcons() {
-		if (document.documentElement.classList.contains('dark')) {
-			themeToggleLightIcon?.classList.remove('hidden');
-			themeToggleDarkIcon?.classList.add('hidden');
-			themeToggleLightIconMobile?.classList.remove('hidden');
-			themeToggleDarkIconMobile?.classList.add('hidden');
-		} else {
-			themeToggleDarkIcon?.classList.remove('hidden');
-			themeToggleLightIcon?.classList.add('hidden');
-			themeToggleDarkIconMobile?.classList.remove('hidden');
-			themeToggleLightIconMobile?.classList.add('hidden');
-		}
-	}
-	syncIcons();
-
-	function toggleTheme() {
-		if (document.documentElement.classList.contains('dark')) {
-			document.documentElement.classList.remove('dark');
-			localStorage.setItem('theme', 'light');
-		} else {
-			document.documentElement.classList.add('dark');
-			localStorage.setItem('theme', 'dark');
+<script is:inline>
+	// This script runs on every page load including view transitions
+	function initHeader() {
+		// Sync theme icons
+		function syncIcons() {
+			const isDark = document.documentElement.classList.contains('dark');
+			['', '-mobile'].forEach(suffix => {
+				const darkIcon = document.getElementById('theme-toggle-dark-icon' + suffix);
+				const lightIcon = document.getElementById('theme-toggle-light-icon' + suffix);
+				if (darkIcon && lightIcon) {
+					if (isDark) {
+						lightIcon.classList.remove('hidden');
+						darkIcon.classList.add('hidden');
+					} else {
+						darkIcon.classList.remove('hidden');
+						lightIcon.classList.add('hidden');
+					}
+				}
+			});
 		}
 		syncIcons();
+
+		function toggleTheme() {
+			if (document.documentElement.classList.contains('dark')) {
+				document.documentElement.classList.remove('dark');
+				localStorage.setItem('theme', 'light');
+			} else {
+				document.documentElement.classList.add('dark');
+				localStorage.setItem('theme', 'dark');
+			}
+			syncIcons();
+		}
+
+		// Remove old listeners by cloning
+		['theme-toggle', 'theme-toggle-mobile'].forEach(id => {
+			const btn = document.getElementById(id);
+			if (btn) {
+				const newBtn = btn.cloneNode(true);
+				btn.parentNode.replaceChild(newBtn, btn);
+				newBtn.addEventListener('click', toggleTheme);
+			}
+		});
+
+		// Mobile menu
+		const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+		const mobileMenu = document.getElementById('mobile-menu');
+		if (mobileMenuBtn) {
+			const newBtn = mobileMenuBtn.cloneNode(true);
+			mobileMenuBtn.parentNode.replaceChild(newBtn, mobileMenuBtn);
+			newBtn.addEventListener('click', () => {
+				mobileMenu?.classList.toggle('hidden');
+			});
+		}
+
+		// Progress bar + scroll to top
+		window.addEventListener('scroll', function scrollHandler() {
+			const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+			const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+			const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+			const bar = document.getElementById('progress-bar');
+			if (bar) bar.style.width = scrolled + '%';
+
+			const scrollBtn = document.getElementById('scroll-top-btn');
+			if (scrollBtn) {
+				if (winScroll > 400) {
+					scrollBtn.classList.remove('opacity-0', 'pointer-events-none');
+					scrollBtn.classList.add('opacity-100', 'pointer-events-auto');
+				} else {
+					scrollBtn.classList.add('opacity-0', 'pointer-events-none');
+					scrollBtn.classList.remove('opacity-100', 'pointer-events-auto');
+				}
+			}
+		});
+
+		// Scroll to top action
+		const scrollTopBtn = document.getElementById('scroll-top-btn');
+		if (scrollTopBtn) {
+			const newBtn = scrollTopBtn.cloneNode(true);
+			scrollTopBtn.parentNode.replaceChild(newBtn, scrollTopBtn);
+			newBtn.addEventListener('click', () => {
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			});
+		}
 	}
 
-	themeToggleBtn?.addEventListener('click', toggleTheme);
-	themeToggleBtnMobile?.addEventListener('click', toggleTheme);
-
-	// Mobile menu toggle
-	const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-	const mobileMenu = document.getElementById('mobile-menu');
-	
-	mobileMenuBtn?.addEventListener('click', () => {
-		mobileMenu?.classList.toggle('hidden');
-	});
-
-	// Progress bar
-	window.addEventListener('scroll', () => {
-		const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-		const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-		const scrolled = (winScroll / height) * 100;
-		const bar = document.getElementById('progress-bar');
-		if(bar) bar.style.width = scrolled + '%';
-
-		// Scroll to top button visibility
-		const scrollBtn = document.getElementById('scroll-top-btn');
-		if (scrollBtn) {
-			if (winScroll > 400) {
-				scrollBtn.classList.remove('opacity-0', 'pointer-events-none');
-				scrollBtn.classList.add('opacity-100', 'pointer-events-auto');
-			} else {
-				scrollBtn.classList.add('opacity-0', 'pointer-events-none');
-				scrollBtn.classList.remove('opacity-100', 'pointer-events-auto');
-			}
-		}
-	});
-
-	// Scroll to top action
-	document.getElementById('scroll-top-btn')?.addEventListener('click', () => {
-		window.scrollTo({ top: 0, behavior: 'smooth' });
-	});
+	// Run on initial load
+	initHeader();
+	// Re-run after Astro view transitions navigate
+	document.addEventListener('astro:page-load', initHeader);
 </script>
