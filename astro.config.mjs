@@ -14,7 +14,9 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://median-point.vercel.app',
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({
+    includeFiles: ['./keystatic.config.ts']
+  }),
   integrations: [mdx(), sitemap(), react(), keystatic()],
 
   vite: {
