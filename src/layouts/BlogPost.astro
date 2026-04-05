@@ -67,9 +67,9 @@ const relatedPosts = allPosts
 					<div class="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800">
 						<div class="flex flex-wrap gap-2">
 							{tags.map(tag => (
-								<span class="bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400 text-xs font-sans font-bold uppercase tracking-wide px-3 py-1 rounded-full">
+								<a href={`/archive?tag=${encodeURIComponent(tag)}`} class="bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400 hover:bg-brand hover:text-white dark:hover:bg-brand-dark dark:hover:text-white text-xs font-sans font-bold uppercase tracking-wide px-3 py-1 rounded-full transition-colors no-underline">
 									#{tag}
-								</span>
+								</a>
 							))}
 						</div>
 					</div>

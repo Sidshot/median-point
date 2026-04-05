@@ -5,6 +5,7 @@ import '../styles/global.css';
 
 import '@fontsource/libre-baskerville';
 import '@fontsource/inter';
+import { ClientRouter } from 'astro:transitions';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
 import { SITE_TITLE } from '../consts';
@@ -32,6 +33,9 @@ const { title, description, image = FallbackImage } = Astro.props;
 	href={new URL('rss.xml', Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
+
+<!-- View Transitions (Item 17) -->
+<ClientRouter />
 
 <!-- Font preloads -->
 <!-- Fonts are self-hosted via fontsource -->
