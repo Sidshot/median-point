@@ -13,7 +13,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://median-point.vercel.app',
-  output: 'server',
+  output: 'static',
   adapter: vercel({
     includeFiles: ['./keystatic.config.ts']
   }),
