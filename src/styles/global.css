@@ -1,0 +1,48 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-brand: #b91c1c;
+  --color-brand-dark: #ef4444;
+  --color-base: #1a1a1a;
+  --color-base-dark: #e5e5e5;
+  --color-bg: #fdfdfd;
+  --color-bg-dark: #121212;
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Libre Baskerville", serif;
+}
+
+@layer base {
+  body {
+    @apply bg-bg text-base font-serif transition-colors duration-200 antialiased;
+  }
+  .dark body {
+    @apply bg-bg-dark text-base-dark;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-bold leading-tight;
+  }
+  
+  a {
+    @apply text-brand transition-colors duration-200;
+  }
+  .dark a {
+    @apply text-brand-dark;
+  }
+  
+  a:hover {
+    @apply opacity-80;
+  }
+}
+
+@layer components {
+  .prose > p:first-of-type::first-letter {
+    @apply float-left text-6xl font-black leading-none mr-3 mt-2 text-brand dark:text-brand-dark;
+  }
+  .prose blockquote {
+    @apply border-l-4 border-brand dark:border-brand-dark bg-gray-50 dark:bg-gray-900/50 italic py-4 px-6 my-8 rounded-r-lg text-xl font-serif text-gray-700 dark:text-gray-300;
+  }
+}

@@ -1,0 +1,25 @@
+---
+const today = new Date();
+---
+
+<footer class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-16 px-4 mt-auto">
+	<div class="max-w-[720px] mx-auto text-center">
+		<div class="mb-12 bg-white dark:bg-gray-800 p-8 md:p-12 shadow-sm border border-gray-200 dark:border-gray-700">
+			<h3 class="text-2xl md:text-3xl font-black mb-3 text-base dark:text-base-dark">Subscribe to the Newsletter</h3>
+			<p class="text-base md:text-lg font-serif text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
+				A weekly dispatch on the center of global power. No spam, only signal.
+			</p>
+			<!-- Mailchimp/Substack Form -->
+			<form action="https://medianpoint.substack.com/subscribe" method="GET" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+				<input type="email" name="email" placeholder="Your email address" required class="flex-grow px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 focus:ring-2 focus:ring-brand focus:outline-none text-base dark:text-base-dark font-sans" />
+				<button type="submit" class="bg-brand hover:bg-brand-dark text-white font-bold uppercase tracking-wider text-sm px-6 py-3 transition-colors shrink-0">
+					Subscribe
+				</button>
+			</form>
+		</div>
+		
+		<div class="text-sm text-gray-500 font-sans">
+			&copy; {today.getFullYear()} Median Point. All rights reserved.
+		</div>
+	</div>
+</footer>
