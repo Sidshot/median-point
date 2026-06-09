@@ -76,68 +76,72 @@ import HeaderLink from './HeaderLink.astro';
 </style>
 
 <script is:inline>
-	// This script runs on every page load including view transitions
-	function initHeader() {
-		// Sync theme icons
-		function syncIcons() {
-			const isDark = document.documentElement.classList.contains('dark');
-			['', '-mobile'].forEach(suffix => {
-				const darkIcon = document.getElementById('theme-toggle-dark-icon' + suffix);
-				const lightIcon = document.getElementById('theme-toggle-light-icon' + suffix);
-				if (darkIcon && lightIcon) {
-					if (isDark) {
-						lightIcon.classList.remove('hidden');
-						darkIcon.classList.add('hidden');
-					} else {
-						darkIcon.classList.remove('hidden');
-						lightIcon.classList.add('hidden');
-					}
+	function syncThemeIcons() {
+		var isDark = document.documentElement.classList.contains('dark');
+		['', '-mobile'].forEach(function(suffix) {
+			var darkIcon = document.getElementById('theme-toggle-dark-icon' + suffix);
+			var lightIcon = document.getElementById('theme-toggle-light-icon' + suffix);
+			if (darkIcon && lightIcon) {
+				if (isDark) {
+					lightIcon.classList.remove('hidden');
+					darkIcon.classList.add('hidden');
+				} else {
+					darkIcon.classList.remove('hidden');
+					lightIcon.classList.add('hidden');
 				}
-			});
-		}
-		syncIcons();
-
-		function toggleTheme() {
-			if (document.documentElement.classList.contains('dark')) {
-				document.documentElement.classList.remove('dark');
-				localStorage.setItem('theme', 'light');
-			} else {
-				document.documentElement.classList.add('dark');
-				localStorage.setItem('theme', 'dark');
-			}
-			syncIcons();
-		}
-
-		// Remove old listeners by cloning
-		['theme-toggle', 'theme-toggle-mobile'].forEach(id => {
-			const btn = document.getElementById(id);
-			if (btn) {
-				const newBtn = btn.cloneNode(true);
-				btn.parentNode.replaceChild(newBtn, btn);
-				newBtn.addEventListener('click', toggleTheme);
 			}
 		});
+	}
+
+	function doToggleTheme() {
+		if (document.documentElement.classList.contains('dark')) {
+			document.documentElement.classList.remove('dark');
+			localStorage.setItem('theme', 'light');
+		} else {
+			document.documentElement.classList.add('dark');
+			localStorage.setItem('theme', 'dark');
+		}
+		syncThemeIcons();
+	}
+
+	function setupHeader() {
+		syncThemeIcons();
+
+		// Theme toggles — bind with onclick to avoid stacking listeners
+		var toggleDesktop = document.getElementById('theme-toggle');
+		if (toggleDesktop) toggleDesktop.onclick = doToggleTheme;
+		var toggleMobile = document.getElementById('theme-toggle-mobile');
+		if (toggleMobile) toggleMobile.onclick = doToggleTheme;
 
 		// Mobile menu
-		const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-		const mobileMenu = document.getElementById('mobile-menu');
-		if (mobileMenuBtn) {
-			const newBtn = mobileMenuBtn.cloneNode(true);
-			mobileMenuBtn.parentNode.replaceChild(newBtn, mobileMenuBtn);
-			newBtn.addEventListener('click', () => {
-				mobileMenu?.classList.toggle('hidden');
-			});
+		var menuBtn = document.getElementById('mobile-menu-btn');
+		var menu = document.getElementById('mobile-menu');
+		if (menuBtn) {
+			menuBtn.onclick = function() {
+				if (menu) menu.classList.toggle('hidden');
+			};
 		}
 
-		// Progress bar + scroll to top
-		window.addEventListener('scroll', function scrollHandler() {
-			const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-			const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-			const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
-			const bar = document.getElementById('progress-bar');
+		// Scroll to top
+		var scrollBtn = document.getElementById('scroll-top-btn');
+		if (scrollBtn) {
+			scrollBtn.onclick = function() {
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			};
+		}
+	}
+
+	// Scroll-driven effects (progress bar + scroll-to-top visibility)
+	if (!window.__mpScrollBound) {
+		window.__mpScrollBound = true;
+		window.addEventListener('scroll', function() {
+			var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+			var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+			var scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+			var bar = document.getElementById('progress-bar');
 			if (bar) bar.style.width = scrolled + '%';
 
-			const scrollBtn = document.getElementById('scroll-top-btn');
+			var scrollBtn = document.getElementById('scroll-top-btn');
 			if (scrollBtn) {
 				if (winScroll > 400) {
 					scrollBtn.classList.remove('opacity-0', 'pointer-events-none');
@@ -148,20 +152,10 @@ import HeaderLink from './HeaderLink.astro';
 				}
 			}
 		});
-
-		// Scroll to top action
-		const scrollTopBtn = document.getElementById('scroll-top-btn');
-		if (scrollTopBtn) {
-			const newBtn = scrollTopBtn.cloneNode(true);
-			scrollTopBtn.parentNode.replaceChild(newBtn, scrollTopBtn);
-			newBtn.addEventListener('click', () => {
-				window.scrollTo({ top: 0, behavior: 'smooth' });
-			});
-		}
 	}
 
-	// Run on initial load
-	initHeader();
-	// Re-run after Astro view transitions navigate
-	document.addEventListener('astro:page-load', initHeader);
+	// Run on initial load + after every view transition
+	setupHeader();
+	document.addEventListener('astro:page-load', setupHeader);
+	document.addEventListener('astro:after-swap', syncThemeIcons);
 </script>
