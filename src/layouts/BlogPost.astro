@@ -45,7 +45,7 @@ function getRelativeTime(date: Date) {
 
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={title} description={description} image={currentId ? `/og/${currentId}.png` : undefined} />
 	</head>
 
 	<body class="flex flex-col min-h-screen bg-bg dark:bg-bg-dark">
