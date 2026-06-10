@@ -50,8 +50,30 @@ function getRelativeTime(date: Date) {
 
 	<body class="flex flex-col min-h-screen bg-bg dark:bg-bg-dark">
 		<Header />
-		<main class="flex-grow max-w-[720px] mx-auto px-4 py-12 w-full">
-			<article id="article-content">
+		<main class="flex-grow max-w-[1400px] mx-auto px-4 py-12 w-full">
+			<div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+				
+				<!-- Left Sidebar: Latest Articles -->
+				<aside class="hidden lg:block lg:col-span-3">
+					<div class="sticky top-24">
+						<h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-6 flex items-center">
+							<span class="bg-brand w-1 h-4 mr-2 block rounded-sm"></span>
+							Latest Articles
+						</h3>
+						<div class="space-y-6">
+							{relatedPosts.map(post => (
+								<a href={`/blog/${post.id}/`} class="block group no-underline">
+									<h4 class="font-sans font-bold text-gray-900 dark:text-gray-100 group-hover:text-brand dark:group-hover:text-brand-dark transition-colors leading-tight mb-1">{post.data.title}</h4>
+									<div class="text-xs text-gray-500 font-sans"><FormattedDate date={post.data.pubDate} /></div>
+								</a>
+							))}
+						</div>
+					</div>
+				</aside>
+
+				<!-- Main Content Column -->
+				<div class="lg:col-span-6 w-full max-w-[720px] mx-auto">
+					<article id="article-content">
 				
 				<div class="mb-8 text-center pb-8 border-b border-gray-200 dark:border-gray-800">
 					<div class="text-sm text-gray-500 dark:text-gray-400 font-sans mb-4 flex items-center justify-center space-x-2 flex-wrap">
@@ -139,12 +161,13 @@ function getRelativeTime(date: Date) {
 				</div>
 			</article>
 
-			<!-- Related Articles Section (Item 7) -->
+			<!-- Related Articles Section (Mobile Only) -->
+			<div class="block lg:hidden">
 			{relatedPosts.length > 0 && (
 				<section class="mt-16 pt-12 border-t border-gray-200 dark:border-gray-800">
 					<h3 class="text-2xl font-bold mb-8 font-sans flex items-center">
 						<span class="bg-brand w-1.5 h-6 mr-3 block rounded-sm"></span>
-						You May Also Enjoy
+						Latest Articles
 					</h3>
 					<div class="grid grid-cols-1 gap-6">
 						{relatedPosts.map(post => (
@@ -162,6 +185,35 @@ function getRelativeTime(date: Date) {
 					</div>
 				</section>
 			)}
+			</div>
+			</div> <!-- End Main Content Column -->
+
+				<!-- Right Sidebar: Decorative Motifs -->
+				<aside class="hidden lg:block lg:col-span-3">
+					<div class="sticky top-24 flex flex-col items-center justify-center space-y-12 opacity-80 dark:opacity-40 pointer-events-none">
+						<!-- Taj Mahal inspired geometric & floral SVG motifs -->
+						<svg width="140" height="140" viewBox="0 0 100 100" class="fill-gray-300 dark:fill-gray-700">
+							<!-- Intricate Mughal Star / Lotus Pattern -->
+							<path d="M50 0 L60 35 L95 35 L68 55 L78 90 L50 70 L22 90 L32 55 L5 35 L40 35 Z" stroke="currentColor" stroke-width="1" fill="none" opacity="0.3"/>
+							<circle cx="50" cy="50" r="25" stroke="currentColor" stroke-width="0.5" fill="none"/>
+							<path d="M50 25 Q65 50 50 75 Q35 50 50 25" stroke="currentColor" stroke-width="1" fill="none" opacity="0.5"/>
+							<path d="M25 50 Q50 65 75 50 Q50 35 25 50" stroke="currentColor" stroke-width="1" fill="none" opacity="0.5"/>
+							<circle cx="50" cy="50" r="5" fill="currentColor"/>
+						</svg>
+						
+						<svg width="80" height="200" viewBox="0 0 50 150" class="stroke-gray-300 dark:stroke-gray-700">
+							<!-- Floral / Vine vertical border -->
+							<path d="M25 0 Q40 25 25 50 T25 100 T25 150" fill="none" stroke-width="1" opacity="0.4"/>
+							<path d="M25 25 Q15 20 15 30 Q20 35 25 25" fill="currentColor" stroke="none" opacity="0.4"/>
+							<path d="M25 50 Q35 45 35 55 Q30 60 25 50" fill="currentColor" stroke="none" opacity="0.4"/>
+							<path d="M25 75 Q15 70 15 80 Q20 85 25 75" fill="currentColor" stroke="none" opacity="0.4"/>
+							<path d="M25 100 Q35 95 35 105 Q30 110 25 100" fill="currentColor" stroke="none" opacity="0.4"/>
+							<path d="M25 125 Q15 120 15 130 Q20 135 25 125" fill="currentColor" stroke="none" opacity="0.4"/>
+						</svg>
+					</div>
+				</aside>
+
+			</div>
 		</main>
 		<Footer />
 
