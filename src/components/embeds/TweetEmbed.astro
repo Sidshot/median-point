@@ -1,0 +1,30 @@
+---
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+
+// The user might paste a full URL or just the numeric ID.
+let tweetUrl = id;
+if (tweetUrl && !tweetUrl.startsWith('http')) {
+  tweetUrl = `https://twitter.com/x/status/${id}`;
+}
+---
+
+<div class="social-embed twitter-embed my-8 flex justify-center">
+  <blockquote class="twitter-tweet" data-theme="light" data-dnt="true">
+    <a href={tweetUrl}>Loading tweet...</a>
+  </blockquote>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+
+<style>
+  /* Ensure the blockquote takes up a reasonable width while loading */
+  .twitter-tweet {
+    min-width: 300px;
+    max-width: 550px;
+    width: 100%;
+    margin: 0 auto;
+  }
+</style>

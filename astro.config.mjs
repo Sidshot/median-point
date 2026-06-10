@@ -18,7 +18,7 @@ export default defineConfig({
   adapter: vercel({
     includeFiles: ['./keystatic.config.ts']
   }),
-  integrations: [embeds({ services: { LinkPreview: false } }), mdx(), sitemap(), react(), keystatic()],
+  integrations: [embeds({ services: { LinkPreview: false, Tweet: false } }), mdx(), sitemap(), react(), keystatic()],
 
   vite: {
     plugins: [tailwindcss()],

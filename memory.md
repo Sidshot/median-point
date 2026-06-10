@@ -39,6 +39,22 @@
    - Switched Vercel adapter output to `static` for optimal performance.
    - Removed `.vercel` folder from git tracking to prevent build cache conflicts.
    - Configured Keystatic to globally save images dynamically into the `public/images/blog` directory to enable seamless drag-and-drop support that works instantly with Astro's MDX renderer without broken paths.
+8. **Enhanced Article Editor (Rich Formatting & Embeds):**
+   - **Auto-Embed URLs:** Added `astro-embed/integration` — paste a YouTube, Twitter/X, Vimeo, or Bluesky URL on its own line in the editor and it auto-renders as a rich embed on the live site. No slash commands needed.
+   - **Instagram & Facebook:** Manual embed components via `/` menu in editor (Instagram uses oEmbed, Facebook uses FB SDK).
+   - **Text Formatting:** Highlight (mark text like a yellow marker), TextSize wrapper (small/normal/large/xlarge).
+   - **Editorial Components (all via `/` slash menu in Keystatic):**
+     - Callout Box — 4 variants: Info (blue), Warning (amber), Important (red), Tip (green). Good for Editor's Notes, Breaking News, etc.
+     - Pull Quote — Large, centered, decorative quote with optional attribution. Different from blockquote.
+     - Section Divider — 3 styles: ornamental (diamond), plain, dotted.
+     - Image with Caption — `<figure>` with styled caption, photo credit, and optional full-width toggle.
+     - Info/Fact Box — Sidebar-style card for key facts and data summaries.
+     - Related Reading — Inline link card for cross-referencing other articles.
+   - All components support dark mode.
+   - Components defined in `keystatic.config.ts` using `@keystatic/core/content-components` (`block`, `wrapper`, `mark`).
+   - Frontend components in `src/components/editorial/` and `src/components/embeds/`.
+   - Components wired in `src/pages/blog/[...slug].astro` via the `components` prop.
+   - Styles in `src/styles/global.css`.
 
 ## Publishing Workflow
 1. Go to https://median-point.vercel.app/keystatic
@@ -47,15 +63,19 @@
 4. Fill in title, description, date, author, tags
 5. Write content in the visual editor (supports copy-paste from Word)
 6. **Images:** Drag and drop images directly into the text editor. They will automatically upload and display correctly on the live site.
-7. **Embeds:** Use `/` command to insert YouTube or Tweet embeds.
-8. Click "Save" → Keystatic commits to GitHub → Vercel auto-deploys
+7. **Social Embeds (Auto):** Paste a YouTube, Twitter/X, Vimeo, or Bluesky URL on its own line. It will automatically render as a rich embed on the live site.
+8. **Social Embeds (Manual):** Use `/` command to insert Instagram or Facebook embeds.
+9. **Formatting:** Use `/` command to insert Callout Box, Pull Quote, Text Size, Divider, Info Box, Image with Caption, Related Reading, or select text and apply Highlight.
+10. Click "Save" → Keystatic commits to GitHub → Vercel auto-deploys
 
 ## Important Notes
 - **Astro 6 + Keystatic:** Keystatic officially supports Astro 2-5. We use `legacy-peer-deps` to work around this. The production build works fine, but the local dev server may show Vite errors on the `/keystatic` route or when redirecting after GitHub Auth. This doesn't affect the live site.
 - **Images:** Legacy manually added images may break if the path isn't perfectly configured. From now on, just drag and drop via the Editor, and it will handle the markdown path automatically.
 - **Local development:** Use `npm run dev` for the blog site. The Keystatic admin works best on the deployed Vercel URL.
+- **Auto-Embed Quirk:** Only URLs on their own line (not inside a paragraph) get auto-converted. Inline links remain as normal links.
 
 ## Next Session Action Items
 - **Configure Forms:** 
   - Review the Formspree endpoint in `src/pages/contact.astro` and insert your actual Formspree ID.
   - Review the Substack/Mailchimp endpoint in `src/components/Footer.astro` to ensure it points to your actual newsletter link.
+

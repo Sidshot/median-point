@@ -2,9 +2,9 @@
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 import { YouTube } from '@astro-community/astro-embed-youtube';
-import { Tweet } from '@astro-community/astro-embed-twitter';
 
 // Social Embeds
+import TweetEmbed from '../../components/embeds/TweetEmbed.astro';
 import InstagramEmbed from '../../components/embeds/InstagramEmbed.astro';
 import FacebookEmbed from '../../components/embeds/FacebookEmbed.astro';
 
@@ -34,7 +34,7 @@ const { Content } = await render(post);
 <BlogPost {...post.data} id={post.id}>
 	<Content components={{
 		YouTube,
-		Tweet,
+		Tweet: TweetEmbed,
 		Instagram: InstagramEmbed,
 		Facebook: FacebookEmbed,
 		Callout: CalloutBox,

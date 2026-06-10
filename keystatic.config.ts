@@ -40,10 +40,10 @@ export default config({
               },
             }),
             Tweet: block({
-              label: 'Twitter/X Post',
-              description: 'Embed a tweet. TIP: You can also just paste a tweet URL on its own line!',
+              label: 'Twitter/X Post (Paste URL here)',
+              description: 'Embed a tweet using the official client-side widget. Paste the full Tweet URL or just the ID.',
               schema: {
-                id: fields.text({ label: 'Tweet ID (long number from URL)' }),
+                id: fields.text({ label: 'Tweet URL or ID' }),
               },
             }),
             Instagram: block({
