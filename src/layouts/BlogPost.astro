@@ -189,9 +189,17 @@ function getRelativeTime(date: Date) {
 			</div> <!-- End Main Content Column -->
 
 				<!-- Right Sidebar: Decorative Motifs -->
-				<aside class="hidden lg:block lg:col-span-3">
-					<div class="sticky top-24 flex flex-col items-center justify-center opacity-90 dark:opacity-80 pointer-events-none">
-						<img src="/taj-mahal-border.png" alt="Decorative Mughal Border" class="w-full h-auto object-cover rounded-2xl shadow-sm border border-gray-200/50 dark:border-white/5" />
+				<aside class="hidden lg:block lg:col-span-3 relative">
+					<div class="sidebar-motif sticky top-24 pointer-events-none" style="height: calc(100vh - 8rem);">
+						<!-- Full-height decorative texture panel -->
+						<div class="absolute inset-0 opacity-[0.07] dark:opacity-[0.12]"
+							style="background-image: url('/taj-mahal-border.png'); background-repeat: repeat-y; background-size: 100% auto; background-position: center top;"
+						></div>
+						<!-- Soft fade-out edges so the pattern blends into the page -->
+						<div class="absolute inset-0 bg-gradient-to-r from-bg/80 dark:from-bg-dark/80 via-transparent to-transparent" style="width: 30%;"></div>
+						<div class="absolute inset-y-0 right-0 bg-gradient-to-l from-bg/60 dark:from-bg-dark/60 to-transparent" style="width: 15%;"></div>
+						<div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-bg dark:from-bg-dark to-transparent"></div>
+						<div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-bg dark:from-bg-dark to-transparent"></div>
 					</div>
 				</aside>
 
