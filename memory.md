@@ -63,10 +63,11 @@
 4. Fill in title, description, date, author, tags
 5. Write content in the visual editor (supports copy-paste from Word)
 6. **Images:** Drag and drop images directly into the text editor. They will automatically upload and display correctly on the live site.
-7. **Social Embeds (Auto):** Paste a YouTube, Twitter/X, Vimeo, or Bluesky URL on its own line. It will automatically render as a rich embed on the live site.
-8. **Social Embeds (Manual):** Use `/` command to insert Instagram or Facebook embeds.
+7. **Social Embeds (Auto):** Paste a YouTube, Vimeo, or Bluesky URL on its own line. It will automatically render as a rich embed on the live site.
+8. **Social Embeds (Manual):** Use `/` command to insert Twitter/X, Instagram, or Facebook embeds. (Twitter auto-embed disabled due to API blocking; must use the `/` menu block).
 9. **Formatting:** Use `/` command to insert Callout Box, Pull Quote, Text Size, Divider, Info Box, Image with Caption, Related Reading, or select text and apply Highlight.
-10. Click "Save" → Keystatic commits to GitHub → Vercel auto-deploys
+10. **Deleting Blocks:** To delete any block component, click it so it gets a blue outline, then press `Backspace` or `Delete` on your keyboard.
+11. Click "Save" → Keystatic commits to GitHub → Vercel auto-deploys
 
 ## Important Notes
 - **Astro 6 + Keystatic:** Keystatic officially supports Astro 2-5. We use `legacy-peer-deps` to work around this. The production build works fine, but the local dev server may show Vite errors on the `/keystatic` route or when redirecting after GitHub Auth. This doesn't affect the live site.
