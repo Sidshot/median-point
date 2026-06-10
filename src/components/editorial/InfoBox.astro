@@ -1,0 +1,17 @@
+---
+interface Props {
+  heading?: string;
+}
+
+const { heading = 'Key Facts' } = Astro.props;
+---
+
+<aside class="info-box" role="complementary">
+  <div class="info-box-header">
+    <span class="info-box-icon">📋</span>
+    <span class="info-box-heading">{heading}</span>
+  </div>
+  <div class="info-box-content">
+    <slot />
+  </div>
+</aside>

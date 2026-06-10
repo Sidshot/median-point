@@ -1,0 +1,17 @@
+---
+interface Props {
+  style?: 'plain' | 'ornamental' | 'dotted';
+}
+
+const { style = 'ornamental' } = Astro.props;
+---
+
+{style === 'ornamental' ? (
+  <div class="styled-divider ornamental" role="separator">
+    <span class="divider-line"></span>
+    <span class="divider-ornament">◆</span>
+    <span class="divider-line"></span>
+  </div>
+) : (
+  <hr class={`styled-divider ${style}`} role="separator" />
+)}

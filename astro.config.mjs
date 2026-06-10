@@ -7,6 +7,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 import remarkBreaks from 'remark-breaks';
+import embeds from 'astro-embed/integration';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -17,7 +18,7 @@ export default defineConfig({
   adapter: vercel({
     includeFiles: ['./keystatic.config.ts']
   }),
-  integrations: [mdx(), sitemap(), react(), keystatic()],
+  integrations: [embeds({ services: { LinkPreview: false } }), mdx(), sitemap(), react(), keystatic()],
 
   vite: {
     plugins: [tailwindcss()],

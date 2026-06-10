@@ -1,0 +1,22 @@
+---
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<div class="social-embed facebook-embed">
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous"
+    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v21.0"
+    nonce="fb_embed"></script>
+  <div class="fb-post"
+    data-href={url}
+    data-width="500"
+    data-show-text="true">
+    <blockquote cite={url} class="fb-xfbml-parse-ignore">
+      <a href={url} target="_blank" rel="noopener noreferrer">View post on Facebook</a>
+    </blockquote>
+  </div>
+</div>

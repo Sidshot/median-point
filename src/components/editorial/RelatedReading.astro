@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  description?: string;
+}
+
+const { title, url, description } = Astro.props;
+---
+
+<a href={url} class="related-reading-card" target={url.startsWith('http') ? '_blank' : '_self'} rel={url.startsWith('http') ? 'noopener noreferrer' : undefined}>
+  <div class="related-reading-label">📖 Related Reading</div>
+  <div class="related-reading-title">{title}</div>
+  {description && <div class="related-reading-desc">{description}</div>}
+  <div class="related-reading-arrow">Read more →</div>
+</a>

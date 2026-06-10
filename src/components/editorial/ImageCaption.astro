@@ -1,0 +1,21 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  credit?: string;
+  fullWidth?: boolean;
+}
+
+const { src, alt, caption, credit, fullWidth = false } = Astro.props;
+---
+
+<figure class={`image-caption-block ${fullWidth ? 'full-width' : ''}`}>
+  <img src={src} alt={alt} loading="lazy" decoding="async" />
+  {(caption || credit) && (
+    <figcaption class="image-caption-text">
+      {caption && <span class="caption-main">{caption}</span>}
+      {credit && <span class="caption-credit">{credit}</span>}
+    </figcaption>
+  )}
+</figure>

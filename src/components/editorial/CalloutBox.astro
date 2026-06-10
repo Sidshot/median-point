@@ -1,0 +1,28 @@
+---
+interface Props {
+  variant: 'info' | 'warning' | 'important' | 'tip';
+  title?: string;
+}
+
+const { variant = 'info', title } = Astro.props;
+
+const config: Record<string, { icon: string; defaultTitle: string; className: string }> = {
+  info: { icon: 'ℹ️', defaultTitle: 'Note', className: 'callout-info' },
+  warning: { icon: '⚠️', defaultTitle: 'Warning', className: 'callout-warning' },
+  important: { icon: '🔴', defaultTitle: 'Important', className: 'callout-important' },
+  tip: { icon: '💡', defaultTitle: 'Tip', className: 'callout-tip' },
+};
+
+const cfg = config[variant] || config.info;
+const displayTitle = title || cfg.defaultTitle;
+---
+
+<aside class={`callout-box ${cfg.className}`} role="note">
+  <div class="callout-header">
+    <span class="callout-icon">{cfg.icon}</span>
+    <span class="callout-title">{displayTitle}</span>
+  </div>
+  <div class="callout-content">
+    <slot />
+  </div>
+</aside>

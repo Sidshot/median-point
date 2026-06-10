@@ -4,6 +4,20 @@ import BlogPost from '../../layouts/BlogPost.astro';
 import { YouTube } from '@astro-community/astro-embed-youtube';
 import { Tweet } from '@astro-community/astro-embed-twitter';
 
+// Social Embeds
+import InstagramEmbed from '../../components/embeds/InstagramEmbed.astro';
+import FacebookEmbed from '../../components/embeds/FacebookEmbed.astro';
+
+// Editorial Components
+import CalloutBox from '../../components/editorial/CalloutBox.astro';
+import TextSize from '../../components/editorial/TextSize.astro';
+import Highlight from '../../components/editorial/Highlight.astro';
+import StyledDivider from '../../components/editorial/StyledDivider.astro';
+import PullQuote from '../../components/editorial/PullQuote.astro';
+import ImageCaption from '../../components/editorial/ImageCaption.astro';
+import InfoBox from '../../components/editorial/InfoBox.astro';
+import RelatedReading from '../../components/editorial/RelatedReading.astro';
+
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts.map((post) => ({
@@ -18,5 +32,18 @@ const { Content } = await render(post);
 ---
 
 <BlogPost {...post.data} id={post.id}>
-	<Content components={{ YouTube, Tweet }} />
+	<Content components={{
+		YouTube,
+		Tweet,
+		Instagram: InstagramEmbed,
+		Facebook: FacebookEmbed,
+		Callout: CalloutBox,
+		TextSize,
+		Highlight,
+		Divider: StyledDivider,
+		PullQuote,
+		ImageCaption,
+		InfoBox,
+		RelatedReading,
+	}} />
 </BlogPost>

@@ -1,0 +1,11 @@
+---
+interface Props {
+  size: 'small' | 'normal' | 'large' | 'xlarge';
+}
+
+const { size = 'normal' } = Astro.props;
+---
+
+<div class={`text-size-${size}`}>
+  <slot />
+</div>

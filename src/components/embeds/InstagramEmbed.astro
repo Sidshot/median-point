@@ -1,0 +1,26 @@
+---
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+
+// Extract the clean URL for embedding
+const cleanUrl = url.replace(/\?.*$/, '').replace(/\/$/, '');
+---
+
+<div class="social-embed instagram-embed">
+  <blockquote
+    class="instagram-media"
+    data-instgrm-captioned
+    data-instgrm-permalink={cleanUrl + "/?utm_source=ig_embed"}
+    data-instgrm-version="14"
+    style="background:#FFF; border:0; border-radius:12px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 2rem auto; max-width:540px; min-width:326px; padding:0; width:calc(100% - 2px);">
+    <div style="padding:16px;">
+      <a href={cleanUrl} style="color:#3897f0; text-decoration:none;" target="_blank" rel="noopener noreferrer">
+        View this post on Instagram
+      </a>
+    </div>
+  </blockquote>
+  <script async src="//www.instagram.com/embed.js"></script>
+</div>
