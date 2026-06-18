@@ -89,6 +89,13 @@ export default config({
                 }),
               },
             }),
+            Topline: block({
+              label: 'Topline (Forbes-style Summary)',
+              description: 'A bold summary hook at the top of your article, styled like Forbes TOPLINE.',
+              schema: {
+                text: fields.text({ label: 'Topline Summary', multiline: true, validation: { isRequired: true } }),
+              },
+            }),
 
             // ── Editorial Layout Components ──
             Callout: wrapper({

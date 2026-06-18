@@ -18,6 +18,22 @@ const getReadingTime = (content) => {
 	const wordCount = content.split(/\s+/).length;
 	return Math.max(1, Math.ceil(wordCount / 200));
 };
+
+// Task 7: Extract first image from article body (MDX/Markdown)
+const getFirstImage = (body) => {
+	if (!body) return null;
+	// Match markdown images: ![alt](url)
+	const mdMatch = body.match(/!\[.*?\]\((.*?)\)/);
+	if (mdMatch) return mdMatch[1];
+	// Match HTML img tags: <img src="url"
+	const htmlMatch = body.match(/<img[^>]+src=["']([^"']+)["']/);
+	if (htmlMatch) return htmlMatch[1];
+	return null;
+};
+
+const formatDateShort = (date) => {
+	return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+};
 ---
 
 <!doctype html>
@@ -26,482 +42,157 @@ const getReadingTime = (content) => {
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body class="flex flex-col min-h-screen relative bg-bg dark:bg-bg-dark">
-		<!-- Intricate Indian Floral Watermark Background -->
-		<div
-			class="fixed inset-0 pointer-events-none z-[-1] opacity-[0.03] dark:opacity-[0.07] dark:invert transition-opacity duration-300"
-			style="background-image: url('/floral-bg.png'); background-repeat: repeat; background-size: 500px;"
-		>
-		</div>
-
 		<Header />
 
-		<main class="flex-grow z-10">
-			<!-- ═══════════════════════════════════════════════════════ -->
-			<!-- PREMIUM HERO SECTION — Full-bleed, no empty space     -->
-			<!-- ═══════════════════════════════════════════════════════ -->
-			<section
-				class="relative overflow-hidden bg-gradient-to-b from-[#0c1220] to-[#1a1a2e] text-white py-28 md:py-36 px-4 cursor-crosshair"
-			>
-				<!-- Animated grid lines background -->
-				<div
-					class="parallax-layer absolute inset-0 opacity-[0.06]"
-					style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;"
-					data-speed="0.1"
-				>
-				</div>
-
-				<!-- Floating animated orbs -->
-				<div
-					class="parallax-layer absolute top-20 left-[10%] w-72 h-72 bg-brand/20 rounded-full blur-[120px] animate-pulse-slow pointer-events-none"
-					data-speed="0.25"
-				>
-				</div>
-				<div
-					class="parallax-layer absolute bottom-10 right-[10%] w-96 h-96 bg-blue-500/10 rounded-full blur-[150px] animate-pulse-slower pointer-events-none"
-					data-speed="-0.15"
-				>
-				</div>
-				<div class="parallax-layer absolute inset-0 overflow-visible pointer-events-none" data-speed="0.05">
-					<div
-						class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand/5 rounded-full blur-[200px]"
-					>
-					</div>
-				</div>
-
-				<!-- Side decorative lines -->
-				<div
-					class="hidden lg:block absolute left-8 top-1/2 -translate-y-1/2 h-40 w-[1px] bg-gradient-to-b from-transparent via-brand/40 to-transparent"
-				>
-				</div>
-				<div
-					class="hidden lg:block absolute right-8 top-1/2 -translate-y-1/2 h-40 w-[1px] bg-gradient-to-b from-transparent via-brand/40 to-transparent"
-				>
-				</div>
-
-				<!-- Decorative corner accents -->
-				<div
-					class="hidden lg:block absolute top-8 left-8 w-12 h-12 border-t border-l border-white/10"
-				>
-				</div>
-				<div
-					class="hidden lg:block absolute top-8 right-8 w-12 h-12 border-t border-r border-white/10"
-				>
-				</div>
-				<div
-					class="hidden lg:block absolute bottom-8 left-8 w-12 h-12 border-b border-l border-white/10"
-				>
-				</div>
-				<div
-					class="hidden lg:block absolute bottom-8 right-8 w-12 h-12 border-b border-r border-white/10"
-				>
-				</div>
-
-				<div class="relative max-w-5xl mx-auto text-center">
-					<!-- Top ornament -->
-					<div class="flex items-center justify-center mb-8">
-						<div
-							class="h-[1px] w-20 bg-gradient-to-r from-transparent to-white/30"
-						>
-						</div>
-						<div
-							class="mx-4 text-brand text-xs tracking-[0.5em] uppercase font-sans font-bold"
-						>
-							Est. 2026
-						</div>
-						<div
-							class="h-[1px] w-20 bg-gradient-to-l from-transparent to-white/30"
-						>
-						</div>
-					</div>
-
-					<!-- Main title with elegant, sleek styling -->
-					<h1 class="font-serif font-light tracking-[0.2em] md:tracking-[0.3em] uppercase mb-4">
-						<span class="block text-4xl md:text-6xl lg:text-7xl leading-tight bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent animate-hero-fade">
-							Median Point
-						</span>
+		<main class="flex-grow">
+			<!-- ═══════════════════════════════════════════ -->
+			<!-- MASTHEAD — Clean, Editorial, Minimal       -->
+			<!-- ═══════════════════════════════════════════ -->
+			<div class="border-b border-gray-200 dark:border-gray-800">
+				<div class="max-w-6xl mx-auto px-4 py-8 md:py-12 text-center">
+					<h1 class="font-serif font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight text-gray-900 dark:text-gray-100 mb-3">
+						Median Point
 					</h1>
-
-					<!-- Accent line under title -->
-					<div class="flex items-center justify-center my-8">
-						<div
-							class="h-[2px] w-12 bg-gradient-to-r from-transparent to-brand"
-						>
-						</div>
-						<div
-							class="w-2 h-2 bg-brand rounded-full mx-3 animate-pulse"
-						>
-						</div>
-						<div
-							class="h-[2px] w-12 bg-gradient-to-l from-transparent to-brand"
-						>
-						</div>
+					<p class="text-base md:text-lg text-gray-500 dark:text-gray-400 font-serif italic max-w-xl mx-auto">
+						Navigating the true center of global power.
+					</p>
+					<div class="flex items-center justify-center mt-4 text-xs font-sans uppercase tracking-widest text-gray-400 dark:text-gray-600">
+						<span>Geopolitics</span>
+						<span class="mx-3 text-brand">·</span>
+						<span>Defense</span>
+						<span class="mx-3 text-brand">·</span>
+						<span>India</span>
+						<span class="mx-3 text-brand">·</span>
+						<span>Global Affairs</span>
 					</div>
-
-					<div class="h-[60px] md:h-[40px] flex items-center justify-center mb-10">
-						<p
-							class="text-lg md:text-2xl text-gray-300 font-serif italic max-w-2xl mx-auto leading-relaxed"
-						>
-							<span id="typewriter-text" class="border-r-2 border-brand pr-1 animate-blink inline-block"></span>
-						</p>
-					</div>
-
-					<!-- Stats / Trust Indicators -->
-					<div
-						class="flex items-center justify-center gap-8 md:gap-16 text-xs font-sans uppercase tracking-widest text-gray-500 animate-hero-stats"
-					>
-						<div class="flex flex-col items-center">
-							<span class="text-2xl font-black text-white mb-1 counter-value" data-target={posts.length}
-								>0</span
-							>
-							<span>Insights</span>
-						</div>
-						<div class="w-[1px] h-8 bg-gray-700"></div>
-						<div class="flex flex-col items-center">
-							<span class="text-2xl font-black text-white mb-1 counter-value" data-target="4"
-								>0</span
-							>
-							<span>Focus Areas</span>
-						</div>
-						<div class="w-[1px] h-8 bg-gray-700"></div>
-						<div class="flex flex-col items-center">
-							<span class="text-2xl font-black text-white mb-1"
-								>IN</span
-							>
-							<span>India-Centric</span>
-						</div>
-					</div>
-				</div>
-
-				</section>
-			
-			<!-- Clean SVG wave divider — no bleeding, works in both modes -->
-			<div class="relative -mt-[1px] bg-[#1a1a2e]">
-				<svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full block" preserveAspectRatio="none" style="height: 50px;">
-					<path d="M0,0 C360,60 1080,60 1440,0 L1440,80 L0,80 Z" class="fill-bg dark:fill-bg-dark"/>
-				</svg>
-			</div>
-
-			<!-- Scrolling keyword marquee — premium motion strip -->
-			<div class="overflow-hidden border-b border-gray-200 dark:border-gray-800 bg-gray-50/80 dark:bg-[#0f0f0f]/80 backdrop-blur-sm py-3">
-				<div class="marquee-track flex gap-8 text-xs font-sans font-bold uppercase tracking-[0.25em] text-gray-400 dark:text-gray-600 whitespace-nowrap">
-					<span>◆ Geopolitics</span>
-					<span>◆ India</span>
-					<span>◆ Military Strategy</span>
-					<span>◆ Indo-Pacific</span>
-					<span>◆ International Relations</span>
-					<span>◆ Defense Analysis</span>
-					<span>◆ Global Power</span>
-					<span>◆ Historical Context</span>
-					<span>◆ Diplomacy</span>
-					<span>◆ Strategic Autonomy</span>
-					<span>◆ Geopolitics</span>
-					<span>◆ India</span>
-					<span>◆ Military Strategy</span>
-					<span>◆ Indo-Pacific</span>
-					<span>◆ International Relations</span>
-					<span>◆ Defense Analysis</span>
-					<span>◆ Global Power</span>
-					<span>◆ Historical Context</span>
-					<span>◆ Diplomacy</span>
-					<span>◆ Strategic Autonomy</span>
 				</div>
 			</div>
 
-			<!-- Article Grid Section -->
-			<section class="max-w-5xl mx-auto px-4 py-16">
-				<h2 class="text-2xl font-bold mb-10 flex items-center">
-					<span
-						class="bg-brand dark:bg-brand-dark w-1.5 h-6 mr-3 block rounded-sm"
-					></span>
-					Latest Insights
-				</h2>
-
-				<!-- Featured Article (Full Width) -->
-				{
-					featuredPost && (
-						<a
-							href={`/blog/${featuredPost.id}/`}
-							class="block no-underline mb-14 group"
-						>
-							<article class="relative bg-white/40 dark:bg-[#151515]/40 backdrop-blur-xl border border-gray-200/50 dark:border-white/10 rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] hover:shadow-2xl transition-all duration-500 hover:-translate-y-1">
-								<!-- Hover progress indicator -->
-								<div class="absolute top-0 left-0 h-1 bg-gradient-to-r from-brand to-red-500 w-0 group-hover:w-full transition-all duration-700 ease-out z-10"></div>
-								<!-- Inner subtle border for glassmorphism -->
-								<div class="absolute inset-0 border border-white/50 dark:border-white/5 rounded-2xl pointer-events-none"></div>
-								
-								<div class="relative z-10 p-8 md:p-12">
+			<!-- ═══════════════════════════════════════════ -->
+			<!-- FEATURED STORY — Newspaper-style hero      -->
+			<!-- ═══════════════════════════════════════════ -->
+			{featuredPost && (
+				<section class="border-b border-gray-200 dark:border-gray-800">
+					<div class="max-w-6xl mx-auto px-4 py-10 md:py-14">
+						<a href={`/blog/${featuredPost.id}/`} class="block no-underline group">
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+								{/* Article Image */}
+								{getFirstImage(featuredPost.body) ? (
+									<div class="overflow-hidden rounded-lg">
+										<img 
+											src={getFirstImage(featuredPost.body)} 
+											alt={featuredPost.data.title}
+											class="w-full h-64 md:h-80 object-cover group-hover:scale-[1.02] transition-transform duration-500"
+											loading="eager"
+										/>
+									</div>
+								) : (
+									<div class="w-full h-64 md:h-80 bg-gray-100 dark:bg-gray-900 rounded-lg flex items-center justify-center">
+										<span class="text-5xl font-serif font-bold text-gray-200 dark:text-gray-800">MP</span>
+									</div>
+								)}
+								{/* Article Content */}
+								<div>
 									<div class="flex items-center gap-3 mb-4">
-										<span class="text-xs font-bold text-white bg-brand dark:bg-brand-dark px-3 py-1 rounded-full uppercase tracking-widest">
-											{featuredPost.data.category ||
-												"Analysis"}
+										<span class="text-xs font-bold text-white bg-brand dark:bg-brand-dark px-3 py-1 rounded-sm uppercase tracking-widest font-sans">
+											{featuredPost.data.category || "Analysis"}
 										</span>
-										<span class="text-xs font-bold text-brand dark:text-brand-dark uppercase tracking-widest">
+										<span class="text-xs font-bold text-brand dark:text-brand-dark uppercase tracking-widest font-sans">
 											Featured
 										</span>
 									</div>
-									<h3 class="text-3xl md:text-5xl font-black mb-5 text-gray-900 dark:text-gray-100 group-hover:text-brand dark:group-hover:text-brand-dark transition-colors leading-tight font-sans">
+									<h2 class="text-3xl md:text-4xl font-black mb-4 text-gray-900 dark:text-gray-100 group-hover:text-brand dark:group-hover:text-brand-dark transition-colors leading-tight font-sans">
 										{featuredPost.data.title}
-									</h3>
-									<p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 font-serif mb-6 leading-relaxed max-w-3xl line-clamp-3">
+									</h2>
+									<p class="text-lg text-gray-600 dark:text-gray-400 font-serif mb-5 leading-relaxed line-clamp-3">
 										{featuredPost.data.description}
 									</p>
-									<div class="flex items-center justify-between">
-										<div class="flex items-center text-sm text-gray-500 dark:text-gray-500 font-sans flex-wrap gap-y-2">
-											<div class="flex items-center">
-												<img
-													src="/sudhanshu.png"
-													alt="Sudhanshu Verma"
-													class="w-8 h-8 rounded-full object-cover mr-3 border border-gray-200 dark:border-gray-700"
-												/>
-												<span class="font-medium text-gray-700 dark:text-gray-300">
-													{featuredPost.data.author ||
-														"Sudhanshu Verma"}
-												</span>
-											</div>
-											<span class="mx-2 opacity-50 hidden sm:inline">·</span>
-											<div class="flex items-center">
-												<FormattedDate
-													date={featuredPost.data.pubDate}
-												/>
-												<span class="mx-2 opacity-50">·</span>
-												<span>{getReadingTime(featuredPost.body)} min read</span>
-											</div>
+									<div class="flex items-center text-sm text-gray-500 font-sans gap-3">
+										<img src="/sudhanshu.png" alt="Author" class="w-7 h-7 rounded-full object-cover border border-gray-200 dark:border-gray-700" />
+										<span class="font-medium text-gray-700 dark:text-gray-300">{featuredPost.data.author || "Sudhanshu Verma"}</span>
+										<span class="opacity-50">·</span>
+										<FormattedDate date={featuredPost.data.pubDate} />
+										<span class="opacity-50">·</span>
+										<span>{getReadingTime(featuredPost.body)} min read</span>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+				</section>
+			)}
+
+			<!-- ═══════════════════════════════════════════ -->
+			<!-- ARTICLE GRID — Clean cards with images     -->
+			<!-- ═══════════════════════════════════════════ -->
+			<section class="max-w-6xl mx-auto px-4 py-12">
+				<h2 class="text-xl font-bold mb-8 flex items-center font-sans">
+					<span class="bg-brand dark:bg-brand-dark w-1 h-5 mr-3 block rounded-sm"></span>
+					Latest Insights
+				</h2>
+
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{remainingPosts.map((post) => (
+						<a href={`/blog/${post.id}/`} class="block no-underline group">
+							<article class="bg-white dark:bg-[#111] border border-gray-200/60 dark:border-gray-800 rounded-lg overflow-hidden hover:shadow-lg dark:hover:shadow-brand/5 hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+								{/* Article Thumbnail */}
+								{getFirstImage(post.body) ? (
+									<div class="overflow-hidden">
+										<img 
+											src={getFirstImage(post.body)} 
+											alt={post.data.title}
+											class="w-full h-48 object-cover group-hover:scale-[1.03] transition-transform duration-500"
+											loading="lazy"
+										/>
+									</div>
+								) : (
+									<div class="w-full h-48 bg-gray-50 dark:bg-gray-900 flex items-center justify-center border-b border-gray-100 dark:border-gray-800">
+										<span class="text-3xl font-serif font-bold text-gray-200 dark:text-gray-800">MP</span>
+									</div>
+								)}
+								<div class="p-5 flex flex-col flex-grow">
+									<div class="text-xs font-bold text-brand dark:text-brand-dark font-sans uppercase tracking-widest mb-2">
+										{post.data.category || "Analysis"}
+									</div>
+									<h3 class="text-lg font-bold mb-3 text-gray-900 dark:text-gray-100 group-hover:text-brand dark:group-hover:text-brand-dark transition-colors leading-snug font-sans flex-grow">
+										{post.data.title}
+									</h3>
+									<p class="text-sm text-gray-600 dark:text-gray-400 font-serif mb-4 line-clamp-2 leading-relaxed">
+										{post.data.description}
+									</p>
+									<div class="mt-auto pt-3 border-t border-gray-100 dark:border-gray-800 text-xs text-gray-500 font-sans flex items-center justify-between">
+										<div class="flex items-center gap-2">
+											<FormattedDate date={post.data.pubDate} />
+											<span class="opacity-50">·</span>
+											<span>{getReadingTime(post.body)} min</span>
 										</div>
-										<span class="text-brand dark:text-brand-dark font-sans font-bold text-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap ml-4 hidden sm:block">
-											Read Full Analysis →
+										<span class="text-brand dark:text-brand-dark opacity-0 group-hover:opacity-100 transition-opacity font-medium">
+											Read →
 										</span>
 									</div>
 								</div>
 							</article>
 						</a>
-					)
-				}
+					))}
+				</div>
+			</section>
 
-				<!-- Inline Newsletter CTA -->
-				<div
-					class="mb-14 bg-gradient-to-r from-gray-900 to-gray-800 dark:from-gray-800 dark:to-gray-900 text-white rounded-2xl p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden"
-				>
-					<!-- Inner subtle border -->
-					<div class="absolute inset-0 border border-white/10 rounded-2xl pointer-events-none"></div>
-					<div class="relative z-10">
-						<div
-							class="text-sm font-bold uppercase tracking-widest text-brand-dark mb-2"
-						>
-							📬 Stay Informed
-						</div>
-						<p class="text-lg font-serif italic opacity-90">
-							Get geopolitical analysis delivered to your inbox.
-							No spam, only signal.
-						</p>
-					</div>
-					<a
-						href="https://medianpoint.substack.com/subscribe"
-						class="relative z-10 shrink-0 inline-flex items-center px-6 py-3 bg-brand hover:bg-red-800 text-white font-bold rounded-md transition-colors text-sm uppercase tracking-wider"
-					>
-						Subscribe
+			<!-- ═══════════════════════════════════════════ -->
+			<!-- NEWSLETTER CTA — Clean editorial banner    -->
+			<!-- ═══════════════════════════════════════════ -->
+			<section class="border-t border-gray-200 dark:border-gray-800">
+				<div class="max-w-3xl mx-auto px-4 py-14 text-center">
+					<h2 class="text-2xl md:text-3xl font-black font-sans mb-3 text-gray-900 dark:text-gray-100">The Weekly Briefing</h2>
+					<p class="text-lg text-gray-500 dark:text-gray-400 font-serif mb-6 max-w-xl mx-auto">
+						Join geopolitical analysts, defense experts, and policymakers who rely on our weekly analysis. No spam, only signal.
+					</p>
+					<a href="https://medianpoint.substack.com/subscribe" class="inline-flex items-center px-8 py-3 bg-brand hover:bg-red-800 text-white font-bold rounded-md transition-colors text-sm uppercase tracking-widest font-sans">
+						Subscribe →
 					</a>
 				</div>
-
-				<!-- 2-Column Grid for remaining posts -->
-				<ul class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14">
-					{
-						remainingPosts.map((post) => (
-							<li class="group relative bg-white/40 dark:bg-[#151515]/40 backdrop-blur-xl border border-gray-200/50 dark:border-white/10 p-6 md:p-8 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] hover:shadow-xl dark:hover:shadow-brand/5 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col overflow-hidden">
-								<!-- Hover progress indicator -->
-								<div class="absolute top-0 left-0 h-1 bg-gradient-to-r from-brand to-red-500 w-0 group-hover:w-full transition-all duration-700 ease-out z-10"></div>
-								<!-- Inner subtle border for glassmorphism -->
-								<div class="absolute inset-0 border border-white/50 dark:border-white/5 rounded-2xl pointer-events-none"></div>
-								
-								<a
-									href={`/blog/${post.id}/`}
-									class="relative z-10 block no-underline flex-grow flex flex-col"
-								>
-									<div class="text-xs font-bold text-brand dark:text-brand-dark font-sans uppercase tracking-widest mb-3">
-										{post.data.category || "Analysis"}
-									</div>
-									<h3 class="text-2xl md:text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100 group-hover:text-brand dark:group-hover:text-brand-dark transition-colors leading-tight font-sans">
-										{post.data.title}
-									</h3>
-									<p class="text-lg text-gray-600 dark:text-gray-400 font-serif mb-6 line-clamp-3 leading-relaxed flex-grow">
-										{post.data.description}
-									</p>
-									<div class="mt-auto pt-4 border-t border-gray-200/50 dark:border-gray-800 text-sm text-gray-500 dark:text-gray-500 font-sans flex items-center justify-between">
-										<div class="flex items-center flex-wrap gap-y-1">
-											<FormattedDate
-												date={post.data.pubDate}
-											/>
-											<span class="mx-2 opacity-50">•</span>
-											<span>{getReadingTime(post.body)} min read</span>
-											<span class="mx-2 opacity-50 hidden sm:inline">•</span>
-											<span class="font-medium text-gray-700 dark:text-gray-300 hidden sm:inline">
-												{post.data.author ||
-													"Sudhanshu Verma"}
-											</span>
-										</div>
-										<span class="text-brand dark:text-brand-dark opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap ml-2">
-											Read →
-										</span>
-									</div>
-								</a>
-							</li>
-						))
-					}
-				</ul>
 			</section>
 		</main>
-		
-		<!-- Latest Dispatch Pre-Footer CTA -->
-		<section class="bg-[#0c1220] py-16 px-4 border-t border-white/5 relative overflow-hidden">
-			<!-- Subtle background glow -->
-			<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-32 bg-brand/10 blur-[100px] rounded-full pointer-events-none"></div>
-			
-			<div class="max-w-4xl mx-auto text-center relative z-10">
-				<h2 class="text-3xl md:text-5xl font-black text-white font-sans tracking-tight mb-6">
-					The Latest Dispatch
-				</h2>
-				<p class="text-xl text-gray-400 font-serif mb-8 max-w-2xl mx-auto">
-					Join geopolitical analysts, defense experts, and policymakers who rely on our weekly briefings.
-				</p>
-				<a href="https://medianpoint.substack.com/subscribe" class="inline-flex items-center px-8 py-4 bg-brand hover:bg-brand/90 text-white font-bold rounded-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(204,0,0,0.4)] text-sm uppercase tracking-widest">
-					Get the Briefing
-				</a>
-			</div>
-		</section>
 
 		<Footer />
-
-		<script>
-			document.addEventListener('DOMContentLoaded', () => {
-				// 1. Typewriter Effect
-				const textToType = "Navigating the true center of global power.";
-				const typewriterElement = document.getElementById("typewriter-text");
-				if (typewriterElement) {
-					let charIndex = 0;
-					const typeWriter = () => {
-						if (charIndex < textToType.length) {
-							typewriterElement.textContent += textToType.charAt(charIndex);
-							charIndex++;
-							setTimeout(typeWriter, 50);
-						}
-					};
-					// Start typing shortly after page load
-					setTimeout(typeWriter, 800); 
-				}
-
-				// 2. Animated Counters
-				const counters = document.querySelectorAll('.counter-value');
-				const observerOptions = {
-					threshold: 0.5
-				};
-				const observer = new IntersectionObserver((entries, observer) => {
-					entries.forEach(entry => {
-						if (entry.isIntersecting) {
-							const targetElement = entry.target;
-							const target = parseInt(targetElement.getAttribute('data-target') || '0', 10);
-							const duration = 2000; // ms
-							const startTime = performance.now();
-							
-							const updateCounter = (currentTime) => {
-								const elapsedTime = currentTime - startTime;
-								const progress = Math.min(elapsedTime / duration, 1);
-								// easeOutQuart
-								const easeProgress = 1 - Math.pow(1 - progress, 4);
-								
-								const currentCount = Math.floor(easeProgress * target);
-								targetElement.textContent = currentCount.toString();
-								
-								if (progress < 1) {
-									requestAnimationFrame(updateCounter);
-								} else {
-									targetElement.textContent = target.toString();
-								}
-							};
-							
-							requestAnimationFrame(updateCounter);
-							observer.unobserve(targetElement);
-						}
-					});
-				}, observerOptions);
-
-				counters.forEach(counter => observer.observe(counter));
-
-				// 3. Parallax Effect
-				const parallaxLayers = document.querySelectorAll('.parallax-layer');
-				window.addEventListener('scroll', () => {
-					const scrolled = window.scrollY;
-					parallaxLayers.forEach(layer => {
-						const speed = parseFloat(layer.getAttribute('data-speed') || '0');
-						const yPos = -(scrolled * speed);
-						layer.style.transform = `translateY(${yPos}px)`;
-					});
-				});
-			});
-		</script>
-
-		<style>
-			@keyframes heroFade {
-				from {
-					opacity: 0;
-					transform: translateY(20px);
-				}
-				to {
-					opacity: 1;
-					transform: translateY(0);
-				}
-			}
-			@keyframes pulseSlow {
-				0%,
-				100% {
-					opacity: 0.3;
-					transform: scale(1);
-				}
-				50% {
-					opacity: 0.6;
-					transform: scale(1.1);
-				}
-			}
-			@keyframes pulseSlower {
-				0%,
-				100% {
-					opacity: 0.2;
-					transform: scale(1);
-				}
-				50% {
-					opacity: 0.4;
-					transform: scale(1.05);
-				}
-			}
-			@keyframes blink {
-				0%, 100% { border-color: transparent; }
-				50% { border-color: #cc0000; /* brand color */ }
-			}
-			.animate-blink {
-				animation: blink 1s step-end infinite;
-			}
-			.animate-hero-fade {
-				animation: heroFade 0.8s ease-out forwards;
-			}
-			.animate-hero-fade-delay {
-				animation: heroFade 0.8s ease-out 0.15s forwards;
-				opacity: 0;
-			}
-			.animate-hero-stats {
-				animation: heroFade 0.8s ease-out 0.6s forwards;
-				opacity: 0;
-			}
-			.animate-pulse-slow {
-				animation: pulseSlow 6s ease-in-out infinite;
-			}
-			.animate-pulse-slower {
-				animation: pulseSlower 8s ease-in-out infinite;
-			}
-			@keyframes marqueeScroll {
-				from { transform: translateX(0); }
-				to { transform: translateX(-50%); }
-			}
-			.marquee-track {
-				animation: marqueeScroll 30s linear infinite;
-			}
-		</style>
 	</body>
 </html>

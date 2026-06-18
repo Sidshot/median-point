@@ -24,6 +24,11 @@ import HeaderLink from './HeaderLink.astro';
 			<HeaderLink href="/about" class="text-gray-600 dark:text-gray-400 hover:text-brand dark:hover:text-brand-dark">About</HeaderLink>
 			<HeaderLink href="/contact" class="text-gray-600 dark:text-gray-400 hover:text-brand dark:hover:text-brand-dark">Contact</HeaderLink>
 			
+			<!-- Search Link -->
+			<a href="/search" class="text-gray-400 hover:text-brand dark:hover:text-brand-dark transition-colors" aria-label="Search" title="Search">
+				<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+			</a>
+			
 			<!-- RSS Link -->
 			<a href="/rss.xml" target="_blank" class="text-gray-400 hover:text-brand dark:hover:text-brand-dark transition-colors" aria-label="RSS Feed" title="RSS Feed">
 				<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.18 15.64a2.18 2.18 0 010 4.36 2.18 2.18 0 010-4.36M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44m0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/></svg>
@@ -55,6 +60,7 @@ import HeaderLink from './HeaderLink.astro';
 			<a href="/archive" class="block py-3 px-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Archive</a>
 			<a href="/about" class="block py-3 px-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">About</a>
 			<a href="/contact" class="block py-3 px-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Contact</a>
+			<a href="/search" class="block py-3 px-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Search</a>
 			<a href="/rss.xml" target="_blank" class="block py-3 px-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">RSS Feed</a>
 		</div>
 	</div>

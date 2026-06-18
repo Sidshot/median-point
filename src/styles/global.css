@@ -324,16 +324,45 @@
     @apply mt-3 text-sm font-sans font-bold text-brand dark:text-brand-dark;
   }
 
-  /* ─── Auto-Embed Overrides ─── */
-  .prose lite-youtube {
-    @apply my-8 rounded-xl overflow-hidden shadow-lg;
-    max-width: 100%;
-  }
-  .prose .twitter-tweet,
-  .prose twitter-widget {
-    margin-left: auto !important;
-    margin-right: auto !important;
-    margin-top: 2rem !important;
-    margin-bottom: 2rem !important;
-  }
+	/* ─── Auto-Embed Overrides ─── */
+	.prose lite-youtube {
+		@apply my-8 rounded-xl overflow-hidden shadow-lg;
+		max-width: 100%;
+	}
+	.prose .twitter-tweet,
+	.prose twitter-widget {
+		margin-left: auto !important;
+		margin-right: auto !important;
+		margin-top: 2rem !important;
+		margin-bottom: 2rem !important;
+	}
+}
+
+/* ─── View Transitions (Site-wide) ─── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+::view-transition-old(root) {
+  animation-name: fadeOut, slideOut;
+}
+::view-transition-new(root) {
+  animation-name: fadeIn, slideIn;
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideOut {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+@keyframes slideIn {
+  from { transform: translateY(10px); }
+  to { transform: translateY(0); }
 }

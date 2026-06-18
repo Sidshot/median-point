@@ -17,6 +17,7 @@ import PullQuote from '../../components/editorial/PullQuote.astro';
 import ImageCaption from '../../components/editorial/ImageCaption.astro';
 import InfoBox from '../../components/editorial/InfoBox.astro';
 import RelatedReading from '../../components/editorial/RelatedReading.astro';
+import Topline from '../../components/editorial/Topline.astro';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -45,5 +46,6 @@ const { Content } = await render(post);
 		ImageCaption,
 		InfoBox,
 		RelatedReading,
+		Topline,
 	}} />
 </BlogPost>

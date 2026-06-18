@@ -18,7 +18,7 @@ const allPosts = (await getCollection('blog')).sort(
 );
 const relatedPosts = allPosts
 	.filter(p => p.data.title !== title)
-	.slice(0, 3);
+	.slice(0, 6);
 
 function getRelativeTime(date: Date) {
 	const now = new Date();
@@ -160,33 +160,46 @@ function getRelativeTime(date: Date) {
 						</button>
 					</div>
 				</div>
-			</article>
 
-			<!-- Related Articles Section (Mobile Only) -->
-			<div class="block lg:hidden">
-			{relatedPosts.length > 0 && (
+				<!-- Follow on Google News -->
+				<div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800 no-print">
+					<a href="https://news.google.com/publications/CAAqBwgKMIGulQsw5qWXAw" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 px-5 py-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl hover:border-brand/50 dark:hover:border-brand-dark/50 transition-all no-underline group">
+						<svg class="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="none">
+							<path d="M21.5 5H14l-1.21-1.81A2 2 0 0011.13 2H4.5A2.5 2.5 0 002 4.5v15A2.5 2.5 0 004.5 22h17a2.5 2.5 0 002.5-2.5V7.5A2.5 2.5 0 0021.5 5z" fill="#4285F4"/>
+							<path d="M12 10.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7z" fill="white"/>
+							<path d="M12 12v4" stroke="#EA4335" stroke-width="1.5" stroke-linecap="round"/>
+							<path d="M10 14h4" stroke="#4285F4" stroke-width="1.5" stroke-linecap="round"/>
+						</svg>
+						<div>
+							<div class="text-sm font-bold text-gray-900 dark:text-gray-100 font-sans group-hover:text-brand dark:group-hover:text-brand-dark transition-colors">Follow Median Point on Google News</div>
+							<div class="text-xs text-gray-500 font-sans">Stay updated with our latest analysis</div>
+						</div>
+						<svg class="w-4 h-4 ml-auto text-gray-400 group-hover:text-brand dark:group-hover:text-brand-dark transition-colors shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+					</a>
+				</div>
+
+				<!-- End-of-Article Suggestions -->
 				<section class="mt-16 pt-12 border-t border-gray-200 dark:border-gray-800">
 					<h3 class="text-2xl font-bold mb-8 font-sans flex items-center">
-						<span class="bg-brand w-1.5 h-6 mr-3 block rounded-sm"></span>
-						Latest Articles
+						<span class="bg-brand dark:bg-brand-dark w-1.5 h-6 mr-3 block rounded-sm"></span>
+						Read Next
 					</h3>
-					<div class="grid grid-cols-1 gap-6">
-						{relatedPosts.map(post => (
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+						{relatedPosts.slice(0, 6).map(post => (
 							<a href={`/blog/${post.id}/`} class="block no-underline group">
-								<div class="flex items-start gap-4 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-brand/30 dark:hover:border-brand-dark/30 transition-all hover:-translate-y-0.5">
-									<div class="flex-grow">
-										<div class="text-xs font-bold text-brand dark:text-brand-dark uppercase tracking-widest mb-1">{post.data.category || 'Analysis'}</div>
-										<h4 class="text-lg font-bold font-sans text-gray-900 dark:text-gray-100 group-hover:text-brand dark:group-hover:text-brand-dark transition-colors leading-snug">{post.data.title}</h4>
-										<p class="text-sm text-gray-500 dark:text-gray-400 font-serif mt-1 line-clamp-1">{post.data.description}</p>
-									</div>
-									<span class="text-brand dark:text-brand-dark text-sm font-sans font-bold shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+								<div class="p-5 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-brand/30 dark:hover:border-brand-dark/30 transition-all hover:-translate-y-0.5 h-full flex flex-col">
+									<div class="text-xs font-bold text-brand dark:text-brand-dark uppercase tracking-widest mb-2 font-sans">{post.data.category || 'Analysis'}</div>
+									<h4 class="text-base font-bold font-sans text-gray-900 dark:text-gray-100 group-hover:text-brand dark:group-hover:text-brand-dark transition-colors leading-snug mb-2 flex-grow">{post.data.title}</h4>
+									<p class="text-sm text-gray-500 dark:text-gray-400 font-serif line-clamp-2 mb-3">{post.data.description}</p>
+									<div class="text-xs text-gray-500 font-sans mt-auto"><FormattedDate date={post.data.pubDate} /></div>
 								</div>
 							</a>
 						))}
 					</div>
 				</section>
-			)}
-			</div>
+			</article>
+
+
 			</div> <!-- End Main Content Column -->
 
 				<!-- Right Sidebar spacer (maintains 3-column layout) -->

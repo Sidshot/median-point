@@ -1,0 +1,108 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+<!doctype html>
+<html lang="en">
+<head>
+	<BaseHead title="Search — Median Point" description="Search articles on Median Point" />
+</head>
+<body class="flex flex-col min-h-screen bg-bg dark:bg-bg-dark">
+	<Header />
+	<main class="flex-grow max-w-3xl mx-auto px-4 py-12 w-full">
+		<h1 class="text-3xl md:text-4xl font-black font-sans mb-8">Search</h1>
+		<div class="relative mb-10">
+			<input
+				id="search-input"
+				type="text"
+				placeholder="Search articles by title, topic, or keyword..."
+				class="w-full px-5 py-4 text-lg font-serif bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-brand dark:focus:border-brand-dark focus:outline-none transition-colors text-gray-900 dark:text-gray-100 placeholder-gray-400"
+				autofocus
+			/>
+			<svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+		</div>
+		<div id="search-results" class="space-y-6"></div>
+		<div id="search-empty" class="hidden text-center py-16">
+			<p class="text-xl text-gray-400 font-serif italic">No articles found matching your search.</p>
+		</div>
+		<div id="search-initial" class="text-center py-16">
+			<p class="text-lg text-gray-400 font-serif italic">Start typing to search across all articles...</p>
+		</div>
+	</main>
+	<Footer />
+	<script>
+		let searchData = [];
+		let debounceTimer;
+
+		async function loadSearchIndex() {
+			try {
+				const res = await fetch('/search.json');
+				searchData = await res.json();
+			} catch (e) {
+				console.error('Failed to load search index', e);
+			}
+		}
+
+		function formatDate(dateStr) {
+			return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+		}
+
+		function performSearch(query) {
+			const resultsDiv = document.getElementById('search-results');
+			const emptyDiv = document.getElementById('search-empty');
+			const initialDiv = document.getElementById('search-initial');
+			if (!query.trim()) {
+				resultsDiv.innerHTML = '';
+				emptyDiv.classList.add('hidden');
+				initialDiv.classList.remove('hidden');
+				return;
+			}
+			initialDiv.classList.add('hidden');
+			const q = query.toLowerCase();
+			const matches = searchData.filter(post =>
+				post.title.toLowerCase().includes(q) ||
+				post.description.toLowerCase().includes(q) ||
+				post.category.toLowerCase().includes(q) ||
+				(post.tags && post.tags.some(t => t.toLowerCase().includes(q)))
+			);
+			if (matches.length === 0) {
+				resultsDiv.innerHTML = '';
+				emptyDiv.classList.remove('hidden');
+				return;
+			}
+			emptyDiv.classList.add('hidden');
+			resultsDiv.innerHTML = matches.map(post => `
+				<a href="/blog/${post.slug}/" class="block no-underline group">
+					<div class="p-6 bg-white/40 dark:bg-[#151515]/40 backdrop-blur-xl border border-gray-200/50 dark:border-white/10 rounded-2xl hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
+						<div class="text-xs font-bold text-brand dark:text-brand-dark font-sans uppercase tracking-widest mb-2">${post.category || 'Analysis'}</div>
+						<h3 class="text-xl font-bold font-sans text-gray-900 dark:text-gray-100 group-hover:text-brand dark:group-hover:text-brand-dark transition-colors mb-2">${post.title}</h3>
+						<p class="text-gray-600 dark:text-gray-400 font-serif line-clamp-2 mb-3">${post.description}</p>
+						<div class="text-sm text-gray-500 font-sans">${post.author} · ${formatDate(post.pubDate)}</div>
+					</div>
+				</a>
+			`).join('');
+		}
+
+		function init() {
+			loadSearchIndex();
+			const input = document.getElementById('search-input');
+			if (input) {
+				input.addEventListener('input', (e) => {
+					clearTimeout(debounceTimer);
+					debounceTimer = setTimeout(() => performSearch(e.target.value), 200);
+				});
+				// Handle URL query parameter
+				const params = new URLSearchParams(window.location.search);
+				const q = params.get('q');
+				if (q) {
+					input.value = q;
+					setTimeout(() => performSearch(q), 300);
+				}
+			}
+		}
+		init();
+		document.addEventListener('astro:page-load', init);
+	</script>
+</body>
+</html>
