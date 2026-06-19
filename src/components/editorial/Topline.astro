@@ -1,7 +1,10 @@
 ---
 const { text } = Astro.props;
 ---
-<div class="topline-block mb-8 pb-6 border-b-2 border-brand/20 dark:border-brand-dark/20">
-	<div class="text-sm font-bold uppercase tracking-widest text-brand dark:text-brand-dark font-sans mb-3">Topline</div>
-	<p class="text-xl md:text-2xl font-serif text-gray-800 dark:text-gray-200 leading-relaxed">{text}</p>
+<div class="topline-block bg-[#FAF5F4] dark:bg-[#1A1515] p-6 md:p-8 mb-10 border border-[#F2E8E7] dark:border-[#2A2222] shadow-sm">
+	<div class="text-sm font-bold uppercase tracking-widest text-[#C82A2A] dark:text-[#F87171] font-sans mb-4">Topline</div>
+	<div class="font-serif text-lg text-gray-800 dark:text-gray-200 leading-relaxed max-w-none prose dark:prose-invert prose-p:my-2 prose-img:mt-6 prose-img:mb-2 prose-img:w-full prose-figcaption:text-xs prose-figcaption:font-sans prose-figcaption:text-gray-500">
+		{text && <p>{text}</p>}
+		<slot />
+	</div>
 </div>

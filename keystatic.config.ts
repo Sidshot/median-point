@@ -97,11 +97,11 @@ export default config({
                 }),
               },
             }),
-            Topline: block({
-              label: 'Topline (Forbes-style Summary)',
-              description: 'A bold summary hook at the top of your article, styled like Forbes TOPLINE.',
+            Topline: wrapper({
+              label: 'Topline (Forbes-style Box)',
+              description: 'A light background box at the top of the article. Put paragraphs and images inside.',
               schema: {
-                text: fields.text({ label: 'Topline Summary', multiline: true, validation: { isRequired: true } }),
+                text: fields.text({ label: 'Legacy Text (Leave empty for new posts, just type inside the block)', defaultValue: '' }),
               },
             }),
 
