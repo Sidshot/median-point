@@ -7,7 +7,7 @@
 - **GitHub Repo:** https://github.com/Sidshot/median-point
 - Base typography and styling are completed, mirroring elite geopolitical publications using the "Academic Modernism" aesthetic.
 - **Copyright Level Style:** The name "MEDIAN POINT" must **always** be rendered in **Blue** (`text-blue-700 dark:text-blue-500`) wherever it appears across the entire site — homepage, footer, about page, blog layout, etc. Uniformity is essential.
-- **3D Logo (Homepage):** The homepage masthead uses an interactive 3D model (`src/components/Logo3D.tsx`) built with React Three Fiber. It features a glossy `MeshPhysicalMaterial` with clearcoat, responds to mouse drag via `PresentationControls`, gently floats, and adapts its lighting to light/dark mode. Dependencies: `three`, `@react-three/fiber`, `@react-three/drei`. Font file: `public/fonts/helvetiker_bold.typeface.json`.
+- **3D Logo (Homepage):** The homepage masthead uses a pure CSS glassmorphism logo (`src/components/GlassLogo.astro`). Features: frosted glass card with `backdrop-filter: blur`, blue gradient text, ambient glow, animated shimmer sweep, hover lift effect. No JavaScript — renders instantly with zero hydration flash. Fully adapts to light/dark mode.
 
 ## What We Accomplished
 1. **Core Scaffolding:** Configured `global.css` with Tailwind v4 variables for the custom "Median Point" color palette (Diplomatic Red, Deep Charcoal, Eggshell).
