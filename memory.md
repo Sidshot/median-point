@@ -6,6 +6,7 @@
 - **Tech Stack:** Astro 6, Tailwind CSS v4, MDX, Keystatic CMS, Vercel (SSR mode)
 - **GitHub Repo:** https://github.com/Sidshot/median-point
 - Base typography and styling are completed, mirroring elite geopolitical publications using the "Academic Modernism" aesthetic.
+- **Copyright Level Style:** The name "MEDIAN POINT" (especially on the homepage) must always be rendered in **Blue** as part of the core brand identity.
 
 ## What We Accomplished
 1. **Core Scaffolding:** Configured `global.css` with Tailwind v4 variables for the custom "Median Point" color palette (Diplomatic Red, Deep Charcoal, Eggshell).
