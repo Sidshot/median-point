@@ -1,0 +1,40 @@
+---
+const { date, title } = Astro.props;
+---
+
+<div class="relative pl-8 md:pl-0 my-6 timeline-item group">
+  <!-- Desktop Layout -->
+  <div class="hidden md:grid md:grid-cols-12 gap-6 items-start">
+    <div class="col-span-3 text-right pt-1">
+      <div class="text-sm font-bold text-brand dark:text-brand-dark font-sans tracking-wide">{date}</div>
+    </div>
+    <div class="col-span-1 relative flex justify-center pt-1">
+      <div class="w-3 h-3 rounded-full bg-brand dark:bg-brand-dark ring-4 ring-white dark:ring-bg-dark z-10 group-hover:scale-125 transition-transform"></div>
+      <div class="absolute top-3 bottom-[-100%] left-1/2 -translate-x-1/2 w-px bg-gray-200 dark:bg-gray-800 timeline-line"></div>
+    </div>
+    <div class="col-span-8 pb-8">
+      <h4 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 font-sans">{title}</h4>
+      <div class="text-gray-600 dark:text-gray-400 font-serif prose dark:prose-invert max-w-none">
+        <slot />
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Layout -->
+  <div class="md:hidden pb-8 border-l-2 border-gray-200 dark:border-gray-800 relative">
+    <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-brand dark:bg-brand-dark ring-4 ring-white dark:ring-bg-dark"></div>
+    <div class="pl-6">
+      <div class="text-xs font-bold text-brand dark:text-brand-dark font-sans tracking-wide mb-1">{date}</div>
+      <h4 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2 font-sans">{title}</h4>
+      <div class="text-gray-600 dark:text-gray-400 font-serif prose dark:prose-invert max-w-none text-sm">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Hide the line on the very last timeline item if wrapped in a container, 
+     but standard CSS can't easily detect the last item without a parent wrapper. 
+     We'll leave the line extending down slightly which looks fine in most designs. */
+</style>

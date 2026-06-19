@@ -19,6 +19,15 @@ import InfoBox from '../../components/editorial/InfoBox.astro';
 import RelatedReading from '../../components/editorial/RelatedReading.astro';
 import Topline from '../../components/editorial/Topline.astro';
 
+// Phase 2, 3, 4: Advanced Components
+import Columns from '../../components/editorial/Columns.astro';
+import Accordion from '../../components/editorial/Accordion.astro';
+import Timeline from '../../components/editorial/Timeline.astro';
+import DropCap from '../../components/editorial/DropCap.astro';
+import CustomHeading from '../../components/editorial/CustomHeading.astro';
+import ActionBtn from '../../components/editorial/ActionBtn.astro';
+import MapEmbed from '../../components/editorial/MapEmbed.astro';
+
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts.map((post) => ({
@@ -47,5 +56,12 @@ const { Content } = await render(post);
 		InfoBox,
 		RelatedReading,
 		Topline,
+		Columns,
+		Accordion,
+		Timeline,
+		DropCap,
+		CustomHeading,
+		ActionBtn,
+		MapEmbed,
 	}} />
 </BlogPost>

@@ -1,0 +1,15 @@
+---
+const { label, url, style = 'solid' } = Astro.props;
+
+const baseClass = "inline-flex items-center justify-center px-6 py-3 font-bold rounded-lg transition-colors font-sans no-underline my-4";
+const solidClass = "bg-brand hover:bg-brand-dark text-white dark:bg-brand-dark dark:hover:bg-brand";
+const outlineClass = "border-2 border-brand text-brand hover:bg-brand hover:text-white dark:border-brand-dark dark:text-brand-dark dark:hover:bg-brand-dark dark:hover:text-white";
+
+const appliedClass = style === 'outline' ? outlineClass : solidClass;
+---
+
+<div class="not-prose">
+  <a href={url} target="_blank" rel="noopener noreferrer" class={`${baseClass} ${appliedClass}`}>
+    {label}
+  </a>
+</div>

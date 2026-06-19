@@ -1,0 +1,37 @@
+---
+const { layout = '1-1' } = Astro.props;
+
+let gridClass = 'grid-cols-1 md:grid-cols-2';
+if (layout === '1-2') gridClass = 'grid-cols-1 md:grid-cols-3';
+if (layout === '2-1') gridClass = 'grid-cols-1 md:grid-cols-3';
+
+// We need a way to split children into columns. 
+// For simplicity in MDX wrappers, we'll just let the user put content inside.
+// Wait, wrapper components in MDX wrap ALL their children in a single slot.
+// If it's a grid, the direct children become grid items. 
+// So if the user puts two paragraphs, they become two columns.
+// If it's 1-2, the first child is col-span-1, second is col-span-2.
+---
+
+<div class={`grid gap-6 my-8 ${gridClass} columns-layout-${layout}`}>
+  <slot />
+</div>
+
+<style>
+  /* Handle specific child spans for asymmetrical layouts */
+  .columns-layout-1-2 > :first-child { grid-column: span 1; }
+  .columns-layout-1-2 > :nth-child(2) { grid-column: span 2; }
+  
+  .columns-layout-2-1 > :first-child { grid-column: span 2; }
+  .columns-layout-2-1 > :nth-child(2) { grid-column: span 1; }
+  
+  /* On mobile, they just stack (grid-cols-1) */
+  @media (max-width: 768px) {
+    .columns-layout-1-2 > :first-child,
+    .columns-layout-1-2 > :nth-child(2),
+    .columns-layout-2-1 > :first-child,
+    .columns-layout-2-1 > :nth-child(2) {
+      grid-column: span 1 / span 1;
+    }
+  }
+</style>

@@ -1,0 +1,17 @@
+---
+const { text, color = 'red', level = 'h2' } = Astro.props;
+
+let colorClass = 'text-brand dark:text-brand-dark';
+if (color === 'blue') colorClass = 'text-blue-700 dark:text-blue-400';
+if (color === 'charcoal') colorClass = 'text-gray-900 dark:text-gray-100';
+
+const Tag = level as keyof HTMLElementTagNameMap;
+
+let sizeClass = 'text-3xl';
+if (level === 'h3') sizeClass = 'text-2xl';
+if (level === 'h4') sizeClass = 'text-xl';
+---
+
+<Tag class={`font-black font-sans my-6 ${sizeClass} ${colorClass}`}>
+  {text}
+</Tag>

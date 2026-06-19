@@ -71,6 +71,7 @@
 11. Click "Save" → Keystatic commits to GitHub → Vercel auto-deploys
 
 ## Important Notes
+- **Data Migration (Crucial):** On June 19, 2026, the Keystatic schema was massively upgraded to support rich SEO metadata (`seoTitle`, `seoDescription`), custom `coverImage`, and `isDraft` toggles. Existing articles (created before this date) will render normally, but to use these new fields or fully migrate them to the new schema, you simply need to open them in Keystatic and click "Save".
 - **Astro 6 + Keystatic:** Keystatic officially supports Astro 2-5. We use `legacy-peer-deps` to work around this. The production build works fine, but the local dev server may show Vite errors on the `/keystatic` route or when redirecting after GitHub Auth. This doesn't affect the live site.
 - **Images:** Legacy manually added images may break if the path isn't perfectly configured. From now on, just drag and drop via the Editor, and it will handle the markdown path automatically.
 - **Local development:** Use `npm run dev` for the blog site. The Keystatic admin works best on the deployed Vercel URL.

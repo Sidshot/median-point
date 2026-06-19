@@ -1,0 +1,27 @@
+---
+const { url, caption } = Astro.props;
+
+// Extract src if the user pasted an entire iframe tag
+let iframeSrc = url;
+if (url.includes('<iframe')) {
+  const match = url.match(/src="([^"]+)"/);
+  if (match) iframeSrc = match[1];
+}
+---
+
+<figure class="my-10 w-full not-prose">
+  <div class="relative w-full overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800" style="padding-top: 56.25%;">
+    <iframe 
+      src={iframeSrc} 
+      class="absolute top-0 left-0 w-full h-full border-0" 
+      allowfullscreen="" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+  {caption && (
+    <figcaption class="mt-3 text-center text-sm font-serif text-gray-500 dark:text-gray-400 italic">
+      {caption}
+    </figcaption>
+  )}
+</figure>

@@ -10,14 +10,15 @@ import RightSidebarMotif from '../components/RightSidebarMotif.astro';
 
 type Props = CollectionEntry<'blog'>['data'] & { id?: string };
 
-const { title, description, pubDate, updatedDate, heroImage, author, category, tags, id: currentId } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, coverImage, seoTitle, seoDescription, author, category, tags, id: currentId } = Astro.props;
 
+const displayImage = coverImage || heroImage;
 // Related articles (Item 7) — get other posts excluding current
 const allPosts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 const relatedPosts = allPosts
-	.filter(p => p.data.title !== title)
+	.filter(p => p.data.title !== title && !p.data.isDraft)
 	.slice(0, 6);
 
 function getRelativeTime(date: Date) {
@@ -46,7 +47,7 @@ function getRelativeTime(date: Date) {
 
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} image={currentId ? `/og/${currentId}.png` : undefined} />
+		<BaseHead title={seoTitle || title} description={seoDescription || description} image={coverImage || (currentId ? `/og/${currentId}.png` : undefined)} />
 	</head>
 
 	<body class="flex flex-col min-h-screen bg-bg dark:bg-bg-dark">
@@ -110,9 +111,9 @@ function getRelativeTime(date: Date) {
 					)}
 				</div>
 
-				{heroImage && (
+				{displayImage && (
 					<div class="mb-10 w-full">
-						<Image class="w-full h-auto rounded-sm" width={1020} height={510} src={heroImage} alt="" />
+						<img class="w-full h-auto rounded-sm object-cover max-h-[600px]" src={displayImage} alt={title} />
 					</div>
 				)}
 				

@@ -14,9 +14,17 @@ export default config({
       format: { contentField: 'content' },
       schema: {
         title: fields.slug({ name: { label: 'Title' } }),
-        description: fields.text({ label: 'Description', multiline: true, validation: { isRequired: true } }),
+        isDraft: fields.checkbox({ label: 'Save as Draft (Do not publish yet)', defaultValue: false }),
+        seoTitle: fields.text({ label: 'SEO Title (Optional - overrides article title for search engines)' }),
+        seoDescription: fields.text({ label: 'SEO Description (Optional - overrides description for search engines)', multiline: true }),
+        coverImage: fields.image({
+          label: 'Cover Image (Optional)',
+          directory: 'public/images/blog',
+          publicPath: '/images/blog/',
+        }),
+        description: fields.text({ label: 'Excerpt / Short Description', multiline: true, validation: { isRequired: true } }),
         pubDate: fields.date({ label: 'Publish Date', validation: { isRequired: true } }),
-        author: fields.text({ label: 'Author' }),
+        author: fields.text({ label: 'Author', defaultValue: 'Sudhanshu Verma' }),
         category: fields.text({ label: 'Category' }),
         tags: fields.array(
           fields.text({ label: 'Tag' }),
@@ -162,6 +170,96 @@ export default config({
                 title: fields.text({ label: 'Article title' }),
                 url: fields.text({ label: 'Article URL' }),
                 description: fields.text({ label: 'Short description (optional)' }),
+              },
+            }),
+
+            // ── Advanced Layouts ──
+            Columns: wrapper({
+              label: 'Columns Grid',
+              description: 'Create a multi-column layout.',
+              schema: {
+                layout: fields.select({
+                  label: 'Column Layout',
+                  options: [
+                    { label: '50 / 50', value: '1-1' },
+                    { label: '1/3 - 2/3', value: '1-2' },
+                    { label: '2/3 - 1/3', value: '2-1' },
+                  ],
+                  defaultValue: '1-1',
+                }),
+              },
+            }),
+            Accordion: wrapper({
+              label: 'Accordion (Collapsible)',
+              description: 'A collapsible section for FAQs or extra context.',
+              schema: {
+                title: fields.text({ label: 'Accordion Title', validation: { isRequired: true } }),
+              },
+            }),
+            Timeline: wrapper({
+              label: 'Timeline Item',
+              description: 'A single point in a vertical timeline.',
+              schema: {
+                date: fields.text({ label: 'Date / Time', validation: { isRequired: true } }),
+                title: fields.text({ label: 'Event Title', validation: { isRequired: true } }),
+              },
+            }),
+
+            // ── Deep Typography ──
+            DropCap: wrapper({
+              label: 'Drop Cap Paragraph',
+              description: 'Makes the first letter of this paragraph large and elegant.',
+              schema: {},
+            }),
+            CustomHeading: block({
+              label: 'Custom Colored Heading',
+              description: 'A subheading with a specific brand color.',
+              schema: {
+                text: fields.text({ label: 'Heading Text', validation: { isRequired: true } }),
+                color: fields.select({
+                  label: 'Color',
+                  options: [
+                    { label: 'Brand Red', value: 'red' },
+                    { label: 'Brand Blue', value: 'blue' },
+                    { label: 'Deep Charcoal', value: 'charcoal' },
+                  ],
+                  defaultValue: 'red',
+                }),
+                level: fields.select({
+                  label: 'Heading Level',
+                  options: [
+                    { label: 'H2 (Main Section)', value: 'h2' },
+                    { label: 'H3 (Subsection)', value: 'h3' },
+                    { label: 'H4 (Minor Section)', value: 'h4' },
+                  ],
+                  defaultValue: 'h2',
+                }),
+              },
+            }),
+
+            // ── New Elements ──
+            ActionBtn: block({
+              label: 'Action Button',
+              description: 'A clickable button link.',
+              schema: {
+                label: fields.text({ label: 'Button Text', validation: { isRequired: true } }),
+                url: fields.text({ label: 'Button Link URL', validation: { isRequired: true } }),
+                style: fields.select({
+                  label: 'Button Style',
+                  options: [
+                    { label: 'Solid Brand', value: 'solid' },
+                    { label: 'Outline', value: 'outline' },
+                  ],
+                  defaultValue: 'solid',
+                }),
+              },
+            }),
+            MapEmbed: block({
+              label: 'Google Maps Embed',
+              description: 'Embed an interactive Google Map.',
+              schema: {
+                url: fields.text({ label: 'Google Maps Embed URL (src from iframe)', validation: { isRequired: true } }),
+                caption: fields.text({ label: 'Map Caption (Optional)' }),
               },
             }),
           },
