@@ -1,239 +1,143 @@
 ---
 /**
  * GlassLogo.astro
- * A premium glassmorphism masthead logo for Median Point.
- * Pure CSS — no JS, no hydration flash, instant render.
+ * Premium glassmorphism applied directly to the TEXT (no background slab).
  */
 ---
 
-<div class="glass-logo-container">
-	<div class="glass-logo-glow"></div>
-	<div class="glass-logo-glow glass-logo-glow--secondary"></div>
-	<h1 class="glass-logo-card">
-		<span class="glass-logo-text">MEDIAN POINT</span>
-		<span class="glass-logo-shimmer"></span>
+<div class="glass-text-container">
+	<h1 class="glass-text" data-text="MEDIAN POINT">
+		MEDIAN POINT
 	</h1>
 </div>
 
 <style>
-	.glass-logo-container {
+	.glass-text-container {
 		position: relative;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 2rem 1rem;
-		overflow: visible;
-	}
-
-	/* Ambient glow behind the card */
-	.glass-logo-glow {
-		position: absolute;
-		width: 320px;
-		height: 100px;
-		background: radial-gradient(
-			ellipse at center,
-			rgba(37, 99, 235, 0.35) 0%,
-			rgba(37, 99, 235, 0.12) 40%,
-			transparent 70%
-		);
-		border-radius: 50%;
-		filter: blur(30px);
-		animation: glowPulse 4s ease-in-out infinite;
-		pointer-events: none;
-		z-index: 0;
-	}
-
-	.glass-logo-glow--secondary {
-		width: 240px;
-		height: 80px;
-		background: radial-gradient(
-			ellipse at center,
-			rgba(99, 160, 255, 0.25) 0%,
-			rgba(147, 197, 253, 0.08) 50%,
-			transparent 70%
-		);
-		animation: glowPulse 4s ease-in-out infinite 2s;
-	}
-
-	:global(.dark) .glass-logo-glow {
-		background: radial-gradient(
-			ellipse at center,
-			rgba(59, 130, 246, 0.4) 0%,
-			rgba(59, 130, 246, 0.15) 40%,
-			transparent 70%
-		);
-	}
-
-	:global(.dark) .glass-logo-glow--secondary {
-		background: radial-gradient(
-			ellipse at center,
-			rgba(96, 165, 250, 0.3) 0%,
-			rgba(147, 197, 253, 0.1) 50%,
-			transparent 70%
-		);
-	}
-
-	/* The glass card itself */
-	.glass-logo-card {
-		position: relative;
-		z-index: 1;
-		margin: 0;
-		padding: 1rem 2.5rem;
-		background: linear-gradient(
-			135deg,
-			rgba(219, 234, 254, 0.55) 0%,
-			rgba(191, 219, 254, 0.35) 50%,
-			rgba(224, 242, 254, 0.45) 100%
-		);
-		backdrop-filter: blur(16px) saturate(1.6);
-		-webkit-backdrop-filter: blur(16px) saturate(1.6);
-		border: 1px solid rgba(147, 197, 253, 0.4);
-		border-radius: 16px;
-		box-shadow:
-			0 8px 32px rgba(37, 99, 235, 0.1),
-			0 1px 0 rgba(255, 255, 255, 0.6) inset,
-			0 -1px 0 rgba(37, 99, 235, 0.05) inset;
-		overflow: hidden;
-		transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-					box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+		display: inline-block;
+		padding: 1rem 2rem;
 		cursor: default;
 	}
 
-	.glass-logo-card:hover {
-		transform: translateY(-2px) scale(1.01);
-		box-shadow:
-			0 16px 48px rgba(37, 99, 235, 0.18),
-			0 1px 0 rgba(255, 255, 255, 0.7) inset,
-			0 -1px 0 rgba(37, 99, 235, 0.08) inset;
-	}
-
-	:global(.dark) .glass-logo-card {
-		background: linear-gradient(
-			135deg,
-			rgba(30, 58, 138, 0.35) 0%,
-			rgba(29, 78, 216, 0.2) 50%,
-			rgba(37, 99, 235, 0.15) 100%
-		);
-		border-color: rgba(96, 165, 250, 0.25);
-		box-shadow:
-			0 8px 32px rgba(59, 130, 246, 0.15),
-			0 1px 0 rgba(147, 197, 253, 0.15) inset,
-			0 -1px 0 rgba(30, 58, 138, 0.2) inset;
-	}
-
-	:global(.dark) .glass-logo-card:hover {
-		box-shadow:
-			0 16px 48px rgba(59, 130, 246, 0.25),
-			0 1px 0 rgba(147, 197, 253, 0.2) inset,
-			0 -1px 0 rgba(30, 58, 138, 0.25) inset;
-	}
-
-	/* The logo text */
-	.glass-logo-text {
+	.glass-text {
+		position: relative;
 		font-family: 'Inter', system-ui, sans-serif;
 		font-weight: 900;
 		font-size: 2.5rem;
-		letter-spacing: 0.06em;
-		line-height: 1;
+		letter-spacing: 0.08em;
+		margin: 0;
+		line-height: 1.2;
+		
+		/* 1. The Glass Core: Semi-transparent fill letting the background show through slightly */
+		color: transparent;
 		background: linear-gradient(
 			135deg,
-			#1e40af 0%,
-			#2563eb 35%,
-			#3b82f6 65%,
-			#1d4ed8 100%
+			rgba(255, 255, 255, 0.8) 0%,
+			rgba(147, 197, 253, 0.6) 30%,
+			rgba(37, 99, 235, 0.9) 70%,
+			rgba(30, 58, 138, 0.9) 100%
 		);
 		-webkit-background-clip: text;
 		background-clip: text;
-		-webkit-text-fill-color: transparent;
-		display: block;
-		text-align: center;
-		position: relative;
-		z-index: 1;
+
+		/* 2. The Glass Bevel/Rim: A crisp stroke around the text */
+		-webkit-text-stroke: 1px rgba(255, 255, 255, 0.6);
+
+		/* 3. The Depth & Shadow: Drop shadow applied to the text shape */
+		filter: 
+			drop-shadow(0px 8px 16px rgba(37, 99, 235, 0.25))
+			drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1));
+			
+		transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), filter 0.4s ease;
 	}
 
-	:global(.dark) .glass-logo-text {
-		background: linear-gradient(
-			135deg,
-			#60a5fa 0%,
-			#93c5fd 35%,
-			#bfdbfe 60%,
-			#60a5fa 100%
-		);
-		-webkit-background-clip: text;
-		background-clip: text;
-	}
-
-	/* Shimmer sweep across the card */
-	.glass-logo-shimmer {
+	/* Shimmering reflection sweeping across the text */
+	.glass-text::before {
+		content: attr(data-text);
 		position: absolute;
+		left: 0;
 		top: 0;
-		left: -100%;
 		width: 100%;
 		height: 100%;
-		background: linear-gradient(
-			90deg,
-			transparent 0%,
-			rgba(255, 255, 255, 0.25) 45%,
-			rgba(255, 255, 255, 0.4) 50%,
-			rgba(255, 255, 255, 0.25) 55%,
-			transparent 100%
-		);
-		animation: shimmerSweep 5s ease-in-out infinite;
-		pointer-events: none;
 		z-index: 2;
-	}
-
-	:global(.dark) .glass-logo-shimmer {
+		color: transparent;
 		background: linear-gradient(
 			90deg,
 			transparent 0%,
-			rgba(147, 197, 253, 0.12) 45%,
-			rgba(147, 197, 253, 0.2) 50%,
-			rgba(147, 197, 253, 0.12) 55%,
+			transparent 40%,
+			rgba(255, 255, 255, 0.8) 50%,
+			transparent 60%,
 			transparent 100%
 		);
+		background-size: 200% 100%;
+		-webkit-background-clip: text;
+		background-clip: text;
+		animation: textShimmer 4s ease-in-out infinite;
+		pointer-events: none;
 	}
 
-	@keyframes shimmerSweep {
-		0%, 100% { left: -100%; }
-		50% { left: 100%; }
+	.glass-text:hover {
+		transform: translateY(-2px) scale(1.02);
+		filter: 
+			drop-shadow(0px 12px 24px rgba(37, 99, 235, 0.35))
+			drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.15));
 	}
 
-	@keyframes glowPulse {
-		0%, 100% { opacity: 0.6; transform: scale(1); }
-		50% { opacity: 1; transform: scale(1.15); }
+	/* Dark Mode Adjustments */
+	:global(.dark) .glass-text {
+		background: linear-gradient(
+			135deg,
+			rgba(255, 255, 255, 0.9) 0%,
+			rgba(191, 219, 254, 0.7) 30%,
+			rgba(96, 165, 250, 0.9) 70%,
+			rgba(29, 78, 216, 0.9) 100%
+		);
+		-webkit-background-clip: text;
+		background-clip: text;
+		
+		-webkit-text-stroke: 1px rgba(147, 197, 253, 0.4);
+		
+		filter: 
+			drop-shadow(0px 8px 16px rgba(59, 130, 246, 0.2))
+			drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.3));
+	}
+
+	:global(.dark) .glass-text:hover {
+		filter: 
+			drop-shadow(0px 12px 24px rgba(59, 130, 246, 0.3))
+			drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.4));
+	}
+
+	:global(.dark) .glass-text::before {
+		background: linear-gradient(
+			90deg,
+			transparent 0%,
+			transparent 40%,
+			rgba(255, 255, 255, 0.6) 50%,
+			transparent 60%,
+			transparent 100%
+		);
+		background-size: 200% 100%;
+		-webkit-background-clip: text;
+		background-clip: text;
+	}
+
+	@keyframes textShimmer {
+		0% { background-position: 200% 0; }
+		100% { background-position: -200% 0; }
 	}
 
 	/* Responsive sizing */
 	@media (min-width: 768px) {
-		.glass-logo-text {
+		.glass-text {
 			font-size: 3.5rem;
 			letter-spacing: 0.08em;
-		}
-
-		.glass-logo-card {
-			padding: 1.25rem 3.5rem;
-			border-radius: 20px;
-		}
-
-		.glass-logo-glow {
-			width: 480px;
-			height: 140px;
-		}
-
-		.glass-logo-glow--secondary {
-			width: 360px;
-			height: 100px;
 		}
 	}
 
 	@media (min-width: 1024px) {
-		.glass-logo-text {
+		.glass-text {
 			font-size: 4rem;
-		}
-
-		.glass-logo-card {
-			padding: 1.5rem 4rem;
 		}
 	}
 </style>
