@@ -41,6 +41,12 @@
    - Switched Vercel adapter output to `static` for optimal performance.
    - Removed `.vercel` folder from git tracking to prevent build cache conflicts.
    - Configured Keystatic to globally save images dynamically into the `public/images/blog` directory to enable seamless drag-and-drop support that works instantly with Astro's MDX renderer without broken paths.
+8. **Comprehensive SEO Architecture:**
+   - Generated `sitemap-index.xml` via `@astrojs/sitemap`.
+   - Created `robots.txt` allowing all crawlers and pointing to the sitemap.
+   - Added explicit `<meta name="robots" content="index, follow...">` to all pages.
+   - Implemented dynamic JSON-LD structured data (`NewsArticle` for blog posts, `WebSite` and `SearchAction` for homepage) to enable Google rich results, Google News compatibility, and sitelinks search box.
+   - Configured `og:type="article"` with `article:published_time`, author, and tags for optimal social sharing.
 8. **Enhanced Article Editor (Rich Formatting & Embeds):**
    - **Auto-Embed URLs:** Added `astro-embed/integration` — paste a YouTube, Twitter/X, Vimeo, or Bluesky URL on its own line in the editor and it auto-renders as a rich embed on the live site. No slash commands needed.
    - **Instagram & Facebook:** Manual embed components via `/` menu in editor (Instagram uses oEmbed, Facebook uses FB SDK).
