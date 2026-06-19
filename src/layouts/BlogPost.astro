@@ -47,7 +47,51 @@ function getRelativeTime(date: Date) {
 
 <html lang="en">
 	<head>
-		<BaseHead title={seoTitle || title} description={seoDescription || description} image={coverImage || (currentId ? `/og/${currentId}.png` : undefined)} />
+		<BaseHead
+			title={seoTitle || title}
+			description={seoDescription || description}
+			image={coverImage || (currentId ? `/og/${currentId}.png` : undefined)}
+			ogType="article"
+			publishedTime={pubDate.toISOString()}
+			modifiedTime={updatedDate ? updatedDate.toISOString() : undefined}
+			author={author || 'Sudhanshu Verma'}
+			section={category || 'Analysis'}
+			tags={tags}
+		/>
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "NewsArticle",
+			"headline": seoTitle || title,
+			"description": seoDescription || description,
+			"image": coverImage
+				? [new URL(coverImage, Astro.site).toString()]
+				: currentId
+					? [new URL(`/og/${currentId}.png`, Astro.site).toString()]
+					: [],
+			"datePublished": pubDate.toISOString(),
+			"dateModified": updatedDate ? updatedDate.toISOString() : pubDate.toISOString(),
+			"author": [{
+				"@type": "Person",
+				"name": author || "Sudhanshu Verma",
+				"url": new URL("/about", Astro.site).toString()
+			}],
+			"publisher": {
+				"@type": "Organization",
+				"name": "Median Point",
+				"url": Astro.site?.toString(),
+				"logo": {
+					"@type": "ImageObject",
+					"url": new URL("/favicon.svg", Astro.site).toString()
+				}
+			},
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": new URL(Astro.url.pathname, Astro.site).toString()
+			},
+			"articleSection": category || "Analysis",
+			"keywords": tags ? tags.join(", ") : undefined,
+			"inLanguage": "en-US"
+		})} />
 	</head>
 
 	<body class="flex flex-col min-h-screen bg-bg dark:bg-bg-dark">

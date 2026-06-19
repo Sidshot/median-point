@@ -43,6 +43,31 @@ const formatDateShort = (date) => {
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "WebSite",
+			"name": "Median Point",
+			"url": "https://median-point.vercel.app",
+			"description": SITE_DESCRIPTION,
+			"publisher": {
+				"@type": "Organization",
+				"name": "Median Point",
+				"url": "https://median-point.vercel.app",
+				"logo": {
+					"@type": "ImageObject",
+					"url": "https://median-point.vercel.app/favicon.svg"
+				}
+			},
+			"potentialAction": {
+				"@type": "SearchAction",
+				"target": {
+					"@type": "EntryPoint",
+					"urlTemplate": "https://median-point.vercel.app/search?q={search_term_string}"
+				},
+				"query-input": "required name=search_term_string"
+			},
+			"inLanguage": "en-US"
+		})} />
 	</head>
 	<body class="flex flex-col min-h-screen relative bg-bg dark:bg-bg-dark">
 		<Header />

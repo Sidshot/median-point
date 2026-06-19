@@ -1,0 +1,8 @@
+# Robots.txt for Median Point
+# https://median-point.vercel.app
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://median-point.vercel.app/sitemap-index.xml
