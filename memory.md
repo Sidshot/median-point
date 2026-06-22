@@ -89,3 +89,23 @@
   - Review the Formspree endpoint in `src/pages/contact.astro` and insert your actual Formspree ID.
   - Review the Substack/Mailchimp endpoint in `src/components/Footer.astro` to ensure it points to your actual newsletter link.
 
+## Engineering & Design Paradigm (Strictly Follow)
+Based on the recent massive overhaul, the following architectural and design principles must be strictly followed for all future work:
+
+### 1. Ultra-Premium, Subtractive Design
+- **No Gimmicks:** Avoid overly complex 3D, "WordArt" effects, or heavy unrefined glass slabs.
+- **Optical Depth:** Use subtle layered gradients, `inset` shadows for highlights, and precise `backdrop-filter` blurs to create physical material illusions (like frosted glass) rather than flat semi-transparency.
+- **Typography:** Favor premium system-ui stacks (e.g., `-apple-system, BlinkMacSystemFont, "SF Pro Display"`) for structural elements, keeping `Inter` or serif fonts only for article body/headings.
+- **Accessibility First:** Always implement `prefers-reduced-motion` to disable animations and transitions for accessibility. 
+- **Authoritative Layouts:** The site structure should emulate top-tier news publications (like Bloomberg or WSJ) using dense, structured grids ("Rails") rather than simple single-column blog layouts.
+
+### 2. Defensive & Centralized Architecture
+- **No Logic Dumping in Astro:** Do not clutter `.astro` components with complex filtering or validation logic. Extract logic into dedicated, strongly-typed utility files in `src/utils/` (e.g., `posts.ts` for filtering drafts, `urls.ts` for safe link parsing).
+- **Security First:** Always validate and sanitize inputs. Use functions like `getSafeLink` to prevent XSS (e.g., stripping `javascript:` protocols).
+- **Graceful Degradation:** Ensure features fail safely (like rendering the custom `404.astro` page) and handle missing data elegantly.
+
+### 3. Production-Grade Reliability
+- **Edge Caching:** When writing API endpoints (like `search.json.ts`), implement robust `Cache-Control` headers (e.g., `s-maxage=300, stale-while-revalidate=3600`) to utilize Vercel's Edge Network.
+- **Security Headers:** The `vercel.json` enforces strict security policies (`Strict-Transport-Security`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`). Do not introduce components that violate these policies (e.g., unsecure cross-origin iframes without validation).
+- **Clean Event Listeners:** In client-side scripts, handle DOM lifecycle events properly to avoid memory leaks or duplicate executions (especially with Astro's View Transitions).
+
