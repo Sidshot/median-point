@@ -6,19 +6,19 @@ const blog = defineCollection({
 	// Load Markdown and MDX files in the `src/content/blog/` directory.
 	loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
 	// Type-check frontmatter using a schema
-	schema: ({ image }) =>
+	schema: () =>
 		z.object({
-			title: z.string(),
-			isDraft: z.boolean().default(false).optional(),
+			title: z.string().min(1),
+			isDraft: z.boolean().default(false),
 			seoTitle: z.string().optional(),
 			seoDescription: z.string().optional(),
 			coverImage: z.string().optional(),
-			description: z.string(),
+			description: z.string().min(1),
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
-			author: z.string().default('Sudhanshu Verma'),
+			author: z.string().min(1).default('Sudhanshu Verma'),
 			category: z.string().optional(),
-			tags: z.array(z.string()).optional(),
+			tags: z.array(z.string()).default([]),
 		}),
 });
 

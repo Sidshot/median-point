@@ -1,62 +1,54 @@
-# Astro Starter Kit: Blog
+# Median Point
 
-```sh
-npm create astro@latest -- --template blog
+Editorial analysis site built with Astro, MDX, Tailwind CSS, Keystatic and the Vercel adapter.
+
+## Requirements
+
+- Node.js 22.12 or newer
+- npm
+- GitHub OAuth environment variables for production Keystatic access
+
+## Local development
+
+```powershell
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Astro serves the development site at `http://localhost:4321`.
 
-Features:
+## Validation
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+Run both static analysis and the production build before publishing:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+```powershell
+npm run validate
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Useful individual commands:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```powershell
+npm run check
+npm run build
+npm run preview
+```
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+## Content
 
-Any static assets, like images, can be placed in the `public/` directory.
+Articles live in `src/content/blog` and are managed through Keystatic. Draft and future-dated posts are excluded from:
 
-## 🧞 Commands
+- article routes
+- homepage and listing pages
+- archive and search
+- RSS
+- generated Open Graph images
 
-All commands are run from the root of the project, from a terminal:
+## Deployment
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+The `main` branch deploys through Vercel. Production configuration is in:
 
-## 👀 Want to learn more?
+- `astro.config.mjs`
+- `vercel.json`
+- `keystatic.config.ts`
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+Never commit `.env` files or GitHub/Keystatic secrets.

@@ -4,9 +4,17 @@ import { html } from 'satori-html';
 import { Resvg } from '@resvg/resvg-js';
 import fs from 'fs';
 import path from 'path';
+import type { APIRoute, GetStaticPaths } from 'astro';
+import type { ReactNode } from 'react';
+import { getPublishedPosts } from '../../utils/posts';
 
-export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+interface OgImageProps {
+  title: string;
+  category: string;
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = getPublishedPosts(await getCollection('blog'));
   return posts.map((post) => ({
     params: { slug: post.id },
     props: {
@@ -14,10 +22,10 @@ export async function getStaticPaths() {
       category: post.data.category || 'Analysis',
     },
   }));
-}
+};
 
-export async function GET({ props }) {
-  const { title, category } = props;
+export const GET: APIRoute = async ({ props }) => {
+  const { title, category } = props as OgImageProps;
 
   // Read the Inter font from the locally installed fontsource package
   const fontPath = path.resolve('./node_modules/@fontsource/inter/files/inter-latin-800-normal.woff');
@@ -62,7 +70,7 @@ export async function GET({ props }) {
     </div>
   `;
 
-  const svg = await satori(markup, {
+  const svg = await satori(markup as unknown as ReactNode, {
     width: 1200,
     height: 630,
     fonts: [
@@ -84,10 +92,10 @@ export async function GET({ props }) {
 
   const pngData = resvg.render().asPng();
 
-  return new Response(pngData, {
+  return new Response(new Uint8Array(pngData), {
     headers: {
       'Content-Type': 'image/png',
       'Cache-Control': 'public, max-age=31536000, immutable',
     },
   });
-}
+};

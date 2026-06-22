@@ -3,6 +3,8 @@
 
 User-agent: *
 Allow: /
+Disallow: /keystatic/
+Disallow: /api/keystatic/
 
 # Sitemap
 Sitemap: https://median-point.vercel.app/sitemap-index.xml

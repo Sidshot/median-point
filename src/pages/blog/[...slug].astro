@@ -27,9 +27,10 @@ import DropCap from '../../components/editorial/DropCap.astro';
 import CustomHeading from '../../components/editorial/CustomHeading.astro';
 import ActionBtn from '../../components/editorial/ActionBtn.astro';
 import MapEmbed from '../../components/editorial/MapEmbed.astro';
+import { getPublishedPosts } from '../../utils/posts';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
+	const posts = getPublishedPosts(await getCollection('blog'));
 	return posts.map((post) => ({
 		params: { slug: post.id },
 		props: post,
@@ -39,9 +40,11 @@ type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const { Content, headings } = await render(post);
+const wordCount = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
+const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 ---
 
-<BlogPost {...post.data} id={post.id} headings={headings}>
+<BlogPost {...post.data} id={post.id} headings={headings} readingTime={readingTime}>
 	<Content components={{
 		YouTube,
 		Tweet: TweetEmbed,

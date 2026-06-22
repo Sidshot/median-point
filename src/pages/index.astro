@@ -6,24 +6,21 @@ import GlassLogo from "../components/GlassLogo.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
+import { getPublishedPosts } from "../utils/posts";
 
-const posts = (await getCollection("blog"))
-	.filter((post) => !post.data.isDraft)
-	.sort(
-		(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-	);
+const posts = getPublishedPosts(await getCollection("blog"));
 
 const featuredPost = posts[0];
 const remainingPosts = posts.slice(1);
 
-const getReadingTime = (content) => {
+const getReadingTime = (content?: string) => {
 	if (!content) return 1;
 	const wordCount = content.split(/\s+/).length;
 	return Math.max(1, Math.ceil(wordCount / 200));
 };
 
 // Task 7: Extract first image from article body (MDX/Markdown)
-const getFirstImage = (body) => {
+const getFirstImage = (body?: string) => {
 	if (!body) return null;
 	// Match markdown images: ![alt](url)
 	const mdMatch = body.match(/!\[.*?\]\((.*?)\)/);
@@ -34,16 +31,13 @@ const getFirstImage = (body) => {
 	return null;
 };
 
-const formatDateShort = (date) => {
-	return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-};
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<script type="application/ld+json" set:html={JSON.stringify({
+		<script is:inline type="application/ld+json" set:html={JSON.stringify({
 			"@context": "https://schema.org",
 			"@type": "WebSite",
 			"name": "Median Point",

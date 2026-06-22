@@ -6,8 +6,8 @@ import keystatic from '@keystatic/astro';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 import remarkBreaks from 'remark-breaks';
-import embeds from 'astro-embed/integration';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -18,12 +18,14 @@ export default defineConfig({
   adapter: vercel({
     includeFiles: ['./keystatic.config.ts']
   }),
-  integrations: [embeds({ services: { LinkPreview: false, Tweet: false } }), mdx(), sitemap(), react(), keystatic()],
+  integrations: [mdx(), sitemap(), react(), keystatic()],
 
   vite: {
     plugins: [tailwindcss()],
   },
   markdown: {
-    remarkPlugins: [remarkBreaks]
+    processor: unified({
+      remarkPlugins: [remarkBreaks]
+    })
   }
 });

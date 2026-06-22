@@ -1,97 +1,165 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE } from '../consts';
 import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+import { getPublishedPosts } from '../utils/posts';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
-
-// Extract unique regions (assuming category maps to region)
-const regions = [...new Set(posts.map((post) => post.data.category || 'Analysis'))];
+const posts = getPublishedPosts(await getCollection('blog'));
+const categories = [...new Set(posts.map((post) => post.data.category || 'Analysis'))].sort();
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={`Archive | ${SITE_TITLE}`} description="Browse the Median Point archive by region." />
+		<BaseHead title={`Archive | ${SITE_TITLE}`} description="Browse published Median Point analysis by category and topic." />
 	</head>
 	<body class="flex flex-col min-h-screen bg-bg dark:bg-bg-dark">
 		<Header />
 		<main class="flex-grow max-w-5xl mx-auto px-4 py-12 w-full">
 			<h1 class="text-4xl font-black mb-4">Archive</h1>
-			<p class="text-lg text-gray-500 dark:text-gray-400 font-serif mb-8">Browse all analysis and insights by region.</p>
-			
-			<div class="mb-10">
-				<h3 class="text-sm font-bold font-sans uppercase tracking-wider mb-3 text-gray-500">Filter by Region</h3>
+			<p class="text-lg text-gray-500 dark:text-gray-400 font-serif mb-8">Browse all published analysis and insights.</p>
+
+			<section class="mb-10" aria-labelledby="archive-filter-title">
+				<h2 id="archive-filter-title" class="text-sm font-bold font-sans uppercase tracking-wider mb-3 text-gray-500">Filter by category</h2>
 				<div class="flex flex-wrap gap-2" id="filter-buttons">
-					<button class="filter-btn active bg-brand text-white px-4 py-2 text-sm font-sans font-bold rounded-full hover:bg-red-800 transition-all" data-region="all">
+					<button class="filter-btn active bg-brand text-white px-4 py-2 text-sm font-sans font-bold rounded-full hover:bg-red-800 transition-all" type="button" data-category="all" aria-pressed="true">
 						All
 					</button>
-					{regions.map((region) => (
-						<button class="filter-btn bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 px-4 py-2 text-sm font-sans font-medium rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-all" data-region={region}>
-							{region}
+					{categories.map((category) => (
+						<button class="filter-btn bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 px-4 py-2 text-sm font-sans font-medium rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-all" type="button" data-category={category} aria-pressed="false">
+							{category}
 						</button>
 					))}
 				</div>
-			</div>
+				<p id="archive-filter-status" class="mt-4 text-sm text-gray-500 dark:text-gray-400 font-sans" aria-live="polite"></p>
+			</section>
 
 			<ul class="grid grid-cols-1 md:grid-cols-2 gap-8" id="archive-list">
 				{
 					posts.map((post) => (
-						<li class="group archive-item bg-white/60 dark:bg-[#151515]/80 backdrop-blur-sm border border-gray-100 dark:border-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300" data-region={post.data.category || 'Analysis'}>
+						<li
+							class="group archive-item bg-white/60 dark:bg-[#151515]/80 backdrop-blur-sm border border-gray-100 dark:border-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+							data-category={post.data.category || 'Analysis'}
+							data-tags={JSON.stringify(post.data.tags)}
+						>
 							<a href={`/blog/${post.id}/`} class="block no-underline">
-								<div class="flex items-center justify-between mb-3">
+								<div class="flex items-center justify-between gap-4 mb-3">
 									<div class="text-xs text-brand dark:text-brand-dark font-sans font-bold uppercase tracking-wider bg-red-50 dark:bg-red-900/20 px-3 py-1 rounded-full inline-block">
 										{post.data.category || 'Analysis'}
 									</div>
-									<div class="text-sm text-gray-500 font-sans">
+									<div class="text-sm text-gray-500 font-sans shrink-0">
 										<FormattedDate date={post.data.pubDate} />
 									</div>
 								</div>
-								<h3 class="text-xl font-bold mt-2 group-hover:text-brand dark:group-hover:text-brand-dark transition-colors leading-tight text-gray-900 dark:text-gray-100">
+								<h2 class="text-xl font-bold mt-2 group-hover:text-brand dark:group-hover:text-brand-dark transition-colors leading-tight text-gray-900 dark:text-gray-100">
 									{post.data.title}
-								</h3>
+								</h2>
 								<p class="text-gray-600 dark:text-gray-400 font-serif mt-3 line-clamp-2 leading-relaxed">{post.data.description}</p>
 							</a>
 						</li>
 					))
 				}
 			</ul>
+
+			<div id="archive-empty" class="hidden py-16 text-center">
+				<p class="text-lg text-gray-500 dark:text-gray-400 font-serif italic">No published articles match this filter.</p>
+				<a href="/archive" class="inline-block mt-4 font-sans font-bold">View all articles</a>
+			</div>
 		</main>
 		<Footer />
 
 		<script>
-			const buttons = document.querySelectorAll('.filter-btn');
-			const items = document.querySelectorAll('.archive-item');
+			type ArchiveWindow = Window & {
+				__archivePageLoadBound?: boolean;
+			};
 
-			buttons.forEach(btn => {
-				btn.addEventListener('click', () => {
-					// UI update
-					buttons.forEach(b => {
-						b.classList.remove('active', 'bg-brand', 'text-white', 'font-bold');
-						b.classList.add('bg-gray-100', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-400', 'font-medium');
-					});
-					
-					btn.classList.add('active', 'bg-brand', 'text-white', 'font-bold');
-					btn.classList.remove('bg-gray-100', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-400', 'font-medium');
+			function setButtonState(buttons: HTMLButtonElement[], selectedCategory: string) {
+				for (const button of buttons) {
+					const active =
+						(button.dataset.category ?? '').toLocaleLowerCase() === selectedCategory.toLocaleLowerCase();
+					button.classList.toggle('active', active);
+					button.classList.toggle('bg-brand', active);
+					button.classList.toggle('text-white', active);
+					button.classList.toggle('font-bold', active);
+					button.classList.toggle('bg-gray-100', !active);
+					button.classList.toggle('dark:bg-gray-900', !active);
+					button.classList.toggle('text-gray-600', !active);
+					button.classList.toggle('dark:text-gray-400', !active);
+					button.classList.toggle('font-medium', !active);
+					button.setAttribute('aria-pressed', String(active));
+				}
+			}
 
-					// Filtering
-					const selectedRegion = (btn as HTMLElement).dataset.region;
-					
-					items.forEach(item => {
-						const itemRegion = (item as HTMLElement).dataset.region;
-						if (selectedRegion === 'all' || itemRegion === selectedRegion) {
-							(item as HTMLElement).style.display = 'block';
-						} else {
-							(item as HTMLElement).style.display = 'none';
-						}
-					});
-				});
-			});
+			function setupArchive() {
+				const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.filter-btn'));
+				const items = Array.from(document.querySelectorAll<HTMLElement>('.archive-item'));
+				const empty = document.getElementById('archive-empty');
+				const list = document.getElementById('archive-list');
+				const status = document.getElementById('archive-filter-status');
+				if (!buttons.length || !list || !empty || !status) return;
+
+				const applyFilter = (category = 'all', tag = '') => {
+					const normalizedCategory = category.toLocaleLowerCase();
+					const normalizedTag = tag.toLocaleLowerCase();
+					let visibleCount = 0;
+
+					for (const item of items) {
+						const itemCategory = (item.dataset.category ?? '').toLocaleLowerCase();
+						const itemTags = JSON.parse(item.dataset.tags ?? '[]') as string[];
+						const matchesCategory = normalizedCategory === 'all' || itemCategory === normalizedCategory;
+						const matchesTag =
+							!normalizedTag ||
+							itemTags.some((itemTag) => itemTag.toLocaleLowerCase() === normalizedTag);
+						const visible = matchesCategory && matchesTag;
+						item.classList.toggle('hidden', !visible);
+						if (visible) visibleCount += 1;
+					}
+
+					setButtonState(buttons, normalizedCategory);
+					list.classList.toggle('hidden', visibleCount === 0);
+					empty.classList.toggle('hidden', visibleCount > 0);
+
+					const filterName = tag
+						? ` tagged #${tag}`
+						: normalizedCategory === 'all'
+							? ''
+							: ` in ${category}`;
+					status.textContent = `Showing ${visibleCount} article${visibleCount === 1 ? '' : 's'}${filterName}.`;
+				};
+
+				const params = new URLSearchParams(window.location.search);
+				const requestedCategory = params.get('category') ?? 'all';
+				const requestedTag = params.get('tag') ?? '';
+				const knownCategory =
+					buttons.find(
+						(button) =>
+							(button.dataset.category ?? '').toLocaleLowerCase() ===
+							requestedCategory.toLocaleLowerCase(),
+					)?.dataset.category ?? 'all';
+
+				applyFilter(knownCategory, requestedTag);
+
+				for (const button of buttons) {
+					button.onclick = () => {
+						const category = button.dataset.category ?? 'all';
+						const nextParams = new URLSearchParams();
+						if (category !== 'all') nextParams.set('category', category);
+						const query = nextParams.toString();
+						window.history.replaceState({}, '', query ? `/archive?${query}` : '/archive');
+						applyFilter(category);
+					};
+				}
+			}
+
+			const archiveWindow = window as ArchiveWindow;
+			setupArchive();
+			if (!archiveWindow.__archivePageLoadBound) {
+				document.addEventListener('astro:page-load', setupArchive);
+				archiveWindow.__archivePageLoadBound = true;
+			}
 		</script>
 	</body>
 </html>

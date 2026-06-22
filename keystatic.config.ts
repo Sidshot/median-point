@@ -1,5 +1,6 @@
 import { config, fields, collection } from '@keystatic/core';
 import { block, wrapper, mark } from '@keystatic/core/content-components';
+import { createElement } from 'react';
 
 export default config({
   storage: {
@@ -24,6 +25,7 @@ export default config({
         }),
         description: fields.text({ label: 'Excerpt / Short Description', multiline: true, validation: { isRequired: true } }),
         pubDate: fields.date({ label: 'Publish Date', validation: { isRequired: true } }),
+        updatedDate: fields.date({ label: 'Last Updated Date (Optional)' }),
         author: fields.text({ label: 'Author', defaultValue: 'Sudhanshu Verma' }),
         category: fields.text({ label: 'Category' }),
         tags: fields.array(
@@ -72,7 +74,7 @@ export default config({
             // ── Text Formatting ──
             Highlight: mark({
               label: 'Highlight Text',
-              icon: '✏️',
+              icon: createElement('span', { 'aria-hidden': true }, '✏️'),
               schema: {},
               style: {
                 backgroundColor: 'rgba(185, 28, 28, 0.15)',

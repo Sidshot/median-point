@@ -1,9 +1,9 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
+import { getPublishedPosts } from '../utils/posts';
 
 export const GET: APIRoute = async () => {
-	const allPosts = await getCollection('blog');
-	const posts = allPosts.filter(post => !post.data.isDraft);
+	const posts = getPublishedPosts(await getCollection('blog'));
 	const searchIndex = posts.map(post => ({
 		title: post.data.title,
 		description: post.data.description,
@@ -14,6 +14,9 @@ export const GET: APIRoute = async () => {
 		author: post.data.author || 'Sudhanshu Verma',
 	}));
 	return new Response(JSON.stringify(searchIndex), {
-		headers: { 'Content-Type': 'application/json' },
+		headers: {
+			'Content-Type': 'application/json; charset=utf-8',
+			'Cache-Control': 'public, max-age=0, s-maxage=300, stale-while-revalidate=3600',
+		},
 	});
 };

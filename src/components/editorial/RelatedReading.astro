@@ -1,4 +1,6 @@
 ---
+import { getSafeLink } from '../../utils/urls';
+
 interface Props {
   title: string;
   url: string;
@@ -6,9 +8,11 @@ interface Props {
 }
 
 const { title, url, description } = Astro.props;
+const href = getSafeLink(url);
+const isExternal = /^https?:\/\//i.test(href);
 ---
 
-<a href={url} class="related-reading-card" target={url.startsWith('http') ? '_blank' : '_self'} rel={url.startsWith('http') ? 'noopener noreferrer' : undefined}>
+<a href={href} class="related-reading-card" target={isExternal ? '_blank' : undefined} rel={isExternal ? 'noopener noreferrer' : undefined}>
   <div class="related-reading-label">📖 Related Reading</div>
   <div class="related-reading-title">{title}</div>
   {description && <div class="related-reading-desc">{description}</div>}

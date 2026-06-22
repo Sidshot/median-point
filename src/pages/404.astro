@@ -1,0 +1,27 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Page Not Found | Median Point" description="The requested Median Point page could not be found." noindex />
+	</head>
+	<body class="flex min-h-screen flex-col bg-bg dark:bg-bg-dark">
+		<Header />
+		<main class="mx-auto flex w-full max-w-2xl flex-grow flex-col items-center justify-center px-4 py-20 text-center">
+			<p class="mb-3 font-sans text-sm font-bold uppercase tracking-[0.2em] text-brand dark:text-brand-dark">404</p>
+			<h1 class="mb-5 text-4xl font-black md:text-5xl">This page is off the map.</h1>
+			<p class="mb-8 max-w-lg font-serif text-lg leading-relaxed text-gray-600 dark:text-gray-400">
+				The address may have changed, or the article may no longer be published.
+			</p>
+			<div class="flex flex-wrap justify-center gap-3">
+				<a href="/" class="rounded-md bg-brand px-6 py-3 font-sans text-sm font-bold text-white no-underline hover:bg-red-800">Return home</a>
+				<a href="/archive" class="rounded-md border border-gray-300 px-6 py-3 font-sans text-sm font-bold text-gray-700 no-underline dark:border-gray-700 dark:text-gray-200">Browse the archive</a>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
