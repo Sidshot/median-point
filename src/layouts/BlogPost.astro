@@ -1,16 +1,21 @@
 ---
 import { Image } from 'astro:assets';
+import type { MarkdownHeading } from 'astro';
 import type { CollectionEntry } from 'astro:content';
+import ArticleRail from '../components/ArticleRail.astro';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import LatestArticlesRail from '../components/LatestArticlesRail.astro';
 import { getCollection } from 'astro:content';
-import RightSidebarMotif from '../components/RightSidebarMotif.astro';
 
-type Props = CollectionEntry<'blog'>['data'] & { id?: string };
+type Props = CollectionEntry<'blog'>['data'] & {
+	id?: string;
+	headings?: MarkdownHeading[];
+};
 
-const { title, description, pubDate, updatedDate, heroImage, coverImage, seoTitle, seoDescription, author, category, tags, id: currentId } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, coverImage, seoTitle, seoDescription, author, category, tags, id: currentId, headings = [] } = Astro.props;
 
 const displayImage = coverImage || heroImage;
 // Related articles (Item 7) — get other posts excluding current
@@ -100,25 +105,10 @@ function getRelativeTime(date: Date) {
 			<div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
 				
 				<!-- Left Sidebar: Latest Articles -->
-				<aside class="hidden lg:block lg:col-span-3">
-					<div class="sticky top-24">
-						<h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-6 flex items-center">
-							<span class="bg-brand w-1 h-4 mr-2 block rounded-sm"></span>
-							Latest Articles
-						</h3>
-						<div class="space-y-6">
-							{relatedPosts.map(post => (
-								<a href={`/blog/${post.id}/`} class="block group no-underline">
-									<h4 class="font-sans font-bold text-gray-900 dark:text-gray-100 group-hover:text-brand dark:group-hover:text-brand-dark transition-colors leading-tight mb-1">{post.data.title}</h4>
-									<div class="text-xs text-gray-500 font-sans"><FormattedDate date={post.data.pubDate} /></div>
-								</a>
-							))}
-						</div>
-					</div>
-				</aside>
+				<LatestArticlesRail posts={relatedPosts} />
 
 				<!-- Main Content Column -->
-				<div class="lg:col-span-6 w-full max-w-[720px] mx-auto">
+				<div class="lg:col-span-8 xl:col-span-6 w-full max-w-[720px] mx-auto">
 					<article id="article-content">
 				
 				<div class="mb-8 text-center pb-8 border-b border-gray-200 dark:border-gray-800">
@@ -161,7 +151,7 @@ function getRelativeTime(date: Date) {
 					</div>
 				)}
 				
-				<div class="prose dark:prose-invert prose-lg md:prose-xl max-w-none font-serif leading-relaxed text-gray-800 dark:text-gray-200">
+				<div class="prose dark:prose-invert prose-lg md:prose-xl max-w-none font-serif leading-relaxed text-justify text-gray-800 dark:text-gray-200">
 					<slot />
 				</div>
 
@@ -247,13 +237,26 @@ function getRelativeTime(date: Date) {
 
 			</div> <!-- End Main Content Column -->
 
-				<!-- Right Sidebar spacer (maintains 3-column layout) -->
-				<aside class="hidden lg:block lg:col-span-3 pointer-events-none"></aside>
+				<!-- Right Sidebar: Article navigation and editorial motif -->
+				<aside class="article-rail-aside hidden xl:block xl:col-span-3 no-print">
+					<ArticleRail headings={headings} />
+				</aside>
 
 			</div>
 		</main>
-		<RightSidebarMotif />
 		<Footer />
+
+		<style>
+			:global(#article-content .prose :is(h2, h3, h4)) {
+				scroll-margin-top: 6.5rem;
+			}
+
+			@media print {
+				.article-rail-aside {
+					display: none !important;
+				}
+			}
+		</style>
 
 		<script>
 			// Calculate reading time on client side

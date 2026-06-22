@@ -1,0 +1,375 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+	posts: CollectionEntry<'blog'>[];
+}
+
+const { posts } = Astro.props;
+---
+
+<aside
+	class="latest-articles-aside hidden lg:block lg:col-span-4 xl:col-span-3 no-print"
+	data-latest-articles
+>
+	<div class="latest-articles-panel">
+		<div class="latest-articles-header">
+			<h2 class="latest-articles-heading">
+				<span class="latest-articles-mark" aria-hidden="true"></span>
+				<span class="latest-articles-label">Latest Articles</span>
+			</h2>
+
+			<button
+				type="button"
+				class="latest-articles-toggle"
+				aria-expanded="true"
+				aria-controls="latest-articles-list"
+				aria-label="Collapse latest articles"
+				title="Collapse latest articles"
+				data-latest-articles-toggle
+			>
+				<svg viewBox="0 0 20 20" aria-hidden="true">
+					<path d="M12.5 4.5L7 10l5.5 5.5"></path>
+				</svg>
+			</button>
+		</div>
+
+		<div
+			id="latest-articles-list"
+			class="latest-articles-content"
+			data-latest-articles-content
+		>
+			<div class="latest-articles-content-inner">
+				<div class="latest-articles-list">
+					{
+						posts.map((post) => (
+							<a href={`/blog/${post.id}/`} class="latest-article-link">
+								<h3>{post.data.title}</h3>
+								<div><FormattedDate date={post.data.pubDate} /></div>
+							</a>
+						))
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</aside>
+
+<style>
+	.latest-articles-panel {
+		position: sticky;
+		top: 6rem;
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
+		transition: max-width 280ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.latest-articles-header {
+		display: flex;
+		min-height: 2rem;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+		margin-bottom: 1.15rem;
+	}
+
+	.latest-articles-heading {
+		display: flex;
+		min-width: 0;
+		align-items: center;
+		margin: 0;
+		color: #6b7280;
+		font-family: "Inter", system-ui, sans-serif;
+		font-size: 0.72rem;
+		font-weight: 800;
+		letter-spacing: 0.14em;
+		line-height: 1.4;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+
+	.latest-articles-mark {
+		display: block;
+		width: 3px;
+		height: 1rem;
+		flex: 0 0 auto;
+		margin-right: 0.55rem;
+		border-radius: 999px;
+		background: #b91c1c;
+	}
+
+	.latest-articles-label {
+		overflow: hidden;
+		opacity: 1;
+		transition:
+			max-width 220ms ease,
+			opacity 150ms ease,
+			transform 220ms ease;
+		max-width: 11rem;
+	}
+
+	.latest-articles-toggle {
+		display: grid;
+		width: 1.9rem;
+		height: 1.9rem;
+		flex: 0 0 auto;
+		place-items: center;
+		border: 1px solid rgba(148, 163, 184, 0.28);
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.58);
+		color: #64748b;
+		cursor: pointer;
+		transition:
+			border-color 180ms ease,
+			background-color 180ms ease,
+			color 180ms ease;
+	}
+
+	.latest-articles-toggle:hover {
+		border-color: rgba(185, 28, 28, 0.3);
+		background: rgba(248, 250, 252, 0.92);
+		color: #b91c1c;
+	}
+
+	.latest-articles-toggle:focus-visible {
+		outline: 2px solid rgba(185, 28, 28, 0.45);
+		outline-offset: 3px;
+	}
+
+	.latest-articles-toggle svg {
+		width: 0.9rem;
+		height: 0.9rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.8;
+		transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.latest-articles-content {
+		display: grid;
+		grid-template-rows: 1fr;
+		opacity: 1;
+		transition:
+			grid-template-rows 260ms cubic-bezier(0.22, 1, 0.36, 1),
+			opacity 160ms ease,
+			transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.latest-articles-content-inner {
+		min-height: 0;
+		overflow: hidden;
+	}
+
+	.latest-articles-list {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		padding-right: 0.35rem;
+	}
+
+	.latest-article-link {
+		display: block;
+		text-decoration: none;
+	}
+
+	.latest-article-link h3 {
+		margin: 0 0 0.25rem;
+		color: #111827;
+		font-family: "Inter", system-ui, sans-serif;
+		font-size: 0.92rem;
+		font-weight: 700;
+		line-height: 1.3;
+		transition: color 180ms ease;
+	}
+
+	.latest-article-link div {
+		color: #6b7280;
+		font-family: "Inter", system-ui, sans-serif;
+		font-size: 0.72rem;
+		line-height: 1.4;
+	}
+
+	.latest-article-link:hover {
+		opacity: 1;
+	}
+
+	.latest-article-link:hover h3 {
+		color: #b91c1c;
+	}
+
+	.latest-articles-aside.is-collapsed .latest-articles-panel {
+		max-width: 2.75rem;
+	}
+
+	.latest-articles-aside.is-collapsed .latest-articles-header {
+		justify-content: flex-start;
+		gap: 0;
+	}
+
+	.latest-articles-aside.is-collapsed .latest-articles-heading {
+		width: 0;
+		overflow: hidden;
+	}
+
+	.latest-articles-aside.is-collapsed .latest-articles-label {
+		max-width: 0;
+		opacity: 0;
+		transform: translateX(-0.35rem);
+	}
+
+	.latest-articles-aside.is-collapsed .latest-articles-toggle svg {
+		transform: rotate(180deg);
+	}
+
+	.latest-articles-aside.is-collapsed .latest-articles-content {
+		grid-template-rows: 0fr;
+		opacity: 0;
+		transform: translateX(-0.5rem);
+	}
+
+	:global(.dark) .latest-articles-heading {
+		color: #7f8da0;
+	}
+
+	:global(.dark) .latest-articles-mark {
+		background: #ef4444;
+	}
+
+	:global(.dark) .latest-articles-toggle {
+		border-color: rgba(100, 116, 139, 0.34);
+		background: rgba(15, 23, 42, 0.56);
+		color: #94a3b8;
+	}
+
+	:global(.dark) .latest-articles-toggle:hover {
+		border-color: rgba(239, 68, 68, 0.35);
+		background: rgba(15, 23, 42, 0.9);
+		color: #ef4444;
+	}
+
+	:global(.dark) .latest-article-link h3 {
+		color: #f3f4f6;
+	}
+
+	:global(.dark) .latest-article-link div {
+		color: #6b7280;
+	}
+
+	:global(.dark) .latest-article-link:hover h3 {
+		color: #ef4444;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.latest-articles-panel,
+		.latest-articles-label,
+		.latest-articles-toggle,
+		.latest-articles-toggle svg,
+		.latest-articles-content,
+		.latest-article-link h3 {
+			transition: none;
+		}
+	}
+
+	@media print {
+		.latest-articles-aside {
+			display: none !important;
+		}
+	}
+</style>
+
+<script>
+	type LatestArticlesWindow = Window & {
+		__latestArticlesCleanup?: () => void;
+		__latestArticlesPageLoadBound?: boolean;
+	};
+
+	function setupLatestArticlesRail() {
+		const latestArticlesWindow = window as LatestArticlesWindow;
+		latestArticlesWindow.__latestArticlesCleanup?.();
+
+		const rail = document.querySelector<HTMLElement>('[data-latest-articles]');
+		const toggle = rail?.querySelector<HTMLButtonElement>('[data-latest-articles-toggle]');
+		const content = rail?.querySelector<HTMLElement>('[data-latest-articles-content]');
+		const readingStart = document.querySelector<HTMLElement>('#article-content .prose');
+
+		if (!rail || !toggle || !content || !readingStart) return;
+
+		let readingZone = false;
+		let manualExpanded: boolean | null = null;
+		let animationFrame = 0;
+
+		const applyState = (expanded: boolean) => {
+			const collapsed = !expanded;
+			rail.classList.toggle('is-collapsed', collapsed);
+			toggle.setAttribute('aria-expanded', String(expanded));
+			toggle.setAttribute(
+				'aria-label',
+				expanded ? 'Collapse latest articles' : 'Expand latest articles',
+			);
+			toggle.title = expanded ? 'Collapse latest articles' : 'Expand latest articles';
+			content.setAttribute('aria-hidden', String(collapsed));
+			content.inert = collapsed;
+		};
+
+		const detectReadingZone = () => {
+			const proseTop = readingStart.getBoundingClientRect().top;
+			const enterReadingAt = Math.min(420, window.innerHeight * 0.62);
+			const leaveReadingAt = Math.min(500, window.innerHeight * 0.72);
+
+			return readingZone
+				? proseTop <= leaveReadingAt
+				: proseTop <= enterReadingAt;
+		};
+
+		const syncAutomaticState = () => {
+			animationFrame = 0;
+			const nextReadingZone = detectReadingZone();
+
+			if (nextReadingZone !== readingZone) {
+				readingZone = nextReadingZone;
+				manualExpanded = null;
+				applyState(!readingZone);
+				return;
+			}
+
+			if (manualExpanded === null) applyState(!readingZone);
+		};
+
+		const scheduleSync = () => {
+			if (animationFrame) return;
+			animationFrame = window.requestAnimationFrame(syncAutomaticState);
+		};
+
+		const handleToggle = () => {
+			const currentlyExpanded = toggle.getAttribute('aria-expanded') === 'true';
+			manualExpanded = !currentlyExpanded;
+			applyState(manualExpanded);
+		};
+
+		readingZone = detectReadingZone();
+		applyState(true);
+
+		toggle.addEventListener('click', handleToggle);
+		window.addEventListener('scroll', scheduleSync, { passive: true });
+		window.addEventListener('resize', scheduleSync);
+
+		latestArticlesWindow.__latestArticlesCleanup = () => {
+			toggle.removeEventListener('click', handleToggle);
+			window.removeEventListener('scroll', scheduleSync);
+			window.removeEventListener('resize', scheduleSync);
+			if (animationFrame) window.cancelAnimationFrame(animationFrame);
+		};
+	}
+
+	const latestArticlesWindow = window as LatestArticlesWindow;
+	setupLatestArticlesRail();
+
+	if (!latestArticlesWindow.__latestArticlesPageLoadBound) {
+		document.addEventListener('astro:page-load', setupLatestArticlesRail);
+		latestArticlesWindow.__latestArticlesPageLoadBound = true;
+	}
+</script>

@@ -1,0 +1,419 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+	headings?: MarkdownHeading[];
+}
+
+const { headings = [] } = Astro.props;
+const articleHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 4);
+const hasNavigation = articleHeadings.length > 0;
+---
+
+<div class="article-rail" data-article-rail>
+	{
+		hasNavigation ? (
+			<nav class="rail-navigation" aria-labelledby="article-navigation-title">
+				<h2 id="article-navigation-title" class="rail-title">
+					<span class="rail-title-mark"></span>
+					In this article
+				</h2>
+
+				<div class="rail-links">
+					{articleHeadings.map((heading) => (
+						<a
+							href={`#${heading.slug}`}
+							class:list={[
+								'rail-link',
+								{
+									'rail-link--level-3': heading.depth === 3,
+									'rail-link--level-4': heading.depth === 4,
+								},
+							]}
+							data-article-heading={heading.slug}
+						>
+							<span class="rail-link-dot" aria-hidden="true"></span>
+							<span>{heading.text}</span>
+						</a>
+					))}
+				</div>
+			</nav>
+		) : (
+			<section class="rail-empty" aria-labelledby="article-details-title">
+				<h2 id="article-details-title" class="rail-title">
+					<span class="rail-title-mark"></span>
+					Article details
+				</h2>
+				<p>This article is presented as a continuous analysis.</p>
+			</section>
+		)
+	}
+
+	<div class="rail-motif" aria-hidden="true">
+		<svg viewBox="0 0 260 300" focusable="false">
+			<defs>
+				<pattern id="rail-jaali" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+					<path class="motif-pattern-line" d="M16 0L32 16L16 32L0 16Z"></path>
+					<path class="motif-pattern-line" d="M16 7L25 16L16 25L7 16Z"></path>
+				</pattern>
+				<linearGradient id="rail-fade" x1="0" y1="0" x2="1" y2="0">
+					<stop offset="0" stop-color="white" stop-opacity="0"></stop>
+					<stop offset="0.34" stop-color="white" stop-opacity="0.42"></stop>
+					<stop offset="1" stop-color="white"></stop>
+				</linearGradient>
+				<mask id="rail-mask">
+					<rect width="260" height="300" fill="url(#rail-fade)"></rect>
+				</mask>
+			</defs>
+
+			<g class="motif-lines" mask="url(#rail-mask)">
+				<line x1="178" y1="8" x2="178" y2="292"></line>
+				<line x1="164" y1="34" x2="192" y2="34"></line>
+				<line x1="169" y1="58" x2="187" y2="58"></line>
+				<line x1="164" y1="82" x2="192" y2="82"></line>
+				<line x1="169" y1="106" x2="187" y2="106"></line>
+				<line x1="164" y1="130" x2="192" y2="130"></line>
+				<line x1="169" y1="154" x2="187" y2="154"></line>
+
+				<circle cx="178" cy="82" r="54"></circle>
+				<circle cx="178" cy="82" r="34"></circle>
+				<path d="M178 18L188 70L242 82L188 94L178 146L168 94L114 82L168 70Z"></path>
+				<path d="M178 28V136M124 82H232"></path>
+				<path d="M140 44L216 120M216 44L140 120"></path>
+
+				<rect x="94" y="174" width="150" height="110" fill="url(#rail-jaali)"></rect>
+				<path d="M104 284V220C104 189 132 168 169 154C206 168 234 189 234 220V284"></path>
+			</g>
+
+			<circle class="motif-waypoint" cx="178" cy="82" r="3.5"></circle>
+		</svg>
+	</div>
+</div>
+
+<style>
+	.article-rail {
+		position: sticky;
+		top: 6rem;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.rail-navigation,
+	.rail-empty {
+		position: relative;
+		z-index: 2;
+	}
+
+	.rail-title {
+		display: flex;
+		align-items: center;
+		margin: 0 0 1rem;
+		color: #64748b;
+		font-family: "Inter", system-ui, sans-serif;
+		font-size: 0.72rem;
+		font-weight: 800;
+		letter-spacing: 0.16em;
+		line-height: 1.4;
+		text-transform: uppercase;
+	}
+
+	.rail-title-mark {
+		display: block;
+		width: 3px;
+		height: 1rem;
+		margin-right: 0.65rem;
+		border-radius: 999px;
+		background: #b91c1c;
+	}
+
+	.rail-links {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		padding: 0 0 0 1rem;
+	}
+
+	.rail-links::before {
+		content: "";
+		position: absolute;
+		top: 0.65rem;
+		bottom: 0.65rem;
+		left: 0.21rem;
+		width: 1px;
+		background: linear-gradient(
+			to bottom,
+			rgba(148, 163, 184, 0.12),
+			rgba(148, 163, 184, 0.42),
+			rgba(148, 163, 184, 0.12)
+		);
+	}
+
+	.rail-link {
+		position: relative;
+		display: grid;
+		grid-template-columns: 0.55rem 1fr;
+		gap: 0.55rem;
+		align-items: start;
+		padding: 0.43rem 0.5rem 0.43rem 0;
+		color: #64748b;
+		font-family: "Inter", system-ui, sans-serif;
+		font-size: 0.78rem;
+		font-weight: 560;
+		line-height: 1.42;
+		text-decoration: none;
+		opacity: 0.78;
+		transition:
+			color 180ms ease,
+			opacity 180ms ease,
+			transform 180ms ease;
+	}
+
+	.rail-link--level-3 {
+		padding-left: 0.65rem;
+		font-size: 0.74rem;
+	}
+
+	.rail-link--level-4 {
+		padding-left: 1.15rem;
+		font-size: 0.71rem;
+	}
+
+	.rail-link:hover,
+	.rail-link.is-active {
+		color: #1d4ed8;
+		opacity: 1;
+		transform: translateX(2px);
+	}
+
+	.rail-link-dot {
+		width: 0.38rem;
+		height: 0.38rem;
+		margin-top: 0.34rem;
+		border: 1px solid rgba(100, 116, 139, 0.55);
+		border-radius: 50%;
+		background: #fdfdfd;
+		box-shadow: 0 0 0 3px #fdfdfd;
+		transition:
+			border-color 180ms ease,
+			background-color 180ms ease,
+			box-shadow 180ms ease;
+	}
+
+	.rail-link.is-active .rail-link-dot {
+		border-color: #b91c1c;
+		background: #b91c1c;
+		box-shadow:
+			0 0 0 3px #fdfdfd,
+			0 0 0 4px rgba(185, 28, 28, 0.16);
+	}
+
+	.rail-empty p {
+		margin: -0.15rem 0 0;
+		color: #64748b;
+		font-family: "Libre Baskerville", Georgia, serif;
+		font-size: 0.82rem;
+		font-style: italic;
+		line-height: 1.6;
+	}
+
+	.rail-motif {
+		position: relative;
+		z-index: 1;
+		min-height: 180px;
+		flex: 1;
+		margin: 0.8rem -0.8rem 0 0;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	.rail-motif svg {
+		position: absolute;
+		right: -0.45rem;
+		bottom: -0.5rem;
+		width: min(100%, 250px);
+		height: auto;
+		overflow: visible;
+	}
+
+	.motif-lines {
+		fill: none;
+		stroke: #3b82f6;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 0.7;
+		opacity: 0.12;
+	}
+
+	.motif-lines rect {
+		stroke: none;
+		opacity: 0.48;
+	}
+
+	.motif-pattern-line {
+		fill: none;
+		stroke: #3b82f6;
+		stroke-width: 0.55;
+		opacity: 0.38;
+	}
+
+	.motif-waypoint {
+		fill: #b91c1c;
+		opacity: 0.62;
+	}
+
+	:global(.dark) .rail-title {
+		color: #7f8da0;
+	}
+
+	:global(.dark) .rail-title-mark {
+		background: #ef4444;
+	}
+
+	:global(.dark) .rail-links::before {
+		background: linear-gradient(
+			to bottom,
+			rgba(100, 116, 139, 0.1),
+			rgba(100, 116, 139, 0.38),
+			rgba(100, 116, 139, 0.1)
+		);
+	}
+
+	:global(.dark) .rail-link {
+		color: #94a3b8;
+	}
+
+	:global(.dark) .rail-link:hover,
+	:global(.dark) .rail-link.is-active {
+		color: #93c5fd;
+	}
+
+	:global(.dark) .rail-link-dot {
+		border-color: rgba(148, 163, 184, 0.48);
+		background: #0a0a0a;
+		box-shadow: 0 0 0 3px #0a0a0a;
+	}
+
+	:global(.dark) .rail-link.is-active .rail-link-dot {
+		border-color: #ef4444;
+		background: #ef4444;
+		box-shadow:
+			0 0 0 3px #0a0a0a,
+			0 0 0 4px rgba(239, 68, 68, 0.16);
+	}
+
+	:global(.dark) .rail-empty p {
+		color: #94a3b8;
+	}
+
+	:global(.dark) .motif-lines {
+		stroke: #93c5fd;
+		opacity: 0.14;
+	}
+
+	:global(.dark) .motif-pattern-line {
+		stroke: #93c5fd;
+		opacity: 0.42;
+	}
+
+	:global(.dark) .motif-waypoint {
+		fill: #ef4444;
+	}
+
+	@media print {
+		.article-rail {
+			display: none;
+		}
+	}
+</style>
+
+<script>
+	type ArticleRailWindow = Window & {
+		__articleRailCleanup?: () => void;
+		__articleRailPageLoadBound?: boolean;
+	};
+
+	function setupArticleRail() {
+		const articleRailWindow = window as ArticleRailWindow;
+		articleRailWindow.__articleRailCleanup?.();
+
+		const rail = document.querySelector<HTMLElement>('[data-article-rail]');
+		if (!rail) return;
+
+		const links = Array.from(rail.querySelectorAll<HTMLAnchorElement>('[data-article-heading]'));
+		const headingPairs = links
+			.map((link) => {
+				const id = link.dataset.articleHeading;
+				const heading = id ? document.getElementById(id) : null;
+				return heading && id ? { id, link, heading } : null;
+			})
+			.filter((pair): pair is NonNullable<typeof pair> => Boolean(pair));
+
+		if (headingPairs.length === 0) return;
+
+		const setActive = (id: string) => {
+			for (const pair of headingPairs) {
+				const isActive = pair.id === id;
+				pair.link.classList.toggle('is-active', isActive);
+				if (isActive) {
+					pair.link.setAttribute('aria-current', 'location');
+				} else {
+					pair.link.removeAttribute('aria-current');
+				}
+			}
+		};
+
+		const setInitialActive = () => {
+			const activationLine = window.innerHeight * 0.28;
+			let activePair = headingPairs[0];
+
+			for (const pair of headingPairs) {
+				if (pair.heading.getBoundingClientRect().top <= activationLine) {
+					activePair = pair;
+				} else {
+					break;
+				}
+			}
+
+			setActive(activePair.id);
+		};
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const visibleEntry = entries
+					.filter((entry) => entry.isIntersecting)
+					.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+
+				if (visibleEntry?.target.id) setActive(visibleEntry.target.id);
+			},
+			{
+				rootMargin: '-18% 0px -68% 0px',
+				threshold: [0, 1],
+			},
+		);
+
+		for (const pair of headingPairs) observer.observe(pair.heading);
+
+		const handleHashChange = () => {
+			const id = decodeURIComponent(window.location.hash.slice(1));
+			if (id && headingPairs.some((pair) => pair.id === id)) setActive(id);
+		};
+
+		window.addEventListener('hashchange', handleHashChange);
+		setInitialActive();
+		handleHashChange();
+
+		articleRailWindow.__articleRailCleanup = () => {
+			observer.disconnect();
+			window.removeEventListener('hashchange', handleHashChange);
+		};
+	}
+
+	const articleRailWindow = window as ArticleRailWindow;
+	setupArticleRail();
+
+	if (!articleRailWindow.__articleRailPageLoadBound) {
+		document.addEventListener('astro:page-load', setupArticleRail);
+		articleRailWindow.__articleRailPageLoadBound = true;
+	}
+</script>

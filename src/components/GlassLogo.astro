@@ -1,19 +1,197 @@
 ---
 /**
  * GlassLogo.astro
- * Text-only Apple-inspired glass masthead.
- * Pure CSS — no JavaScript or client hydration required.
+ * Apple-inspired glass brand treatment for the homepage masthead.
+ * Pure CSS and inline SVG — no client hydration required.
  */
 ---
 
-<h1 class="glass-logo-text" data-text="MEDIAN POINT">MEDIAN POINT</h1>
+<div class="masthead-brand">
+	<svg class="hero-geometry hero-geometry--left" viewBox="0 0 520 520" aria-hidden="true">
+		<circle cx="260" cy="260" r="188"></circle>
+		<circle cx="260" cy="260" r="112"></circle>
+		<path d="M260 12V508M12 260H508"></path>
+		<path d="M84 84L436 436M436 84L84 436"></path>
+		<path d="M260 60L304 216L460 260L304 304L260 460L216 304L60 260L216 216Z"></path>
+	</svg>
+
+	<svg class="hero-geometry hero-geometry--right" viewBox="0 0 320 320" aria-hidden="true">
+		<circle cx="160" cy="160" r="116"></circle>
+		<path d="M160 28V292M28 160H292"></path>
+		<path d="M160 58L188 132L262 160L188 188L160 262L132 188L58 160L132 132Z"></path>
+	</svg>
+
+	<div class="compass-mark" aria-hidden="true">
+		<svg viewBox="0 0 96 96">
+			<defs>
+				<linearGradient id="compass-glass" x1="16" y1="10" x2="80" y2="88" gradientUnits="userSpaceOnUse">
+					<stop offset="0" stop-color="#ffffff" stop-opacity="0.92"></stop>
+					<stop offset="0.38" stop-color="#dbeafe" stop-opacity="0.78"></stop>
+					<stop offset="0.72" stop-color="#93c5fd" stop-opacity="0.6"></stop>
+					<stop offset="1" stop-color="#3b82f6" stop-opacity="0.68"></stop>
+				</linearGradient>
+				<linearGradient id="compass-needle" x1="24" y1="18" x2="70" y2="78" gradientUnits="userSpaceOnUse">
+					<stop offset="0" stop-color="#eff6ff"></stop>
+					<stop offset="0.52" stop-color="#93c5fd"></stop>
+					<stop offset="1" stop-color="#2563eb"></stop>
+				</linearGradient>
+			</defs>
+			<circle class="compass-ring compass-ring--outer" cx="48" cy="48" r="27"></circle>
+			<circle class="compass-ring compass-ring--inner" cx="48" cy="48" r="18"></circle>
+			<path class="compass-axis" d="M48 6V90M6 48H90"></path>
+			<path class="compass-axis compass-axis--diagonal" d="M18 18L78 78M78 18L18 78"></path>
+			<path class="compass-needle" d="M57 38L76 19L61 43L74 49L55 53L37 76L43 55L22 47L42 42L57 38Z"></path>
+			<circle class="compass-center" cx="48" cy="48" r="4"></circle>
+		</svg>
+	</div>
+
+	<h1 class="glass-logo-text" data-text="MEDIAN POINT">MEDIAN POINT</h1>
+	<span class="corner-sparkle" aria-hidden="true"></span>
+</div>
 
 <style>
+	:global(.masthead-shell) {
+		position: relative;
+		overflow: hidden;
+		border-bottom-color: rgba(148, 163, 184, 0.22);
+		background:
+			radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.98), transparent 31%),
+			radial-gradient(circle at 76% 42%, rgba(191, 219, 254, 0.28), transparent 33%),
+			linear-gradient(135deg, #f8fafc 0%, #f3f5f8 46%, #e9edf2 100%);
+		isolation: isolate;
+	}
+
+	:global(.masthead-shell)::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background:
+			linear-gradient(115deg, rgba(255, 255, 255, 0.62), transparent 28%),
+			radial-gradient(ellipse at 50% 72%, rgba(59, 130, 246, 0.07), transparent 43%);
+		pointer-events: none;
+	}
+
+	:global(.masthead-content) {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		min-height: 350px;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding-top: 2.9rem;
+		padding-bottom: 2.8rem;
+	}
+
+	.masthead-brand {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.hero-geometry {
+		position: absolute;
+		z-index: -1;
+		width: min(48vw, 520px);
+		height: auto;
+		overflow: visible;
+		fill: none;
+		stroke: #64748b;
+		stroke-width: 2;
+		opacity: 0.045;
+		filter: blur(2px);
+		pointer-events: none;
+	}
+
+	.hero-geometry--left {
+		top: -42%;
+		left: -9%;
+		transform: rotate(-15deg);
+	}
+
+	.hero-geometry--right {
+		right: -4%;
+		bottom: -42%;
+		width: min(34vw, 340px);
+		transform: rotate(18deg);
+		opacity: 0.035;
+	}
+
+	.compass-mark {
+		position: relative;
+		width: 80px;
+		height: 80px;
+		margin-bottom: 1rem;
+		filter:
+			drop-shadow(0 1px 0 rgba(255, 255, 255, 0.94))
+			drop-shadow(0 7px 9px rgba(51, 65, 85, 0.18))
+			drop-shadow(0 17px 24px rgba(37, 99, 235, 0.1));
+	}
+
+	.compass-mark::before {
+		content: "";
+		position: absolute;
+		inset: 12%;
+		z-index: -1;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.28);
+		box-shadow:
+			0 1px 0 rgba(255, 255, 255, 0.88) inset,
+			0 -1px 0 rgba(37, 99, 235, 0.11) inset;
+		-webkit-backdrop-filter: blur(10px) saturate(1.3);
+		backdrop-filter: blur(10px) saturate(1.3);
+	}
+
+	.compass-mark svg {
+		display: block;
+		width: 100%;
+		height: 100%;
+		overflow: visible;
+	}
+
+	.compass-ring {
+		fill: rgba(219, 234, 254, 0.2);
+		stroke: rgba(255, 255, 255, 0.95);
+		stroke-width: 1.2;
+	}
+
+	.compass-ring--inner {
+		fill: none;
+		stroke: rgba(96, 165, 250, 0.48);
+		stroke-width: 1;
+	}
+
+	.compass-axis {
+		fill: none;
+		stroke: rgba(96, 165, 250, 0.34);
+		stroke-linecap: round;
+		stroke-width: 1.1;
+	}
+
+	.compass-axis--diagonal {
+		stroke: rgba(148, 163, 184, 0.28);
+		stroke-width: 0.8;
+	}
+
+	.compass-needle {
+		fill: url("#compass-needle");
+		stroke: rgba(255, 255, 255, 0.88);
+		stroke-linejoin: round;
+		stroke-width: 1;
+	}
+
+	.compass-center {
+		fill: url("#compass-glass");
+		stroke: white;
+		stroke-width: 1;
+	}
+
 	.glass-logo-text {
 		position: relative;
 		display: inline-block;
 		max-width: 100%;
-		margin: 2rem 0;
+		margin: 0;
 		color: transparent;
 		font-family:
 			-apple-system,
@@ -22,57 +200,54 @@
 			"Inter",
 			system-ui,
 			sans-serif;
-		font-size: clamp(1.9rem, 10vw, 2.5rem);
+		font-size: clamp(2.3rem, 8.2vw, 5.8rem);
 		font-weight: 700;
-		letter-spacing: 0.045em;
-		line-height: 1;
-		text-align: center;
+		letter-spacing: 0.055em;
+		line-height: 0.96;
 		white-space: nowrap;
 		background: linear-gradient(
 			180deg,
-			rgba(239, 246, 255, 0.94) 0%,
-			rgba(219, 234, 254, 0.9) 9%,
-			rgba(147, 197, 253, 0.82) 28%,
-			rgba(96, 165, 250, 0.76) 58%,
-			rgba(59, 130, 246, 0.86) 82%,
-			rgba(30, 64, 175, 0.94) 100%
+			rgba(255, 255, 255, 0.98) 0%,
+			rgba(224, 242, 254, 0.92) 13%,
+			rgba(165, 204, 235, 0.76) 43%,
+			rgba(117, 165, 204, 0.78) 68%,
+			rgba(67, 111, 153, 0.92) 100%
 		);
 		-webkit-background-clip: text;
 		background-clip: text;
-		-webkit-text-stroke: 0.55px rgba(219, 234, 254, 0.35);
+		-webkit-text-stroke: 1px rgba(255, 255, 255, 0.72);
 		filter:
-			drop-shadow(0 1px 0 rgba(255, 255, 255, 0.22))
-			drop-shadow(0 2px 2px rgba(30, 64, 175, 0.12));
+			drop-shadow(0 1px 0 rgba(255, 255, 255, 0.96))
+			drop-shadow(0 3px 2px rgba(71, 85, 105, 0.25))
+			drop-shadow(0 10px 9px rgba(51, 65, 85, 0.22))
+			drop-shadow(0 22px 25px rgba(37, 99, 235, 0.1));
 		cursor: default;
-		transition: filter 0.5s ease;
 	}
 
-	/* Soft blue optical depth, visible even against the near-black page */
 	.glass-logo-text::before {
 		content: attr(data-text);
 		position: absolute;
 		inset: 0;
 		z-index: -1;
-		color: rgba(30, 64, 175, 0.36);
-		-webkit-text-stroke: 1px rgba(37, 99, 235, 0.12);
-		filter: blur(3px);
-		transform: translateY(5px) scale(1.003);
+		color: rgba(81, 122, 164, 0.28);
+		-webkit-text-stroke: 1.2px rgba(71, 85, 105, 0.13);
+		filter: blur(3.5px);
+		transform: translate(2px, 7px);
 		pointer-events: none;
 	}
 
-	/* Slow reflection clipped entirely inside the letterforms */
 	.glass-logo-text::after {
 		content: attr(data-text);
 		position: absolute;
 		inset: 0;
 		color: transparent;
 		background: linear-gradient(
-			105deg,
+			108deg,
 			transparent 0%,
 			transparent 40%,
-			rgba(255, 255, 255, 0.08) 46%,
-			rgba(255, 255, 255, 0.58) 50%,
-			rgba(191, 219, 254, 0.12) 54%,
+			rgba(255, 255, 255, 0.12) 46%,
+			rgba(255, 255, 255, 0.76) 50%,
+			rgba(219, 234, 254, 0.16) 54%,
 			transparent 60%,
 			transparent 100%
 		);
@@ -81,94 +256,187 @@
 		-webkit-background-clip: text;
 		background-clip: text;
 		pointer-events: none;
-		animation: textShimmer 12s ease-in-out infinite;
+		animation: titleShimmer 14s ease-in-out infinite;
 	}
 
-	.glass-logo-text:hover {
-		filter:
-			drop-shadow(0 1px 0 rgba(255, 255, 255, 0.3))
-			drop-shadow(0 2px 3px rgba(30, 64, 175, 0.16))
-			brightness(1.06);
+	:global(.masthead-subtitle) {
+		margin: 1.75rem 0 0;
+		color: #2c3338;
+		font-family: "Libre Baskerville", Georgia, serif;
+		font-size: clamp(1rem, 2.3vw, 1.65rem);
+		font-style: italic;
+		line-height: 1.5;
+		text-wrap: balance;
+	}
+
+	:global(.masthead-topics) {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: 0.65rem 1rem;
+		margin-top: 1.45rem;
+		color: #7b8490;
+		font-family: "Inter", system-ui, sans-serif;
+		font-size: clamp(0.66rem, 1.2vw, 0.82rem);
+		font-weight: 500;
+		letter-spacing: 0.17em;
+		line-height: 1.5;
+		text-transform: uppercase;
+	}
+
+	:global(.masthead-topics > span:nth-child(even)) {
+		margin: 0;
+		color: #b91c1c;
+		font-weight: 800;
+		letter-spacing: 0;
+	}
+
+	.corner-sparkle {
+		position: absolute;
+		right: max(2.5%, 1.25rem);
+		bottom: 1.6rem;
+		width: 22px;
+		height: 22px;
+		opacity: 0.62;
+		transform: rotate(45deg);
+	}
+
+	.corner-sparkle::before,
+	.corner-sparkle::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		margin: auto;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.94);
+		box-shadow: 0 3px 10px rgba(100, 116, 139, 0.12);
+	}
+
+	.corner-sparkle::before {
+		width: 4px;
+		height: 100%;
+	}
+
+	.corner-sparkle::after {
+		width: 100%;
+		height: 4px;
+	}
+
+	:global(.dark .masthead-shell) {
+		border-bottom-color: rgba(71, 85, 105, 0.5);
+		background:
+			radial-gradient(circle at 50% 12%, rgba(51, 65, 85, 0.46), transparent 31%),
+			radial-gradient(circle at 76% 42%, rgba(37, 99, 235, 0.13), transparent 33%),
+			linear-gradient(135deg, #111827 0%, #0f172a 52%, #0b1120 100%);
+	}
+
+	:global(.dark .masthead-shell)::before {
+		background:
+			linear-gradient(115deg, rgba(148, 163, 184, 0.08), transparent 28%),
+			radial-gradient(ellipse at 50% 72%, rgba(59, 130, 246, 0.1), transparent 43%);
+	}
+
+	:global(.dark) .hero-geometry {
+		stroke: #bfdbfe;
+		opacity: 0.055;
+	}
+
+	:global(.dark .masthead-subtitle) {
+		color: #cbd5e1;
+	}
+
+	:global(.dark .masthead-topics) {
+		color: #7f8da0;
+	}
+
+	:global(.dark .masthead-topics > span:nth-child(even)) {
+		color: #ef4444;
 	}
 
 	:global(.dark) .glass-logo-text {
 		background: linear-gradient(
 			180deg,
-			rgba(255, 255, 255, 0.96) 0%,
-			rgba(239, 246, 255, 0.93) 9%,
-			rgba(191, 219, 254, 0.86) 28%,
-			rgba(125, 180, 244, 0.8) 58%,
-			rgba(59, 130, 246, 0.9) 82%,
-			rgba(29, 78, 216, 0.97) 100%
+			rgba(255, 255, 255, 0.98) 0%,
+			rgba(219, 234, 254, 0.95) 14%,
+			rgba(147, 197, 253, 0.84) 44%,
+			rgba(96, 165, 250, 0.86) 70%,
+			rgba(37, 99, 235, 0.98) 100%
 		);
 		-webkit-background-clip: text;
 		background-clip: text;
-		-webkit-text-stroke-color: rgba(219, 234, 254, 0.3);
+		-webkit-text-stroke-color: rgba(239, 246, 255, 0.66);
 		filter:
-			drop-shadow(0 1px 0 rgba(255, 255, 255, 0.2))
-			drop-shadow(0 2px 2px rgba(37, 99, 235, 0.16));
+			drop-shadow(0 1px 0 rgba(255, 255, 255, 0.68))
+			drop-shadow(0 4px 3px rgba(0, 0, 0, 0.4))
+			drop-shadow(0 12px 12px rgba(0, 0, 0, 0.34))
+			drop-shadow(0 22px 28px rgba(37, 99, 235, 0.16));
 	}
 
 	:global(.dark) .glass-logo-text::before {
-		color: rgba(37, 99, 235, 0.52);
-		-webkit-text-stroke-color: rgba(96, 165, 250, 0.14);
-		filter: blur(3.5px);
+		color: rgba(37, 99, 235, 0.46);
+		-webkit-text-stroke-color: rgba(96, 165, 250, 0.16);
 	}
 
-	:global(.dark) .glass-logo-text:hover {
-		filter:
-			drop-shadow(0 1px 0 rgba(255, 255, 255, 0.27))
-			drop-shadow(0 2px 3px rgba(37, 99, 235, 0.2))
-			brightness(1.06);
-	}
-
-	:global(.dark) .glass-logo-text::after {
-		background: linear-gradient(
-			105deg,
-			transparent 0%,
-			transparent 40%,
-			rgba(191, 219, 254, 0.07) 46%,
-			rgba(255, 255, 255, 0.54) 50%,
-			rgba(147, 197, 253, 0.1) 54%,
-			transparent 60%,
-			transparent 100%
-		);
-		background-position: 180% 0;
-		background-size: 240% 100%;
-		-webkit-background-clip: text;
-		background-clip: text;
-	}
-
-	@keyframes textShimmer {
+	@keyframes titleShimmer {
 		0%,
-		60% {
+		62% {
 			background-position: 180% 0;
 			opacity: 0;
 		}
-		65% {
+		67% {
 			opacity: 1;
 		}
-		82% {
+		83% {
 			background-position: -80% 0;
 			opacity: 1;
 		}
-		88%,
+		89%,
 		100% {
 			background-position: -80% 0;
 			opacity: 0;
 		}
 	}
 
-	@media (min-width: 768px) {
-		.glass-logo-text {
-			font-size: 3.5rem;
-			letter-spacing: 0.07em;
+	@media (max-width: 640px) {
+		:global(.masthead-content) {
+			min-height: 330px;
+			padding-top: 2.4rem;
+			padding-bottom: 2.35rem;
 		}
-	}
 
-	@media (min-width: 1024px) {
+		.compass-mark {
+			width: 66px;
+			height: 66px;
+			margin-bottom: 0.9rem;
+		}
+
 		.glass-logo-text {
-			font-size: 4rem;
+			font-size: clamp(2rem, 10.5vw, 3rem);
+			letter-spacing: 0.035em;
+		}
+
+		:global(.masthead-subtitle) {
+			margin-top: 1.35rem;
+			font-size: 1rem;
+		}
+
+		:global(.masthead-topics) {
+			max-width: 330px;
+			gap: 0.4rem 0.65rem;
+			margin-top: 1.2rem;
+			font-size: 0.62rem;
+			letter-spacing: 0.12em;
+		}
+
+		.hero-geometry--left {
+			top: -10%;
+			left: -38%;
+			width: 95vw;
+		}
+
+		.hero-geometry--right {
+			display: none;
 		}
 	}
 
@@ -176,10 +444,6 @@
 		.glass-logo-text::after {
 			animation: none;
 			opacity: 0;
-		}
-
-		.glass-logo-text {
-			transition: none;
 		}
 	}
 </style>
