@@ -115,12 +115,8 @@ function getRelativeTime(date: Date) {
 	</head>
 
 	<body class="flex flex-col min-h-screen bg-bg dark:bg-bg-dark relative">
+		<div class="noise-overlay"></div>
 		<Header />
-		
-		<!-- Reading Progress Bar -->
-		<div class="fixed top-0 left-0 w-full h-1 bg-transparent z-50 pointer-events-none">
-			<div id="reading-progress-bar" class="h-full bg-brand dark:bg-brand-dark w-0 transition-all duration-75"></div>
-		</div>
 
 		<article id="article-content" class={themeClass}>
 			<!-- Full Bleed Hero Section -->
@@ -340,17 +336,9 @@ function getRelativeTime(date: Date) {
 			const articleActionsWindow = window as ArticleActionsWindow;
 			
 			function setupScrollEffects() {
-				const progressBar = document.getElementById('reading-progress-bar');
 				const heroImg = document.getElementById('parallax-hero');
 				
 				const handleScroll = () => {
-					if (progressBar) {
-						const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-						const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-						const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
-						progressBar.style.width = scrolled + "%";
-					}
-
 					if (heroImg) {
 						const scrolled = window.scrollY;
 						if (scrolled < window.innerHeight) {
@@ -361,6 +349,27 @@ function getRelativeTime(date: Date) {
 
 				window.addEventListener('scroll', handleScroll, { passive: true });
 				handleScroll();
+
+				// Reveal Observer
+				const observerOptions = {
+					root: null,
+					rootMargin: '0px 0px -5% 0px',
+					threshold: 0.1
+				};
+				const observer = new IntersectionObserver((entries, obs) => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('is-revealed');
+							obs.unobserve(entry.target);
+						}
+					});
+				}, observerOptions);
+
+				const revealElements = document.querySelectorAll('#article-content .prose > p, #article-content .prose > div, #article-content .prose > figure, #article-content .prose > ul, #article-content .prose > blockquote, .article-rail-aside, .latest-articles-aside');
+				revealElements.forEach(el => {
+					el.classList.add('reveal-up');
+					observer.observe(el);
+				});
 			}
 
 			setupArticleActions();
