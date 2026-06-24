@@ -11,8 +11,8 @@
   --color-base-dark: #e2e8f0;
   --color-bg: #fcfbf8;
   --color-bg-dark: #0b1120;
-  --font-sans: "Space Grotesk Variable", sans-serif;
-  --font-serif: "Playfair Display Variable", serif;
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Libre Baskerville", serif;
 }
 
 @layer base {

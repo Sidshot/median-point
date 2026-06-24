@@ -19,8 +19,8 @@ export default {
 				}
 			},
 			fontFamily: {
-				sans: ['"Space Grotesk Variable"', 'sans-serif'],
-				serif: ['"Playfair Display Variable"', 'serif'],
+				sans: ['Inter', 'sans-serif'],
+				serif: ['"Libre Baskerville"', 'serif'],
 			}
 		},
 	},
