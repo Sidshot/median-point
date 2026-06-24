@@ -22,4 +22,13 @@ const blog = defineCollection({
 		}),
 });
 
-export const collections = { blog };
+const settings = defineCollection({
+  loader: glob({ base: './src/content/settings', pattern: 'global.json' }),
+  schema: z.object({
+    siteTheme: z.string().default('theme-default'),
+    typographyPreset: z.string().default('font-sans'),
+    primaryColor: z.string().default('#B91C1C'),
+  }),
+});
+
+export const collections = { blog, settings };

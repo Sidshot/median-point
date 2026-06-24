@@ -1,0 +1,26 @@
+---
+import BlockWrapper from './BlockWrapper.astro';
+const { titleA, titleB, rows = [], ...designProps } = Astro.props;
+---
+<BlockWrapper {...designProps} class={`comparison-table my-10 not-prose ${designProps.class || ''}`}>
+  <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-800">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+          <th class="p-4 font-sans font-bold text-gray-500 dark:text-gray-400">Feature</th>
+          <th class="p-4 font-sans font-bold text-gray-900 dark:text-gray-100 border-l border-gray-200 dark:border-gray-800">{titleA}</th>
+          <th class="p-4 font-sans font-bold text-gray-900 dark:text-gray-100 border-l border-gray-200 dark:border-gray-800">{titleB}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row: any) => (
+          <tr class="border-b border-gray-200 dark:border-gray-800 last:border-0 hover:bg-gray-50/50 dark:hover:bg-gray-900/50 transition-colors">
+            <td class="p-4 font-sans font-medium text-gray-700 dark:text-gray-300">{row.label}</td>
+            <td class="p-4 font-serif text-gray-600 dark:text-gray-400 border-l border-gray-200 dark:border-gray-800">{row.valA}</td>
+            <td class="p-4 font-serif text-gray-600 dark:text-gray-400 border-l border-gray-200 dark:border-gray-800">{row.valB}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</BlockWrapper>

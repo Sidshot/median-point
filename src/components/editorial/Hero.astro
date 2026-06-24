@@ -1,0 +1,70 @@
+---
+import BlockWrapper from './BlockWrapper.astro';
+
+interface Props {
+  headline: string;
+  subtitle?: string;
+  bgType?: 'image' | 'video' | 'gradient' | 'color';
+  bgUrl?: string;
+  overlayOpacity?: string;
+  height?: string;
+  parallax?: boolean;
+  [key: string]: any; // Allow designSchema props to pass through
+}
+
+const {
+  headline,
+  subtitle,
+  bgType = 'image',
+  bgUrl = '',
+  overlayOpacity = 'bg-black/40',
+  height = 'min-h-[50vh]',
+  parallax = false,
+  ...designProps
+} = Astro.props;
+
+// Override some design props so the wrapper handles layout but we control the inside
+const heroClasses = `relative flex items-center justify-center overflow-hidden w-full max-w-none not-prose ${height} ${designProps.class || ''}`;
+
+const isVideo = bgType === 'video' && bgUrl;
+const isImage = bgType === 'image' && bgUrl;
+---
+
+<div class={heroClasses}>
+  {/* Background Layer */}
+  {isVideo && (
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      class="absolute inset-0 w-full h-full object-cover z-0"
+    >
+      <source src={bgUrl} type="video/mp4" />
+    </video>
+  )}
+  {isImage && (
+    <div 
+      class={`absolute inset-0 w-full h-full object-cover z-0 ${parallax ? 'bg-fixed' : ''}`}
+      style={`background-image: url('${bgUrl}'); background-size: cover; background-position: center;`}
+    />
+  )}
+  {(bgType === 'gradient' || bgType === 'color') && (
+    <div class="absolute inset-0 w-full h-full z-0" />
+  )}
+
+  {/* Overlay Layer */}
+  <div class={`absolute inset-0 z-10 ${overlayOpacity}`}></div>
+
+  {/* Content Layer */}
+  <div class="relative z-20 container mx-auto px-6 text-center">
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 drop-shadow-lg leading-tight font-sans tracking-tight">
+      {headline}
+    </h1>
+    {subtitle && (
+      <p class="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto drop-shadow-md font-serif leading-relaxed">
+        {subtitle}
+      </p>
+    )}
+  </div>
+</div>

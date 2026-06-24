@@ -1,0 +1,15 @@
+---
+import BlockWrapper from './BlockWrapper.astro';
+
+interface Props {
+  columns?: string;
+  gap?: string;
+  [key: string]: any;
+}
+
+const { columns = 'grid-cols-1 md:grid-cols-2', gap = 'gap-8', ...designProps } = Astro.props;
+---
+
+<BlockWrapper {...designProps} class={`grid ${columns} ${gap}`}>
+  <slot />
+</BlockWrapper>

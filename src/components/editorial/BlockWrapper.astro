@@ -1,0 +1,47 @@
+---
+const {
+  theme = 'inherit',
+  bgColor = '',
+  bgGradient = '',
+  bgImage = '',
+  padding = '',
+  margin = '',
+  maxWidth = 'max-w-3xl mx-auto',
+  alignment = 'text-left',
+  borderRadius = '',
+  border = '',
+  shadow = 'shadow-none',
+  textColor = '',
+  animation = '',
+  responsiveBehavior = 'block',
+  class: className = '',
+} = Astro.props;
+
+const wrapperClasses = [
+  theme !== 'inherit' ? theme : '',
+  maxWidth,
+  alignment,
+  shadow,
+  animation,
+  responsiveBehavior !== 'block' ? responsiveBehavior : '',
+  className
+].filter(Boolean).join(' ');
+
+const styles: Record<string, string> = {};
+if (bgColor) styles.backgroundColor = bgColor;
+if (bgGradient) styles.backgroundImage = bgGradient;
+if (bgImage) {
+  styles.backgroundImage = `url(${bgImage})`;
+  styles.backgroundSize = 'cover';
+  styles.backgroundPosition = 'center';
+}
+if (padding) styles.padding = padding;
+if (margin) styles.margin = margin;
+if (borderRadius) styles.borderRadius = borderRadius;
+if (border) styles.border = border;
+if (textColor) styles.color = textColor;
+---
+
+<div class={`editorial-block ${wrapperClasses}`} style={styles}>
+  <slot />
+</div>

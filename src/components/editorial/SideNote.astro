@@ -1,0 +1,30 @@
+---
+import BlockWrapper from './BlockWrapper.astro';
+
+interface Props {
+  title?: string;
+  float?: 'none' | 'float-right' | 'float-left';
+  [key: string]: any;
+}
+
+const { title, float = 'none', ...designProps } = Astro.props;
+
+let floatClass = '';
+if (float === 'float-right') floatClass = 'md:float-right md:ml-8 md:w-64 md:mb-4';
+if (float === 'float-left') floatClass = 'md:float-left md:mr-8 md:w-64 md:mb-4';
+
+const defaultDesign = {
+  bgColor: designProps.bgColor || 'rgba(0,0,0,0.02)',
+  padding: designProps.padding || '1rem',
+  border: designProps.border || '1px solid rgba(0,0,0,0.05)',
+  borderRadius: designProps.borderRadius || '0.5rem',
+};
+const mergedProps = { ...defaultDesign, ...designProps };
+---
+
+<BlockWrapper {...mergedProps} class={`sidenote not-prose my-6 text-sm ${floatClass} ${designProps.class || ''}`}>
+  {title && <h5 class="font-bold font-sans text-gray-900 dark:text-gray-100 mb-2">{title}</h5>}
+  <div class="font-serif text-gray-600 dark:text-gray-400 prose prose-sm dark:prose-invert">
+    <slot />
+  </div>
+</BlockWrapper>

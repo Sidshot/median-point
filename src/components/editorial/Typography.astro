@@ -1,0 +1,17 @@
+---
+interface Props {
+  fontFamily?: string;
+  fontWeight?: string;
+  tracking?: string;
+  transform?: string;
+  [key: string]: any;
+}
+
+const { fontFamily = '', fontWeight = '', tracking = '', transform = '' } = Astro.props;
+
+const typoClasses = [fontFamily, fontWeight, tracking, transform].filter(Boolean).join(' ');
+---
+
+<div class={`typography-block ${typoClasses}`}>
+  <slot />
+</div>

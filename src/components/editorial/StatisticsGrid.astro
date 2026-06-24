@@ -1,0 +1,16 @@
+---
+import BlockWrapper from './BlockWrapper.astro';
+const { stats = [], ...designProps } = Astro.props;
+---
+<BlockWrapper {...designProps} class={`stats-grid my-10 not-prose grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ${designProps.class || ''}`}>
+  {stats.map((stat: any) => (
+    <div class="p-6 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm text-center">
+      <div class="flex justify-center items-center mb-2">
+        <span class="text-4xl font-black text-brand dark:text-brand-dark font-sans tracking-tight">{stat.value}</span>
+        {stat.trend === 'up' && <svg class="w-6 h-6 text-green-500 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>}
+        {stat.trend === 'down' && <svg class="w-6 h-6 text-red-500 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>}
+      </div>
+      <div class="text-sm font-sans font-medium text-gray-500 uppercase tracking-widest">{stat.label}</div>
+    </div>
+  ))}
+</BlockWrapper>

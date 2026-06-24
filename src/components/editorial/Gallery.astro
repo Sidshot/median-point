@@ -1,0 +1,18 @@
+---
+import BlockWrapper from './BlockWrapper.astro';
+const { layout = 'grid', images = [], ...designProps } = Astro.props;
+
+const gridClass = layout === 'masonry' 
+  ? 'columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4' 
+  : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4';
+---
+<BlockWrapper {...designProps} class={`gallery-block my-10 not-prose ${designProps.class || ''}`}>
+  <div class={gridClass}>
+    {images.map((img: any) => (
+      <figure class={`m-0 ${layout === 'masonry' ? 'break-inside-avoid mb-4' : ''}`}>
+        <img src={img.src} alt={img.alt} class="w-full h-auto rounded-lg shadow-sm" loading="lazy" />
+        {img.caption && <figcaption class="text-xs text-gray-500 mt-2 font-sans text-center">{img.caption}</figcaption>}
+      </figure>
+    ))}
+  </div>
+</BlockWrapper>

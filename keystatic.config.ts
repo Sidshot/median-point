@@ -1,11 +1,48 @@
-import { config, fields, collection } from '@keystatic/core';
+import { config, fields, collection, singleton } from '@keystatic/core';
 import { block, wrapper, mark } from '@keystatic/core/content-components';
 import { createElement } from 'react';
+import { designSchema } from './src/keystatic/designSchema';
 
 export default config({
   storage: {
     kind: 'github',
     repo: 'Sidshot/median-point'
+  },
+  singletons: {
+    settings: singleton({
+      label: 'Global Settings',
+      path: 'src/content/settings/global',
+      format: 'json',
+      schema: {
+        siteTheme: fields.select({
+          label: 'Global Site Theme',
+          options: [
+            { label: 'Default', value: 'theme-default' },
+            { label: 'Bloomberg', value: 'theme-bloomberg' },
+            { label: 'New York Times', value: 'theme-nyt' },
+            { label: 'Apple', value: 'theme-apple' },
+            { label: 'Medium', value: 'theme-medium' },
+            { label: 'Substack', value: 'theme-substack' },
+            { label: 'Reuters', value: 'theme-reuters' },
+            { label: 'Academic Journal', value: 'theme-academic' },
+            { label: 'Magazine', value: 'theme-magazine' },
+            { label: 'Minimal', value: 'theme-minimal' },
+            { label: 'Dark Editorial', value: 'theme-dark-editorial' },
+          ],
+          defaultValue: 'theme-default',
+        }),
+        typographyPreset: fields.select({
+          label: 'Typography Preset',
+          options: [
+            { label: 'Modern Sans', value: 'font-sans' },
+            { label: 'Classic Serif', value: 'font-serif' },
+            { label: 'Monospace', value: 'font-mono' },
+          ],
+          defaultValue: 'font-sans',
+        }),
+        primaryColor: fields.text({ label: 'Primary Brand Color (Hex)', defaultValue: '#B91C1C' }),
+      },
+    }),
   },
   collections: {
     blog: collection({
@@ -94,6 +131,25 @@ export default config({
                 borderRadius: '2px',
               },
             }),
+            SmallCaps: mark({
+              label: 'Small Caps',
+              icon: createElement('span', { 'aria-hidden': true }, 'Aa'),
+              schema: {},
+              style: {
+                fontVariant: 'small-caps',
+                fontWeight: '600',
+              },
+            }),
+            TextGradient: mark({
+              label: 'Text Gradient',
+              icon: createElement('span', { 'aria-hidden': true }, '✨'),
+              schema: {},
+              style: {
+                background: 'linear-gradient(to right, #B91C1C, #F59E0B)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              },
+            }),
             TextSize: wrapper({
               label: 'Text Size',
               description: 'Wrap text in a specific size.',
@@ -113,7 +169,9 @@ export default config({
             Topline: wrapper({
               label: 'Topline (Forbes-style Box)',
               description: 'A light background box at the top of the article. Put paragraphs and images inside.',
-              schema: {},
+              schema: {
+                ...designSchema,
+              },
             }),
 
             // ── Editorial Layout Components ──
@@ -121,6 +179,7 @@ export default config({
               label: 'Callout Box',
               description: 'A colored callout for notes, warnings, breaking news, or tips.',
               schema: {
+                ...designSchema,
                 variant: fields.select({
                   label: 'Type',
                   options: [
@@ -138,6 +197,7 @@ export default config({
               label: 'Pull Quote',
               description: 'A large, decorative quote to highlight a key statement.',
               schema: {
+                ...designSchema,
                 attribution: fields.text({ label: 'Attribution / Source (optional)' }),
               },
             }),
@@ -145,6 +205,7 @@ export default config({
               label: 'Section Divider',
               description: 'A decorative horizontal divider between sections.',
               schema: {
+                ...designSchema,
                 style: fields.select({
                   label: 'Style',
                   options: [
@@ -171,6 +232,7 @@ export default config({
               label: 'Info Box / Fact Box',
               description: 'A sidebar-style box for key facts, definitions, or data summaries.',
               schema: {
+                ...designSchema,
                 heading: fields.text({ label: 'Heading', defaultValue: 'Key Facts' }),
               },
             }),
@@ -178,6 +240,7 @@ export default config({
               label: 'Related Reading Link',
               description: 'An inline link card to cross-reference another article.',
               schema: {
+                ...designSchema,
                 title: fields.text({ label: 'Article title', validation: { isRequired: true } }),
                 url: fields.text({ label: 'Article URL', validation: { isRequired: true } }),
                 description: fields.text({ label: 'Short description (optional)' }),
@@ -185,10 +248,84 @@ export default config({
             }),
 
             // ── Advanced Layouts ──
+            Hero: block({
+              label: 'Cinematic Hero',
+              description: 'A massive, cinematic hero section for the top of the article.',
+              schema: {
+                ...designSchema,
+                headline: fields.text({ label: 'Headline', validation: { isRequired: true } }),
+                subtitle: fields.text({ label: 'Subtitle', multiline: true }),
+                bgType: fields.select({
+                  label: 'Background Type',
+                  options: [
+                    { label: 'Image', value: 'image' },
+                    { label: 'Video', value: 'video' },
+                    { label: 'Gradient', value: 'gradient' },
+                    { label: 'Solid Color', value: 'color' },
+                  ],
+                  defaultValue: 'image',
+                }),
+                bgUrl: fields.text({ label: 'Background URL (Image or Video)' }),
+                overlayOpacity: fields.select({
+                  label: 'Overlay Opacity',
+                  options: [
+                    { label: '0%', value: 'bg-black/0' },
+                    { label: '20%', value: 'bg-black/20' },
+                    { label: '40%', value: 'bg-black/40' },
+                    { label: '60%', value: 'bg-black/60' },
+                    { label: '80%', value: 'bg-black/80' },
+                  ],
+                  defaultValue: 'bg-black/40',
+                }),
+                height: fields.select({
+                  label: 'Section Height',
+                  options: [
+                    { label: 'Full Screen', value: 'min-h-screen' },
+                    { label: 'Half Screen', value: 'min-h-[50vh]' },
+                    { label: 'Auto', value: 'py-24' },
+                  ],
+                  defaultValue: 'min-h-[50vh]',
+                }),
+                parallax: fields.checkbox({ label: 'Enable Parallax (Images only)', defaultValue: false }),
+              },
+            }),
+            Section: wrapper({
+              label: 'Content Section',
+              description: 'A wrapper to group other blocks together with a shared background or padding.',
+              schema: {
+                ...designSchema,
+              },
+            }),
+            Grid: wrapper({
+              label: 'Responsive Grid',
+              description: 'A flexible grid layout for cards or images.',
+              schema: {
+                ...designSchema,
+                columns: fields.select({
+                  label: 'Columns',
+                  options: [
+                    { label: '2 Columns', value: 'grid-cols-1 md:grid-cols-2' },
+                    { label: '3 Columns', value: 'grid-cols-1 md:grid-cols-3' },
+                    { label: '4 Columns', value: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4' },
+                  ],
+                  defaultValue: 'grid-cols-1 md:grid-cols-2',
+                }),
+                gap: fields.select({
+                  label: 'Gap',
+                  options: [
+                    { label: 'Small', value: 'gap-4' },
+                    { label: 'Medium', value: 'gap-8' },
+                    { label: 'Large', value: 'gap-12' },
+                  ],
+                  defaultValue: 'gap-8',
+                }),
+              },
+            }),
             Columns: wrapper({
               label: 'Columns Grid',
               description: 'Create a multi-column layout.',
               schema: {
+                ...designSchema,
                 layout: fields.select({
                   label: 'Column Layout',
                   options: [
@@ -204,6 +341,7 @@ export default config({
               label: 'Accordion (Collapsible)',
               description: 'A collapsible section for FAQs or extra context.',
               schema: {
+                ...designSchema,
                 title: fields.text({ label: 'Accordion Title', validation: { isRequired: true } }),
               },
             }),
@@ -211,6 +349,7 @@ export default config({
               label: 'Timeline Item',
               description: 'A single point in a vertical timeline.',
               schema: {
+                ...designSchema,
                 date: fields.text({ label: 'Date / Time', validation: { isRequired: true } }),
                 title: fields.text({ label: 'Event Title', validation: { isRequired: true } }),
               },
@@ -220,12 +359,15 @@ export default config({
             DropCap: wrapper({
               label: 'Drop Cap Paragraph',
               description: 'Makes the first letter of this paragraph large and elegant.',
-              schema: {},
+              schema: {
+                ...designSchema,
+              },
             }),
             CustomHeading: block({
               label: 'Custom Colored Heading',
               description: 'A subheading with a specific brand color.',
               schema: {
+                ...designSchema,
                 text: fields.text({ label: 'Heading Text', validation: { isRequired: true } }),
                 color: fields.select({
                   label: 'Color',
@@ -247,12 +389,87 @@ export default config({
                 }),
               },
             }),
+            SideNote: wrapper({
+              label: 'Side Note',
+              description: 'A contextual note that optionally floats to the side on desktop.',
+              schema: {
+                ...designSchema,
+                title: fields.text({ label: 'Note Title' }),
+                float: fields.select({
+                  label: 'Float Direction',
+                  options: [
+                    { label: 'None (Inline)', value: 'none' },
+                    { label: 'Float Right', value: 'float-right' },
+                    { label: 'Float Left', value: 'float-left' },
+                  ],
+                  defaultValue: 'none',
+                }),
+              },
+            }),
+            HistoricalContext: wrapper({
+              label: 'Historical Context',
+              description: 'An editorial block designed specifically for historical background.',
+              schema: {
+                ...designSchema,
+                year: fields.text({ label: 'Year or Era (e.g., "1994", "Cold War")' }),
+              },
+            }),
+            Typography: wrapper({
+              label: 'Advanced Typography',
+              description: 'Granular control over text styles for a specific paragraph.',
+              schema: {
+                fontFamily: fields.select({
+                  label: 'Font Family',
+                  options: [
+                    { label: 'Inherit', value: '' },
+                    { label: 'Sans Serif', value: 'font-sans' },
+                    { label: 'Serif', value: 'font-serif' },
+                    { label: 'Monospace', value: 'font-mono' },
+                  ],
+                  defaultValue: '',
+                }),
+                fontWeight: fields.select({
+                  label: 'Font Weight',
+                  options: [
+                    { label: 'Inherit', value: '' },
+                    { label: 'Light', value: 'font-light' },
+                    { label: 'Normal', value: 'font-normal' },
+                    { label: 'Medium', value: 'font-medium' },
+                    { label: 'Bold', value: 'font-bold' },
+                    { label: 'Black', value: 'font-black' },
+                  ],
+                  defaultValue: '',
+                }),
+                tracking: fields.select({
+                  label: 'Letter Spacing',
+                  options: [
+                    { label: 'Inherit', value: '' },
+                    { label: 'Tight', value: 'tracking-tight' },
+                    { label: 'Normal', value: 'tracking-normal' },
+                    { label: 'Wide', value: 'tracking-wide' },
+                    { label: 'Widest', value: 'tracking-widest' },
+                  ],
+                  defaultValue: '',
+                }),
+                transform: fields.select({
+                  label: 'Text Transform',
+                  options: [
+                    { label: 'None', value: '' },
+                    { label: 'Uppercase', value: 'uppercase' },
+                    { label: 'Lowercase', value: 'lowercase' },
+                    { label: 'Capitalize', value: 'capitalize' },
+                  ],
+                  defaultValue: '',
+                }),
+              },
+            }),
 
             // ── New Elements ──
             ActionBtn: block({
               label: 'Action Button',
               description: 'A clickable button link.',
               schema: {
+                ...designSchema,
                 label: fields.text({ label: 'Button Text', validation: { isRequired: true } }),
                 url: fields.text({ label: 'Button Link URL', validation: { isRequired: true } }),
                 style: fields.select({
@@ -269,8 +486,144 @@ export default config({
               label: 'Google Maps Embed',
               description: 'Embed an interactive Google Map.',
               schema: {
+                ...designSchema,
                 url: fields.text({ label: 'Google Maps Embed URL (src from iframe)', validation: { isRequired: true } }),
                 caption: fields.text({ label: 'Map Caption (Optional)' }),
+              },
+            }),
+            Gallery: block({
+              label: 'Image Gallery',
+              description: 'A responsive gallery of images.',
+              schema: {
+                ...designSchema,
+                layout: fields.select({
+                  label: 'Layout Style',
+                  options: [
+                    { label: 'Masonry', value: 'masonry' },
+                    { label: 'Standard Grid', value: 'grid' },
+                  ],
+                  defaultValue: 'grid',
+                }),
+                images: fields.array(
+                  fields.object({
+                    src: fields.text({ label: 'Image URL' }),
+                    alt: fields.text({ label: 'Alt Text' }),
+                    caption: fields.text({ label: 'Caption (Optional)' }),
+                  }),
+                  { label: 'Images', itemLabel: props => props.fields.alt.value }
+                ),
+              },
+            }),
+            Carousel: block({
+              label: 'Image Carousel',
+              description: 'A horizontal sliding carousel of images.',
+              schema: {
+                ...designSchema,
+                images: fields.array(
+                  fields.object({
+                    src: fields.text({ label: 'Image URL' }),
+                    alt: fields.text({ label: 'Alt Text' }),
+                    caption: fields.text({ label: 'Caption (Optional)' }),
+                  }),
+                  { label: 'Images', itemLabel: props => props.fields.alt.value }
+                ),
+              },
+            }),
+            BeforeAfterSlider: block({
+              label: 'Before/After Slider',
+              description: 'An interactive slider comparing two images.',
+              schema: {
+                ...designSchema,
+                beforeImage: fields.text({ label: 'Before Image URL' }),
+                afterImage: fields.text({ label: 'After Image URL' }),
+                beforeLabel: fields.text({ label: 'Before Label', defaultValue: 'Before' }),
+                afterLabel: fields.text({ label: 'After Label', defaultValue: 'After' }),
+              },
+            }),
+            ComparisonTable: block({
+              label: 'Comparison Table',
+              description: 'A side-by-side comparison table.',
+              schema: {
+                ...designSchema,
+                titleA: fields.text({ label: 'Column A Title' }),
+                titleB: fields.text({ label: 'Column B Title' }),
+                rows: fields.array(
+                  fields.object({
+                    label: fields.text({ label: 'Feature/Row Label' }),
+                    valA: fields.text({ label: 'Column A Value' }),
+                    valB: fields.text({ label: 'Column B Value' }),
+                  }),
+                  { label: 'Table Rows', itemLabel: props => props.fields.label.value }
+                ),
+              },
+            }),
+            ProsCons: block({
+              label: 'Pros & Cons',
+              description: 'A side-by-side list of pros and cons.',
+              schema: {
+                ...designSchema,
+                pros: fields.array(fields.text({ label: 'Pro' }), { label: 'Pros' }),
+                cons: fields.array(fields.text({ label: 'Con' }), { label: 'Cons' }),
+              },
+            }),
+            StatisticsGrid: block({
+              label: 'Statistics Grid',
+              description: 'A grid of large numbers/stats with labels.',
+              schema: {
+                ...designSchema,
+                stats: fields.array(
+                  fields.object({
+                    value: fields.text({ label: 'Value (e.g. 50%, $1M)' }),
+                    label: fields.text({ label: 'Description' }),
+                    trend: fields.select({
+                      label: 'Trend',
+                      options: [
+                        { label: 'None', value: 'none' },
+                        { label: 'Up', value: 'up' },
+                        { label: 'Down', value: 'down' },
+                      ],
+                      defaultValue: 'none',
+                    }),
+                  }),
+                  { label: 'Statistics', itemLabel: props => props.fields.label.value }
+                ),
+              },
+            }),
+            FAQ: block({
+              label: 'FAQ Section',
+              description: 'An interactive accordion list of Frequently Asked Questions.',
+              schema: {
+                ...designSchema,
+                questions: fields.array(
+                  fields.object({
+                    question: fields.text({ label: 'Question' }),
+                    answer: fields.text({ label: 'Answer', multiline: true }),
+                  }),
+                  { label: 'Q&A Items', itemLabel: props => props.fields.question.value }
+                ),
+              },
+            }),
+            References: block({
+              label: 'References / Citations',
+              description: 'A stylized list of academic or journalistic references at the bottom of the article.',
+              schema: {
+                ...designSchema,
+                title: fields.text({ label: 'Title', defaultValue: 'References' }),
+                citations: fields.array(
+                  fields.object({
+                    text: fields.text({ label: 'Citation Text (e.g. APA format)', multiline: true }),
+                    url: fields.text({ label: 'Link (Optional)' }),
+                  }),
+                  { label: 'Citations', itemLabel: props => props.fields.text.value }
+                ),
+              },
+            }),
+            CustomHTML: block({
+              label: 'Custom HTML / Embed',
+              description: 'Raw HTML for third-party embeds (Datawrapper, Flourish, generic scripts).',
+              schema: {
+                ...designSchema,
+                code: fields.text({ label: 'HTML Code', multiline: true }),
               },
             }),
           },

@@ -1,0 +1,21 @@
+---
+import BlockWrapper from './BlockWrapper.astro';
+const { questions = [], ...designProps } = Astro.props;
+---
+<BlockWrapper {...designProps} class={`faq-block my-10 not-prose ${designProps.class || ''}`}>
+  <div class="space-y-4">
+    {questions.map((q: any) => (
+      <details class="group bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-sm [&_summary::-webkit-details-marker]:hidden">
+        <summary class="flex cursor-pointer items-center justify-between gap-1.5 p-4 font-sans font-medium text-gray-900 dark:text-gray-100">
+          <h2 class="text-lg">{q.question}</h2>
+          <svg class="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class="p-4 pt-0 text-gray-600 dark:text-gray-400 font-serif leading-relaxed">
+          {q.answer}
+        </div>
+      </details>
+    ))}
+  </div>
+</BlockWrapper>

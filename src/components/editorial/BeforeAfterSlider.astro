@@ -1,0 +1,45 @@
+---
+import BlockWrapper from './BlockWrapper.astro';
+const { beforeImage, afterImage, beforeLabel = 'Before', afterLabel = 'After', ...designProps } = Astro.props;
+const id = Math.random().toString(36).substring(7);
+---
+<BlockWrapper {...designProps} class={`before-after-slider my-10 not-prose relative overflow-hidden rounded-xl shadow-lg ${designProps.class || ''}`}>
+  <div class="relative w-full aspect-video select-none" id={`ba-${id}`}>
+    {/* After Image (Background) */}
+    <img src={afterImage} class="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+    <span class="absolute bottom-4 right-4 bg-black/60 text-white px-2 py-1 text-xs font-sans rounded z-0">{afterLabel}</span>
+    
+    {/* Before Image (Foreground, clipped) */}
+    <div class="absolute inset-0 w-full h-full z-10 clipper" style="clip-path: inset(0 50% 0 0);">
+      <img src={beforeImage} class="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+      <span class="absolute bottom-4 left-4 bg-black/60 text-white px-2 py-1 text-xs font-sans rounded">{beforeLabel}</span>
+    </div>
+
+    {/* Range Slider */}
+    <input type="range" min="0" max="100" value="50" class="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-20 slider" />
+    
+    {/* Slider Handle (Visual) */}
+    <div class="absolute top-0 bottom-0 left-[50%] w-1 bg-white cursor-ew-resize z-10 pointer-events-none handle transform -translate-x-1/2 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center">
+        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+      </div>
+    </div>
+  </div>
+</BlockWrapper>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll('.before-after-slider').forEach(container => {
+      const slider = container.querySelector('.slider') as HTMLInputElement;
+      const clipper = container.querySelector('.clipper') as HTMLElement;
+      const handle = container.querySelector('.handle') as HTMLElement;
+      if(slider && clipper && handle) {
+        slider.addEventListener('input', (e) => {
+          const val = (e.target as HTMLInputElement).value;
+          clipper.style.clipPath = `inset(0 ${100 - parseFloat(val)}% 0 0)`;
+          handle.style.left = `${val}%`;
+        });
+      }
+    });
+  });
+</script>

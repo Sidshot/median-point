@@ -1,0 +1,7 @@
+---
+import BlockWrapper from './BlockWrapper.astro';
+const { code = '', ...designProps } = Astro.props;
+---
+<BlockWrapper {...designProps} class={`custom-html-block my-8 not-prose ${designProps.class || ''}`}>
+  <div set:html={code} />
+</BlockWrapper>

@@ -1,0 +1,20 @@
+---
+import BlockWrapper from './BlockWrapper.astro';
+const { images = [], ...designProps } = Astro.props;
+---
+<BlockWrapper {...designProps} class={`carousel-block my-10 not-prose ${designProps.class || ''}`}>
+  <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide">
+    {images.map((img: any) => (
+      <div class="snap-center shrink-0 w-full md:w-3/4 first:ml-0 last:mr-0">
+        <figure class="m-0">
+          <img src={img.src} alt={img.alt} class="w-full h-64 md:h-96 object-cover rounded-xl shadow-md" loading="lazy" />
+          {img.caption && <figcaption class="text-sm text-gray-500 mt-2 font-sans text-center">{img.caption}</figcaption>}
+        </figure>
+      </div>
+    ))}
+  </div>
+</BlockWrapper>
+<style>
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+</style>

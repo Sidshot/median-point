@@ -1,0 +1,18 @@
+---
+import BlockWrapper from './BlockWrapper.astro';
+const { title = 'References', citations = [], ...designProps } = Astro.props;
+---
+<BlockWrapper {...designProps} class={`references-block my-12 pt-8 border-t border-gray-200 dark:border-gray-800 not-prose ${designProps.class || ''}`}>
+  <h3 class="text-sm font-bold uppercase tracking-widest text-gray-500 font-sans mb-4">{title}</h3>
+  <ol class="list-decimal list-outside ml-4 space-y-2 text-xs md:text-sm text-gray-500 font-sans">
+    {citations.map((cit: any) => (
+      <li class="pl-2">
+        {cit.url ? (
+          <a href={cit.url} target="_blank" rel="noopener noreferrer" class="hover:text-brand dark:hover:text-brand-dark hover:underline">{cit.text}</a>
+        ) : (
+          <span>{cit.text}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</BlockWrapper>

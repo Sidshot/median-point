@@ -1,17 +1,22 @@
 ---
+import BlockWrapper from './BlockWrapper.astro';
+
 interface Props {
   attribution?: string;
+  [key: string]: any;
 }
 
-const { attribution } = Astro.props;
+const { attribution, ...designProps } = Astro.props;
 ---
 
-<figure class="pull-quote not-prose" role="figure">
-  <div class="pull-quote-mark">"</div>
-  <blockquote class="pull-quote-text">
-    <slot />
-  </blockquote>
-  {attribution && (
-    <figcaption class="pull-quote-attribution">— {attribution}</figcaption>
-  )}
-</figure>
+<BlockWrapper {...designProps} class={`pull-quote not-prose ${designProps.class || ''}`}>
+  <figure role="figure" class="m-0 p-0">
+    <div class="pull-quote-mark">"</div>
+    <blockquote class="pull-quote-text">
+      <slot />
+    </blockquote>
+    {attribution && (
+      <figcaption class="pull-quote-attribution">— {attribution}</figcaption>
+    )}
+  </figure>
+</BlockWrapper>

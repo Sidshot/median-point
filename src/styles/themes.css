@@ -1,0 +1,107 @@
+@layer base {
+  .theme-default {
+    --theme-font-main: var(--font-sans);
+    --theme-bg: #ffffff;
+    --theme-text: #111827;
+  }
+  .theme-bloomberg {
+    --theme-font-main: var(--font-mono);
+    --theme-bg: #000000;
+    --theme-text: #ffffff;
+    --theme-accent: #00a1ff;
+    --theme-border: #333333;
+    font-family: var(--theme-font-main);
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+  .theme-nyt {
+    --theme-font-main: var(--font-serif);
+    --theme-bg: #ffffff;
+    --theme-text: #000000;
+    --theme-accent: #000000;
+    --theme-border: #e2e2e2;
+    font-family: var(--theme-font-main);
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+  .theme-apple {
+    --theme-font-main: var(--font-sans);
+    --theme-bg: #fbfbfd;
+    --theme-text: #1d1d1f;
+    --theme-accent: #0066cc;
+    --theme-border: #d2d2d7;
+    font-family: var(--theme-font-main);
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+  .theme-medium {
+    --theme-font-main: var(--font-serif);
+    --theme-bg: #ffffff;
+    --theme-text: #242424;
+    --theme-accent: #1a8917;
+    --theme-border: #f2f2f2;
+    font-family: var(--theme-font-main);
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+  .theme-substack {
+    --theme-font-main: var(--font-serif);
+    --theme-bg: #fdfdfd;
+    --theme-text: #333232;
+    --theme-accent: #ff6719;
+    --theme-border: #e8e8e8;
+    font-family: var(--theme-font-main);
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+  .theme-reuters {
+    --theme-font-main: var(--font-sans);
+    --theme-bg: #ffffff;
+    --theme-text: #404040;
+    --theme-accent: #fa6400;
+    --theme-border: #cccccc;
+    font-family: var(--theme-font-main);
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+  .theme-academic {
+    --theme-font-main: var(--font-serif);
+    --theme-bg: #fdfcf8;
+    --theme-text: #222222;
+    --theme-accent: #000080;
+    --theme-border: #e0e0e0;
+    font-family: var(--theme-font-main);
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+  .theme-magazine {
+    --theme-font-main: var(--font-sans);
+    --theme-bg: #fff0f5;
+    --theme-text: #2d2d2d;
+    --theme-accent: #e6005c;
+    --theme-border: #ffccdd;
+    font-family: var(--theme-font-main);
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+  .theme-minimal {
+    --theme-font-main: var(--font-sans);
+    --theme-bg: #fafafa;
+    --theme-text: #555555;
+    --theme-accent: #888888;
+    --theme-border: #eeeeee;
+    font-family: var(--theme-font-main);
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+  .theme-dark-editorial {
+    --theme-font-main: var(--font-serif);
+    --theme-bg: #121212;
+    --theme-text: #e0e0e0;
+    --theme-accent: #d4af37;
+    --theme-border: #2a2a2a;
+    font-family: var(--theme-font-main);
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+}

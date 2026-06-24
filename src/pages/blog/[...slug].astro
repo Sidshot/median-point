@@ -21,12 +21,29 @@ import Topline from '../../components/editorial/Topline.astro';
 
 // Phase 2, 3, 4: Advanced Components
 import Columns from '../../components/editorial/Columns.astro';
+import Hero from '../../components/editorial/Hero.astro';
+import Section from '../../components/editorial/Section.astro';
+import Grid from '../../components/editorial/Grid.astro';
 import Accordion from '../../components/editorial/Accordion.astro';
 import Timeline from '../../components/editorial/Timeline.astro';
 import DropCap from '../../components/editorial/DropCap.astro';
 import CustomHeading from '../../components/editorial/CustomHeading.astro';
 import ActionBtn from '../../components/editorial/ActionBtn.astro';
 import MapEmbed from '../../components/editorial/MapEmbed.astro';
+import SideNote from '../../components/editorial/SideNote.astro';
+import HistoricalContext from '../../components/editorial/HistoricalContext.astro';
+import Typography from '../../components/editorial/Typography.astro';
+import SmallCaps from '../../components/editorial/SmallCaps.astro';
+import TextGradient from '../../components/editorial/TextGradient.astro';
+import Gallery from '../../components/editorial/Gallery.astro';
+import Carousel from '../../components/editorial/Carousel.astro';
+import BeforeAfterSlider from '../../components/editorial/BeforeAfterSlider.astro';
+import ComparisonTable from '../../components/editorial/ComparisonTable.astro';
+import ProsCons from '../../components/editorial/ProsCons.astro';
+import StatisticsGrid from '../../components/editorial/StatisticsGrid.astro';
+import FAQ from '../../components/editorial/FAQ.astro';
+import References from '../../components/editorial/References.astro';
+import CustomHTML from '../../components/editorial/CustomHTML.astro';
 import { getPublishedPosts } from '../../utils/posts';
 
 export async function getStaticPaths() {
@@ -60,11 +77,28 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 		RelatedReading,
 		Topline,
 		Columns,
+		Hero,
+		Section,
+		Grid,
 		Accordion,
 		Timeline,
 		DropCap,
 		CustomHeading,
 		ActionBtn,
 		MapEmbed,
+		SideNote,
+		HistoricalContext,
+		Typography,
+		SmallCaps,
+		TextGradient,
+		Gallery,
+		Carousel,
+		BeforeAfterSlider,
+		ComparisonTable,
+		ProsCons,
+		StatisticsGrid,
+		FAQ,
+		References,
+		CustomHTML,
 	}} />
 </BlogPost>
