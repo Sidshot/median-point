@@ -126,47 +126,45 @@ function getRelativeTime(date: Date) {
 				<div class="lg:col-span-8 xl:col-span-6 w-full max-w-[720px] mx-auto">
 					<article id="article-content" class={themeClass}>
 				
-				<div class="mb-8 text-center pb-8 border-b border-gray-200 dark:border-gray-800">
-					<div class="text-sm text-gray-500 dark:text-gray-400 font-sans mb-4 flex items-center justify-center space-x-2 flex-wrap">
-						<a href="/" class="hover:text-brand dark:hover:text-brand-dark transition-colors">Home</a>
-						<span>&rarr;</span>
-						<a href="/archive" class="hover:text-brand dark:hover:text-brand-dark transition-colors">Archive</a>
-						{category && (
-							<>
-								<span>&rarr;</span>
-								<a href={`/archive?category=${encodeURIComponent(category)}`} class="hover:text-brand dark:hover:text-brand-dark transition-colors">{category}</a>
-							</>
-						)}
-						<span>&rarr;</span>
-						<span class="text-gray-900 dark:text-gray-100 truncate max-w-[200px] sm:max-w-xs" title={title}>{title}</span>
-					</div>
-					<h1 class={`text-4xl md:text-5xl font-black mb-6 leading-tight ${headingColor === 'brand' ? 'text-brand dark:text-brand-dark' : 'text-gray-900 dark:text-gray-100'}`}>{title}</h1>
-					<div class="flex items-center justify-center text-sm text-gray-500 font-sans space-x-3 mb-2 flex-wrap gap-y-2">
-						<div class="font-bold text-gray-800 dark:text-gray-200">{author || 'Sudhanshu Verma'}</div>
-						<span>•</span>
-						<div class="flex items-center space-x-1">
-							<FormattedDate date={pubDate} />
-							<span class="text-gray-400 italic">({getRelativeTime(pubDate)})</span>
-						</div>
-						<span class="hidden md:inline">•</span>
-						<div id="reading-time-display" class="font-medium text-brand dark:text-brand-dark hidden md:block">
-							<span>{readingTime}</span> min read
-						</div>
-					</div>
-					{updatedDate && (
-						<div class="text-xs text-gray-400 italic mt-2">
-							Last updated: <FormattedDate date={updatedDate} />
+				<header class="mb-10 pb-6 border-b border-gray-100 dark:border-gray-800">
+					{category && (
+						<div class="mb-4">
+							<a href={`/archive?category=${encodeURIComponent(category)}`} class="inline-block text-xs font-bold uppercase tracking-widest text-brand dark:text-brand-dark hover:underline">
+								{category}
+							</a>
 						</div>
 					)}
-				</div>
+					
+					<h1 class={`text-4xl md:text-5xl lg:text-6xl font-black mb-8 leading-tight tracking-tight ${headingColor === 'brand' ? 'text-brand dark:text-brand-dark' : 'text-gray-900 dark:text-gray-100'}`}>
+						{title}
+					</h1>
+
+					<div class="flex items-center mt-6">
+						<img src="/sudhanshu.png" alt={author || 'Sudhanshu Verma'} class="w-12 h-12 rounded-full object-cover mr-4 border border-gray-200 dark:border-gray-800" />
+						<div class="flex flex-col">
+							<span class="font-bold text-gray-900 dark:text-gray-100 text-sm">{author || 'Sudhanshu Verma'}</span>
+							<div class="flex items-center text-sm text-gray-500 font-sans space-x-2 mt-0.5">
+								<FormattedDate date={pubDate} />
+								<span>·</span>
+								<span id="reading-time-display">{readingTime} min read</span>
+								{updatedDate && (
+									<>
+										<span class="hidden sm:inline">·</span>
+										<span class="hidden sm:inline italic">Updated <FormattedDate date={updatedDate} /></span>
+									</>
+								)}
+							</div>
+						</div>
+					</div>
+				</header>
 
 				{displayImage && (
 					<div class="mb-10 w-full">
-						<img class="w-full h-auto rounded-sm object-cover max-h-[600px]" src={displayImage} alt={title} />
+						<img class="w-full h-auto rounded-md shadow-xl object-cover max-h-[600px]" src={displayImage} alt={title} />
 					</div>
 				)}
 				
-				<div class={`prose dark:prose-invert prose-lg md:prose-xl max-w-none font-serif leading-relaxed text-justify text-gray-800 dark:text-gray-200 ${headingColor === 'brand' ? 'prose-headings:text-brand dark:prose-headings:text-brand-dark' : ''}`}>
+				<div class={`prose dark:prose-invert prose-lg md:prose-xl max-w-none font-serif leading-relaxed text-justify text-gray-800 dark:text-gray-200 prose-img:shadow-xl prose-img:rounded-md ${headingColor === 'brand' ? 'prose-headings:text-brand dark:prose-headings:text-brand-dark' : ''}`}>
 					<slot />
 				</div>
 
