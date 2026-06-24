@@ -9,10 +9,10 @@
   --color-brand-dark: #ef4444;
   --color-base: #1a1a1a;
   --color-base-dark: #e2e8f0;
-  --color-bg: #fdfdfd;
+  --color-bg: #fcfbf8;
   --color-bg-dark: #0b1120;
-  --font-sans: "Inter", sans-serif;
-  --font-serif: "Libre Baskerville", serif;
+  --font-sans: "Space Grotesk Variable", sans-serif;
+  --font-serif: "Playfair Display Variable", serif;
 }
 
 @layer base {
@@ -74,8 +74,14 @@
 
 @layer components {
   /* ─── Existing Prose Styles ─── */
+  .prose {
+    line-height: 1.8;
+  }
+  .prose p {
+    margin-bottom: 1.6em;
+  }
   .article-body > p:first-of-type::first-letter {
-    @apply float-left text-6xl font-black leading-none mr-3 mt-2 text-brand dark:text-brand-dark;
+    @apply float-left text-7xl font-black leading-none mr-4 mt-2 text-brand dark:text-brand-dark;
   }
   .prose a:hover {
     @apply opacity-80;
