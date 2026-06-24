@@ -29,6 +29,7 @@ export const designSchema = {
     options: [
       { label: 'Content Width (Prose)', value: 'max-w-3xl mx-auto' },
       { label: 'Wide (1000px)', value: 'max-w-5xl mx-auto' },
+      { label: 'Breakout (Wider than content)', value: 'breakout-layout' },
       { label: 'Full Width', value: 'w-full max-w-none' },
     ],
     defaultValue: 'max-w-3xl mx-auto',

@@ -10,8 +10,8 @@ import { getPublishedPosts } from "../utils/posts";
 
 const posts = getPublishedPosts(await getCollection("blog"));
 
-const featuredPost = posts[0];
-const remainingPosts = posts.slice(1);
+const bentoPosts = posts.slice(0, 4);
+const remainingPosts = posts.slice(4);
 
 const getReadingTime = (content?: string) => {
 	if (!content) return 1;
@@ -89,55 +89,95 @@ const getFirstImage = (body?: string) => {
 			</div>
 
 			<!-- ═══════════════════════════════════════════ -->
-			<!-- FEATURED STORY — Newspaper-style hero      -->
+			<!-- FEATURED BENTO BOX — Magazine grid          -->
 			<!-- ═══════════════════════════════════════════ -->
-			{featuredPost && (
-				<section class="featured-story border-b border-gray-200 dark:border-gray-800">
-					<div class="max-w-6xl mx-auto px-4 py-10 md:py-14">
-						<a href={`/blog/${featuredPost.id}/`} class="block no-underline group">
-							<div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-								{/* Article Image */}
-								{getFirstImage(featuredPost.body) ? (
-									<div class="featured-image-shell overflow-hidden rounded-lg">
-										<img 
-											src={getFirstImage(featuredPost.body)} 
-											alt={featuredPost.data.title}
-											class="w-full h-64 md:h-80 object-cover group-hover:scale-[1.02] transition-transform duration-500"
-											loading="eager"
-										/>
-									</div>
-								) : (
-									<div class="w-full h-64 md:h-80 bg-gray-100 dark:bg-gray-900 rounded-lg flex items-center justify-center">
-										<span class="text-5xl font-serif font-bold text-gray-200 dark:text-gray-800">MP</span>
-									</div>
-								)}
-								{/* Article Content */}
-								<div>
-									<div class="flex items-center gap-3 mb-4">
-										<span class="text-xs font-bold text-white bg-brand dark:bg-brand-dark px-3 py-1 rounded-sm uppercase tracking-widest font-sans">
-											{featuredPost.data.category || "Analysis"}
+			{bentoPosts.length > 0 && (
+				<section class="featured-bento border-b border-gray-200 dark:border-gray-800">
+					<div class="max-w-6xl mx-auto px-4 py-8 md:py-12">
+						<div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:auto-rows-[250px] lg:auto-rows-[300px]">
+							{/* 1st Article - Large (2 cols, 2 rows) */}
+							{bentoPosts[0] && (
+								<a href={`/blog/${bentoPosts[0].id}/`} class="block md:col-span-2 md:row-span-2 group no-underline relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 min-h-[400px] md:min-h-0">
+									{getFirstImage(bentoPosts[0].body) ? (
+										<img src={getFirstImage(bentoPosts[0].body)} alt={bentoPosts[0].data.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+									) : (
+										<div class="absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-800 text-6xl font-serif text-gray-300 dark:text-gray-700">MP</div>
+									)}
+									<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+									<div class="absolute inset-x-0 bottom-0 p-6 md:p-8 flex flex-col justify-end text-white z-10">
+										<span class="text-xs font-bold bg-brand text-white px-3 py-1 rounded-sm uppercase tracking-widest font-sans self-start mb-4">
+											{bentoPosts[0].data.category || "Analysis"}
 										</span>
-										<span class="text-xs font-bold text-brand dark:text-brand-dark uppercase tracking-widest font-sans">
-											Featured
+										<h2 class="text-2xl md:text-4xl font-black mb-3 leading-tight font-sans drop-shadow-md">
+											{bentoPosts[0].data.title}
+										</h2>
+										<p class="text-sm md:text-base text-gray-200 font-serif line-clamp-2 drop-shadow-sm">
+											{bentoPosts[0].data.description}
+										</p>
+									</div>
+								</a>
+							)}
+							
+							{/* 2nd Article - Wide (2 cols, 1 row) */}
+							{bentoPosts[1] && (
+								<a href={`/blog/${bentoPosts[1].id}/`} class="block md:col-span-2 md:row-span-1 group no-underline relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 min-h-[250px] md:min-h-0">
+									{getFirstImage(bentoPosts[1].body) ? (
+										<img src={getFirstImage(bentoPosts[1].body)} alt={bentoPosts[1].data.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+									) : (
+										<div class="absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-800 text-4xl font-serif text-gray-300 dark:text-gray-700">MP</div>
+									)}
+									<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+									<div class="absolute inset-x-0 bottom-0 p-6 flex flex-col justify-end text-white z-10">
+										<span class="text-[10px] font-bold text-brand uppercase tracking-widest font-sans self-start mb-2 drop-shadow-md">
+											{bentoPosts[1].data.category || "Analysis"}
 										</span>
+										<h2 class="text-xl md:text-2xl font-bold leading-tight font-sans drop-shadow-md">
+											{bentoPosts[1].data.title}
+										</h2>
 									</div>
-									<h2 class="text-3xl md:text-4xl font-black mb-4 text-gray-900 dark:text-gray-100 group-hover:text-brand dark:group-hover:text-brand-dark transition-colors leading-tight font-sans">
-										{featuredPost.data.title}
-									</h2>
-									<p class="text-lg text-gray-600 dark:text-gray-400 font-serif mb-5 leading-relaxed line-clamp-3">
-										{featuredPost.data.description}
-									</p>
-									<div class="flex items-center text-sm text-gray-500 font-sans gap-3">
-										<img src="/sudhanshu.png" alt="Author" class="w-7 h-7 rounded-full object-cover border border-gray-200 dark:border-gray-700" />
-										<span class="font-medium text-gray-700 dark:text-gray-300">{featuredPost.data.author || "Sudhanshu Verma"}</span>
-										<span class="opacity-50">·</span>
-										<FormattedDate date={featuredPost.data.pubDate} />
-										<span class="opacity-50">·</span>
-										<span>{getReadingTime(featuredPost.body)} min read</span>
+								</a>
+							)}
+
+							{/* 3rd Article - Small (1 col, 1 row) */}
+							{bentoPosts[2] && (
+								<a href={`/blog/${bentoPosts[2].id}/`} class="block md:col-span-1 md:row-span-1 group no-underline relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 min-h-[250px] md:min-h-0">
+									{getFirstImage(bentoPosts[2].body) ? (
+										<img src={getFirstImage(bentoPosts[2].body)} alt={bentoPosts[2].data.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+									) : (
+										<div class="absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-800 text-3xl font-serif text-gray-300 dark:text-gray-700">MP</div>
+									)}
+									<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+									<div class="absolute inset-x-0 bottom-0 p-5 flex flex-col justify-end text-white z-10">
+										<span class="text-[10px] font-bold text-brand uppercase tracking-widest font-sans self-start mb-2 drop-shadow-md">
+											{bentoPosts[2].data.category || "Analysis"}
+										</span>
+										<h2 class="text-lg md:text-xl font-bold leading-tight font-sans drop-shadow-md line-clamp-3">
+											{bentoPosts[2].data.title}
+										</h2>
 									</div>
-								</div>
-							</div>
-						</a>
+								</a>
+							)}
+
+							{/* 4th Article - Small (1 col, 1 row) */}
+							{bentoPosts[3] && (
+								<a href={`/blog/${bentoPosts[3].id}/`} class="block md:col-span-1 md:row-span-1 group no-underline relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 min-h-[250px] md:min-h-0">
+									{getFirstImage(bentoPosts[3].body) ? (
+										<img src={getFirstImage(bentoPosts[3].body)} alt={bentoPosts[3].data.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+									) : (
+										<div class="absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-800 text-3xl font-serif text-gray-300 dark:text-gray-700">MP</div>
+									)}
+									<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+									<div class="absolute inset-x-0 bottom-0 p-5 flex flex-col justify-end text-white z-10">
+										<span class="text-[10px] font-bold text-brand uppercase tracking-widest font-sans self-start mb-2 drop-shadow-md">
+											{bentoPosts[3].data.category || "Analysis"}
+										</span>
+										<h2 class="text-lg md:text-xl font-bold leading-tight font-sans drop-shadow-md line-clamp-3">
+											{bentoPosts[3].data.title}
+										</h2>
+									</div>
+								</a>
+							)}
+						</div>
 					</div>
 				</section>
 			)}

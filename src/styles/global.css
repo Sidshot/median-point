@@ -435,6 +435,15 @@
     opacity: 1;
   }
   
+  .breakout-layout {
+    width: 100vw !important;
+    max-width: 900px !important;
+    margin-left: 50% !important;
+    transform: translateX(-50%) !important;
+    position: relative;
+    z-index: 10;
+  }
+  
   .noise-overlay {
     position: fixed;
     top: 0;
