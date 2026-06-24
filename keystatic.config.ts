@@ -76,6 +76,15 @@ export default config({
           ],
           defaultValue: 'Analysis',
         }),
+        headingColor: fields.select({
+          label: 'Heading Color',
+          description: 'Color for the main headline and all subheadings.',
+          options: [
+            { label: 'Deep Red (Brand)', value: 'brand' },
+            { label: 'Black/Default', value: 'default' },
+          ],
+          defaultValue: 'brand',
+        }),
         tags: fields.array(
           fields.text({ label: 'Tag' }),
           { label: 'Tags', itemLabel: props => props.value }
@@ -168,7 +177,7 @@ export default config({
             }),
             Topline: wrapper({
               label: 'Topline (Forbes-style Box)',
-              description: 'A light background box at the top of the article. Put paragraphs and images inside.',
+              description: 'FAQ Guide: Use this for a Forbes-style summary highlight at the very top of your article.',
               schema: {
                 ...designSchema,
               },
@@ -365,7 +374,7 @@ export default config({
             }),
             CustomHeading: block({
               label: 'Custom Colored Heading',
-              description: 'A subheading with a specific brand color.',
+              description: 'FAQ Guide: A colored H2 or H3 heading. Overrides the default theme colors.',
               schema: {
                 ...designSchema,
                 text: fields.text({ label: 'Heading Text', validation: { isRequired: true } }),
@@ -391,7 +400,7 @@ export default config({
             }),
             SideNote: wrapper({
               label: 'Side Note',
-              description: 'A contextual note that optionally floats to the side on desktop.',
+              description: 'FAQ Guide: A box that floats to the left or right of paragraphs on large screens, keeping the main text flowing.',
               schema: {
                 ...designSchema,
                 title: fields.text({ label: 'Note Title' }),
@@ -408,7 +417,7 @@ export default config({
             }),
             HistoricalContext: wrapper({
               label: 'Historical Context',
-              description: 'An editorial block designed specifically for historical background.',
+              description: 'FAQ Guide: Styled with prominent "Year" labels to clearly separate historical context from modern analysis.',
               schema: {
                 ...designSchema,
                 year: fields.text({ label: 'Year or Era (e.g., "1994", "Cold War")' }),
@@ -416,7 +425,7 @@ export default config({
             }),
             Typography: wrapper({
               label: 'Advanced Typography',
-              description: 'Granular control over text styles for a specific paragraph.',
+              description: 'FAQ Guide: The ultimate font override. Change font family, weight, spacing, or capitalization for any text inside.',
               schema: {
                 fontFamily: fields.select({
                   label: 'Font Family',
@@ -467,7 +476,7 @@ export default config({
             // ── New Elements ──
             ActionBtn: block({
               label: 'Action Button',
-              description: 'A clickable button link.',
+              description: 'FAQ Guide: A prominent call-to-action button (solid or outlined).',
               schema: {
                 ...designSchema,
                 label: fields.text({ label: 'Button Text', validation: { isRequired: true } }),
@@ -484,7 +493,7 @@ export default config({
             }),
             MapEmbed: block({
               label: 'Google Maps Embed',
-              description: 'Embed an interactive Google Map.',
+              description: 'FAQ Guide: Drops an interactive map into the article. Requires the iframe embed URL.',
               schema: {
                 ...designSchema,
                 url: fields.text({ label: 'Google Maps Embed URL (src from iframe)', validation: { isRequired: true } }),
@@ -493,7 +502,7 @@ export default config({
             }),
             Gallery: block({
               label: 'Image Gallery',
-              description: 'A responsive gallery of images.',
+              description: 'FAQ Guide: Displays multiple images. Choose "Masonry" for asymmetrical layouts or "Grid" for standard squares.',
               schema: {
                 ...designSchema,
                 layout: fields.select({
@@ -516,7 +525,7 @@ export default config({
             }),
             Carousel: block({
               label: 'Image Carousel',
-              description: 'A horizontal sliding carousel of images.',
+              description: 'FAQ Guide: An interactive, swipeable photo slider. Perfect for photo essays.',
               schema: {
                 ...designSchema,
                 images: fields.array(
@@ -531,7 +540,7 @@ export default config({
             }),
             BeforeAfterSlider: block({
               label: 'Before/After Slider',
-              description: 'An interactive slider comparing two images.',
+              description: 'FAQ Guide: A scrubbable before-and-after image viewer. Excellent for satellite imagery or visual changes.',
               schema: {
                 ...designSchema,
                 beforeImage: fields.text({ label: 'Before Image URL' }),
@@ -542,7 +551,7 @@ export default config({
             }),
             ComparisonTable: block({
               label: 'Comparison Table',
-              description: 'A side-by-side comparison table.',
+              description: 'FAQ Guide: An analytical table layout to compare features, stats, or specs between two subjects.',
               schema: {
                 ...designSchema,
                 titleA: fields.text({ label: 'Column A Title' }),
@@ -559,7 +568,7 @@ export default config({
             }),
             ProsCons: block({
               label: 'Pros & Cons',
-              description: 'A side-by-side list of pros and cons.',
+              description: 'FAQ Guide: A split two-column list highlighting positives (green) and negatives (red).',
               schema: {
                 ...designSchema,
                 pros: fields.array(fields.text({ label: 'Pro' }), { label: 'Pros' }),
@@ -568,7 +577,7 @@ export default config({
             }),
             StatisticsGrid: block({
               label: 'Statistics Grid',
-              description: 'A grid of large numbers/stats with labels.',
+              description: 'FAQ Guide: A dashboard-style grid of numbers with optional up/down trend arrows.',
               schema: {
                 ...designSchema,
                 stats: fields.array(
@@ -591,7 +600,7 @@ export default config({
             }),
             FAQ: block({
               label: 'FAQ Section',
-              description: 'An interactive accordion list of Frequently Asked Questions.',
+              description: 'FAQ Guide: Specifically formatted for Q&A sections. Readers can toggle answers open/closed.',
               schema: {
                 ...designSchema,
                 questions: fields.array(
@@ -605,7 +614,7 @@ export default config({
             }),
             References: block({
               label: 'References / Citations',
-              description: 'A stylized list of academic or journalistic references at the bottom of the article.',
+              description: 'FAQ Guide: An auto-numbered citation list designed to sit at the very end of deep analysis pieces.',
               schema: {
                 ...designSchema,
                 title: fields.text({ label: 'Title', defaultValue: 'References' }),
@@ -620,7 +629,7 @@ export default config({
             }),
             CustomHTML: block({
               label: 'Custom HTML / Embed',
-              description: 'Raw HTML for third-party embeds (Datawrapper, Flourish, generic scripts).',
+              description: 'FAQ Guide: The ultimate escape hatch. Paste raw HTML iframe codes from Datawrapper or Flourish here.',
               schema: {
                 ...designSchema,
                 code: fields.text({ label: 'HTML Code', multiline: true }),

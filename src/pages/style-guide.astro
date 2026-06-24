@@ -1,0 +1,149 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/editorial/Hero.astro';
+import Topline from '../components/editorial/Topline.astro';
+import Grid from '../components/editorial/Grid.astro';
+import Section from '../components/editorial/Section.astro';
+import Callout from '../components/editorial/Callout.astro';
+import PullQuote from '../components/editorial/PullQuote.astro';
+import InfoBox from '../components/editorial/InfoBox.astro';
+import StatisticsGrid from '../components/editorial/StatisticsGrid.astro';
+import ComparisonTable from '../components/editorial/ComparisonTable.astro';
+import ProsCons from '../components/editorial/ProsCons.astro';
+import BeforeAfterSlider from '../components/editorial/BeforeAfterSlider.astro';
+import FAQ from '../components/editorial/FAQ.astro';
+import HistoricalContext from '../components/editorial/HistoricalContext.astro';
+import SideNote from '../components/editorial/SideNote.astro';
+
+// Dummy Data
+const stats = [
+  { value: "60%", label: "Global trade passes through the Indo-Pacific", trend: "none" },
+  { value: "34%", label: "Growth in maritime trade since 2015", trend: "up" },
+  { value: "12+", label: "Regional security partnerships formed since 2010", trend: "up" }
+];
+
+const compareRows = [
+  { label: "GDP Growth", valA: "6.2%", valB: "4.6%" },
+  { label: "Trade Share", valA: "17%", valB: "15%" },
+  { label: "Naval Strength", valA: "Rising", valB: "Strong" }
+];
+
+const pros = ["Economic Growth", "Strategic Reach", "Energy Security"];
+const cons = ["Debt Pressure", "Supply Risks", "Geopolitical Tension"];
+
+const faqs = [
+  { question: "What is the Indo-Pacific?", answer: "A biogeographic region of Earth's seas, comprising the tropical waters of the Indian Ocean, the western and central Pacific Ocean." },
+  { question: "Why is it important?", answer: "It is the center of global trade and maritime security, serving as the primary corridor for international commerce." }
+];
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Visual Style Guide | Median Point" description="Component library and visual reference for writers." />
+	</head>
+	<body class="bg-bg dark:bg-bg-dark theme-bloomberg"> <!-- Default Theme for preview -->
+		<Header />
+		
+		<main class="w-full min-h-screen">
+			<!-- Header -->
+			<div class="max-w-[1000px] mx-auto px-4 py-12 border-b border-gray-200 dark:border-gray-800 mb-12">
+				<h1 class="text-4xl font-black font-sans mb-4">Editorial Block Library</h1>
+				<p class="text-xl text-gray-500 font-serif">A visual reference guide for writers to see what every Keystatic component looks like on the live site. (Theme: Bloomberg)</p>
+			</div>
+
+			<!-- Cinematic Hero -->
+			<div class="mb-24">
+				<div class="max-w-[1000px] mx-auto px-4 mb-4">
+					<h2 class="text-2xl font-bold font-sans">1. Cinematic Hero (/hero)</h2>
+					<p class="text-sm text-gray-500">Creates a massive, immersive top section. Supports parallax and dark gradient overlays.</p>
+				</div>
+				<Hero mediaUrl="https://images.unsplash.com/photo-1596306499300-0b7b168f19fe?q=80&w=2070&auto=format&fit=crop" mediaType="image" altText="Naval ship" height="half" parallax={true} overlay={true} padding="px-4 py-24">
+					<div class="text-white">
+						<span class="text-brand font-bold tracking-widest uppercase text-sm mb-4 block">Geopolitics</span>
+						<h1 class="text-5xl md:text-7xl font-serif font-bold leading-tight mb-6">The Balance of Power<br/>in the Indo-Pacific</h1>
+					</div>
+				</Hero>
+			</div>
+
+			<!-- Topline -->
+			<div class="max-w-[1000px] mx-auto px-4 mb-24">
+				<h2 class="text-2xl font-bold font-sans mb-4">2. Topline Box (/topline)</h2>
+				<p class="text-sm text-gray-500 mb-6">A Forbes-style highlight box to summarize the article.</p>
+				<Topline background="bg-gray-50 dark:bg-gray-900" padding="p-8" borderRadius="rounded-xl">
+					<p class="text-xl font-serif leading-relaxed">The geopolitical center of gravity has undeniably shifted to the Indo-Pacific. As established powers navigate complex economic interdependence, new security arrangements are rapidly evolving to maintain the balance of power.</p>
+				</Topline>
+			</div>
+
+			<!-- Fact Box & Pull Quote Grid -->
+			<div class="max-w-[1000px] mx-auto px-4 mb-24">
+				<h2 class="text-2xl font-bold font-sans mb-4">3. Layouts: Fact Box & Pull Quote in a Grid</h2>
+				<p class="text-sm text-gray-500 mb-6">Use /grid to put items side-by-side. Use /fact or /pullquote inside.</p>
+				<Grid columns="2" gap="8">
+					<InfoBox heading="Key Fact" background="bg-gray-50 dark:bg-gray-900" padding="p-8" borderRadius="rounded-xl" border="border border-gray-200 dark:border-gray-800">
+						<p class="text-4xl font-black text-brand mb-2">85%</p>
+						<p class="text-sm font-sans text-gray-600 dark:text-gray-400">India imports over 85% of its semiconductor requirements.</p>
+					</InfoBox>
+					<PullQuote attribution="Strategic Affairs Review" background="bg-brand/5 dark:bg-brand-dark/10" padding="p-8" borderRadius="rounded-xl">
+						<p class="text-2xl font-serif italic text-gray-900 dark:text-gray-100">"The center of gravity of world politics has shifted east."</p>
+					</PullQuote>
+				</Grid>
+			</div>
+
+			<!-- Statistics Grid -->
+			<div class="max-w-[1000px] mx-auto px-4 mb-24">
+				<h2 class="text-2xl font-bold font-sans mb-4">4. Statistics Grid (/stats)</h2>
+				<p class="text-sm text-gray-500 mb-6">A visual dashboard to highlight major numbers and trends.</p>
+				<StatisticsGrid stats={stats} />
+			</div>
+
+			<!-- Comparison Table & Pros/Cons -->
+			<div class="max-w-[1000px] mx-auto px-4 mb-24">
+				<h2 class="text-2xl font-bold font-sans mb-4">5. Comparison Table (/table) & Pros/Cons (/proscons)</h2>
+				<p class="text-sm text-gray-500 mb-6">Side-by-side analytical data comparison layouts.</p>
+				<Grid columns="2" gap="12">
+					<ComparisonTable titleA="India" titleB="China" rows={compareRows} />
+					<ProsCons pros={pros} cons={cons} />
+				</Grid>
+			</div>
+
+			<!-- Before / After Slider -->
+			<div class="max-w-[1000px] mx-auto px-4 mb-24">
+				<h2 class="text-2xl font-bold font-sans mb-4">6. Before/After Slider (/beforeafter)</h2>
+				<p class="text-sm text-gray-500 mb-6">Interactive scrubber comparing two photos (e.g. satellite imagery).</p>
+				<BeforeAfterSlider 
+					beforeImage="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?q=80&w=1000&auto=format&fit=crop" 
+					afterImage="https://images.unsplash.com/photo-1470770841072-f978cac16e40?q=80&w=1000&auto=format&fit=crop" 
+					beforeLabel="2010" 
+					afterLabel="2026" 
+				/>
+			</div>
+
+			<!-- FAQ & Historical Context -->
+			<div class="max-w-[1000px] mx-auto px-4 mb-24">
+				<h2 class="text-2xl font-bold font-sans mb-4">7. FAQ (/faq) & Historical Context (/timeline)</h2>
+				<p class="text-sm text-gray-500 mb-6">Expandable Q&As and styled timeline callouts.</p>
+				<Grid columns="2" gap="12">
+					<FAQ questions={faqs} />
+					<HistoricalContext year="2005" background="bg-gray-50 dark:bg-gray-900" padding="p-6">
+						<p class="font-sans text-sm">The India-US Civil Nuclear Deal shifted regional security alignments fundamentally.</p>
+					</HistoricalContext>
+				</Grid>
+			</div>
+
+			<!-- Contextual Notes -->
+			<div class="max-w-[1000px] mx-auto px-4 mb-24 prose dark:prose-invert relative">
+				<h2 class="text-2xl font-bold font-sans mb-4 not-prose">8. Side Note (/sidenote)</h2>
+				<p class="text-sm text-gray-500 mb-6 not-prose">A box that floats to the right/left of your text on desktop screens, keeping it out of the main flow.</p>
+				<SideNote title="Did you know?" float="float-right" background="bg-gray-50 dark:bg-gray-900" padding="p-6" borderRadius="rounded-lg">
+					<p class="text-sm m-0">China controls over 80% of global rare earth processing.</p>
+				</SideNote>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros ut metus tincidunt hendrerit. Donec pulvinar, lorem eu auctor bibendum, lacus nisi lobortis purus, at tempus sapien massa in arcu. Curabitur vel elit sed nisi mattis accumsan. Suspendisse potenti. Nam efficitur, lacus non dictum volutpat, massa nunc rutrum mi, sit amet eleifend neque magna vitae arcu. Nunc malesuada nisi ac ligula fermentum, eget elementum sem consequat. Phasellus aliquet tristique turpis, sed cursus nunc luctus id. Maecenas scelerisque felis nec dui venenatis, sit amet vehicula sem aliquet.</p>
+			</div>
+
+		</main>
+
+		<Footer />
+	</body>
+</html>

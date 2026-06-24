@@ -27,6 +27,7 @@ const {
 	author,
 	category,
 	tags,
+	headingColor = 'brand',
 	id: currentId,
 	headings = [],
 	readingTime = 1,
@@ -139,7 +140,7 @@ function getRelativeTime(date: Date) {
 						<span>&rarr;</span>
 						<span class="text-gray-900 dark:text-gray-100 truncate max-w-[200px] sm:max-w-xs" title={title}>{title}</span>
 					</div>
-					<h1 class="text-4xl md:text-5xl font-black mb-6 leading-tight">{title}</h1>
+					<h1 class={`text-4xl md:text-5xl font-black mb-6 leading-tight ${headingColor === 'brand' ? 'text-brand dark:text-brand-dark' : 'text-gray-900 dark:text-gray-100'}`}>{title}</h1>
 					<div class="flex items-center justify-center text-sm text-gray-500 font-sans space-x-3 mb-2 flex-wrap gap-y-2">
 						<div class="font-bold text-gray-800 dark:text-gray-200">{author || 'Sudhanshu Verma'}</div>
 						<span>•</span>
@@ -165,7 +166,7 @@ function getRelativeTime(date: Date) {
 					</div>
 				)}
 				
-				<div class="prose dark:prose-invert prose-lg md:prose-xl max-w-none font-serif leading-relaxed text-justify text-gray-800 dark:text-gray-200">
+				<div class={`prose dark:prose-invert prose-lg md:prose-xl max-w-none font-serif leading-relaxed text-justify text-gray-800 dark:text-gray-200 ${headingColor === 'brand' ? 'prose-headings:text-brand dark:prose-headings:text-brand-dark' : ''}`}>
 					<slot />
 				</div>
 
