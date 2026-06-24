@@ -5,8 +5,7 @@ import Footer from '../components/Footer.astro';
 import Hero from '../components/editorial/Hero.astro';
 import Topline from '../components/editorial/Topline.astro';
 import Grid from '../components/editorial/Grid.astro';
-import Section from '../components/editorial/Section.astro';
-import Callout from '../components/editorial/Callout.astro';
+// Callout removed
 import PullQuote from '../components/editorial/PullQuote.astro';
 import InfoBox from '../components/editorial/InfoBox.astro';
 import StatisticsGrid from '../components/editorial/StatisticsGrid.astro';
@@ -59,10 +58,9 @@ const faqs = [
 					<h2 class="text-2xl font-bold font-sans">1. Cinematic Hero (/hero)</h2>
 					<p class="text-sm text-gray-500">Creates a massive, immersive top section. Supports parallax and dark gradient overlays.</p>
 				</div>
-				<Hero mediaUrl="https://images.unsplash.com/photo-1596306499300-0b7b168f19fe?q=80&w=2070&auto=format&fit=crop" mediaType="image" altText="Naval ship" height="half" parallax={true} overlay={true} padding="px-4 py-24">
+				<Hero headline="The Balance of Power in the Indo-Pacific" mediaUrl="https://images.unsplash.com/photo-1596306499300-0b7b168f19fe?q=80&w=2070&auto=format&fit=crop" mediaType="image" altText="Naval ship" height="half" parallax={true} overlay={true} padding="px-4 py-24">
 					<div class="text-white">
 						<span class="text-brand font-bold tracking-widest uppercase text-sm mb-4 block">Geopolitics</span>
-						<h1 class="text-5xl md:text-7xl font-serif font-bold leading-tight mb-6">The Balance of Power<br/>in the Indo-Pacific</h1>
 					</div>
 				</Hero>
 			</div>
@@ -71,9 +69,7 @@ const faqs = [
 			<div class="max-w-[1000px] mx-auto px-4 mb-24">
 				<h2 class="text-2xl font-bold font-sans mb-4">2. Topline Box (/topline)</h2>
 				<p class="text-sm text-gray-500 mb-6">A Forbes-style highlight box to summarize the article.</p>
-				<Topline background="bg-gray-50 dark:bg-gray-900" padding="p-8" borderRadius="rounded-xl">
-					<p class="text-xl font-serif leading-relaxed">The geopolitical center of gravity has undeniably shifted to the Indo-Pacific. As established powers navigate complex economic interdependence, new security arrangements are rapidly evolving to maintain the balance of power.</p>
-				</Topline>
+				<Topline text="The geopolitical center of gravity has undeniably shifted to the Indo-Pacific. As established powers navigate complex economic interdependence, new security arrangements are rapidly evolving to maintain the balance of power." />
 			</div>
 
 			<!-- Fact Box & Pull Quote Grid -->
