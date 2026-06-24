@@ -27,7 +27,18 @@ export default config({
         pubDate: fields.date({ label: 'Publish Date', validation: { isRequired: true } }),
         updatedDate: fields.date({ label: 'Last Updated Date (Optional)' }),
         author: fields.text({ label: 'Author', defaultValue: 'Sudhanshu Verma' }),
-        category: fields.text({ label: 'Category' }),
+        category: fields.select({
+          label: 'Category',
+          options: [
+            { label: 'Geopolitics', value: 'Geopolitics' },
+            { label: 'Defense & Security', value: 'Defense & Security' },
+            { label: 'Economy & Trade', value: 'Economy & Trade' },
+            { label: 'Diplomacy', value: 'Diplomacy' },
+            { label: 'Analysis', value: 'Analysis' },
+            { label: 'Opinion', value: 'Opinion' },
+          ],
+          defaultValue: 'Analysis',
+        }),
         tags: fields.array(
           fields.text({ label: 'Tag' }),
           { label: 'Tags', itemLabel: props => props.value }
@@ -46,28 +57,28 @@ export default config({
               label: 'YouTube Video',
               description: 'Embed a YouTube video. TIP: You can also just paste a YouTube URL on its own line!',
               schema: {
-                id: fields.text({ label: 'YouTube Video ID or URL (e.g. dQw4w9WgXcQ)' }),
+                id: fields.text({ label: 'YouTube Video ID or URL (e.g. dQw4w9WgXcQ)', validation: { isRequired: true } }),
               },
             }),
             Tweet: block({
               label: 'Twitter/X Post (Paste URL here)',
               description: 'Embed a tweet using the official client-side widget. Paste the full Tweet URL or just the ID.',
               schema: {
-                id: fields.text({ label: 'Tweet URL or ID' }),
+                id: fields.text({ label: 'Tweet URL or ID', validation: { isRequired: true } }),
               },
             }),
             Instagram: block({
               label: 'Instagram Post',
               description: 'Embed an Instagram post in the article.',
               schema: {
-                url: fields.text({ label: 'Instagram Post URL (e.g. https://www.instagram.com/p/ABC123/)' }),
+                url: fields.text({ label: 'Instagram Post URL (e.g. https://www.instagram.com/p/ABC123/)', validation: { isRequired: true } }),
               },
             }),
             Facebook: block({
               label: 'Facebook Post',
               description: 'Embed a Facebook post in the article.',
               schema: {
-                url: fields.text({ label: 'Facebook Post URL' }),
+                url: fields.text({ label: 'Facebook Post URL', validation: { isRequired: true } }),
               },
             }),
 
@@ -102,9 +113,7 @@ export default config({
             Topline: wrapper({
               label: 'Topline (Forbes-style Box)',
               description: 'A light background box at the top of the article. Put paragraphs and images inside.',
-              schema: {
-                text: fields.text({ label: 'Legacy Text (Leave empty for new posts, just type inside the block)', defaultValue: '' }),
-              },
+              schema: {},
             }),
 
             // ── Editorial Layout Components ──
@@ -151,8 +160,8 @@ export default config({
               label: 'Image with Caption',
               description: 'An image with a styled caption and optional photo credit.',
               schema: {
-                src: fields.text({ label: 'Image URL or path' }),
-                alt: fields.text({ label: 'Alt text (for accessibility)' }),
+                src: fields.text({ label: 'Image URL or path', validation: { isRequired: true } }),
+                alt: fields.text({ label: 'Alt text (for accessibility)', validation: { isRequired: true } }),
                 caption: fields.text({ label: 'Caption text (optional)' }),
                 credit: fields.text({ label: 'Photo credit (optional, e.g. "Photo: Reuters")' }),
                 fullWidth: fields.checkbox({ label: 'Full width image', defaultValue: false }),
@@ -169,8 +178,8 @@ export default config({
               label: 'Related Reading Link',
               description: 'An inline link card to cross-reference another article.',
               schema: {
-                title: fields.text({ label: 'Article title' }),
-                url: fields.text({ label: 'Article URL' }),
+                title: fields.text({ label: 'Article title', validation: { isRequired: true } }),
+                url: fields.text({ label: 'Article URL', validation: { isRequired: true } }),
                 description: fields.text({ label: 'Short description (optional)' }),
               },
             }),

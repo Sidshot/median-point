@@ -5,22 +5,46 @@ interface Props {
 
 const { id } = Astro.props;
 
-// The user might paste a full URL or just the numeric ID.
 let tweetUrl = id;
 if (tweetUrl && !tweetUrl.startsWith('http')) {
   tweetUrl = `https://twitter.com/x/status/${id}`;
 }
 ---
 
-<div class="social-embed twitter-embed my-8 flex justify-center">
-  <blockquote class="twitter-tweet" data-theme="light" data-dnt="true">
+<div class="social-embed twitter-embed my-8 flex justify-center not-prose">
+  <blockquote class="twitter-tweet" data-dnt="true">
     <a href={tweetUrl}>Loading tweet...</a>
   </blockquote>
-  <script is:inline async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </div>
 
+<script is:inline>
+(function () {
+  function getTheme() {
+    return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  }
+
+  function loadWidgets() {
+    if (document.querySelector('script[src*="platform.twitter.com/widgets.js"]')) {
+      if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
+      return;
+    }
+    var s = document.createElement('script');
+    s.src = 'https://platform.twitter.com/widgets.js';
+    s.async = true;
+    s.charset = 'utf-8';
+    document.head.appendChild(s);
+  }
+
+  // Set theme on all tweet blockquotes before the SDK processes them
+  document.querySelectorAll('.twitter-tweet:not([data-theme])').forEach(function (el) {
+    el.setAttribute('data-theme', getTheme());
+  });
+
+  loadWidgets();
+})();
+</script>
+
 <style>
-  /* Ensure the blockquote takes up a reasonable width while loading */
   .twitter-tweet {
     min-width: 300px;
     max-width: 550px;

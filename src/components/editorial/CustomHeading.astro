@@ -1,4 +1,10 @@
 ---
+interface Props {
+  text: string;
+  color?: 'red' | 'blue' | 'charcoal';
+  level?: 'h2' | 'h3' | 'h4';
+}
+
 const { text, color = 'red', level = 'h2' } = Astro.props;
 
 let colorClass = 'text-brand dark:text-brand-dark';
@@ -10,8 +16,11 @@ const Tag = level as keyof HTMLElementTagNameMap;
 let sizeClass = 'text-3xl';
 if (level === 'h3') sizeClass = 'text-2xl';
 if (level === 'h4') sizeClass = 'text-xl';
+
+// Generate anchor ID from text for deep-linking
+const id = text.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
 ---
 
-<Tag class={`font-black font-sans my-6 ${sizeClass} ${colorClass}`}>
+<Tag id={id} class={`font-black font-sans my-6 ${sizeClass} ${colorClass}`}>
   {text}
 </Tag>

@@ -1,4 +1,8 @@
 ---
+interface Props {
+  layout?: '1-1' | '1-2' | '2-1';
+}
+
 const { layout = '1-1' } = Astro.props;
 
 let gridClass = 'grid-cols-1 md:grid-cols-2';
@@ -17,7 +21,7 @@ if (layout === '2-1') gridClass = 'grid-cols-1 md:grid-cols-3';
   <slot />
 </div>
 
-<style>
+<style is:global>
   /* Handle specific child spans for asymmetrical layouts */
   .columns-layout-1-2 > :first-child { grid-column: span 1; }
   .columns-layout-1-2 > :nth-child(2) { grid-column: span 2; }

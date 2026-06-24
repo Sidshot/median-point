@@ -1,6 +1,11 @@
 ---
 import { getSafeGoogleMapsEmbed } from '../../utils/urls';
 
+interface Props {
+  url: string;
+  caption?: string;
+}
+
 const { url, caption } = Astro.props;
 const iframeSrc = getSafeGoogleMapsEmbed(url);
 ---

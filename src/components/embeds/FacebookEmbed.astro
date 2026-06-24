@@ -6,11 +6,7 @@ interface Props {
 const { url } = Astro.props;
 ---
 
-<div class="social-embed facebook-embed">
-  <div id="fb-root"></div>
-  <script is:inline async defer crossorigin="anonymous"
-    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v21.0"
-    nonce="fb_embed"></script>
+<div class="social-embed facebook-embed not-prose">
   <div class="fb-post"
     data-href={url}
     data-width="500"
@@ -20,3 +16,26 @@ const { url } = Astro.props;
     </blockquote>
   </div>
 </div>
+
+<script is:inline>
+(function () {
+  // Ensure fb-root exists exactly once
+  if (!document.getElementById('fb-root')) {
+    var root = document.createElement('div');
+    root.id = 'fb-root';
+    document.body.prepend(root);
+  }
+
+  // Load SDK exactly once
+  if (!window.FB && !document.querySelector('script[src*="connect.facebook.net"]')) {
+    var s = document.createElement('script');
+    s.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v21.0';
+    s.async = true;
+    s.defer = true;
+    s.crossOrigin = 'anonymous';
+    document.head.appendChild(s);
+  } else if (window.FB) {
+    window.FB.XFBML.parse();
+  }
+})();
+</script>

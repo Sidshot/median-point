@@ -17,7 +17,7 @@ const blog = defineCollection({
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
 			author: z.string().min(1).default('Sudhanshu Verma'),
-			category: z.string().optional(),
+			category: z.enum(['Geopolitics', 'Defense & Security', 'Economy & Trade', 'Diplomacy', 'Analysis', 'Opinion']).default('Analysis'),
 			tags: z.array(z.string()).default([]),
 		}),
 });

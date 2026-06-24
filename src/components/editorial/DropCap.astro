@@ -1,10 +1,10 @@
 ---
 ---
-<div class="drop-cap-wrapper">
+<div class="drop-cap-wrapper not-prose">
   <slot />
 </div>
 
-<style>
+<style is:global>
   .drop-cap-wrapper > p:first-child::first-letter {
     float: left;
     font-size: 4.5em;
@@ -13,10 +13,9 @@
     padding-top: 0.05em;
     font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     font-weight: 900;
-    color: var(--color-brand, #B91C1C); /* Fallback to red */
+    color: var(--color-brand, #B91C1C);
   }
-  
-  :global(.dark) .drop-cap-wrapper > p:first-child::first-letter {
+  .dark .drop-cap-wrapper > p:first-child::first-letter {
     color: var(--color-brand-dark, #F87171);
   }
 </style>
