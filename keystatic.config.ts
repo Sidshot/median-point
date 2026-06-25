@@ -607,6 +607,7 @@ export default config({
               description: 'FAQ Guide: Specifically formatted for Q&A sections. Readers can toggle answers open/closed.',
               schema: {
                 ...designSchema,
+                rawContent: fields.text({ label: 'Auto-Detect FAQ (Paste text here)', multiline: true, description: 'Paste a paragraph of Q&A. Auto-detects lines ending with ? or starting with Q:' }),
                 questions: fields.array(
                   fields.object({
                     question: fields.text({ label: 'Question' }),
@@ -622,6 +623,7 @@ export default config({
               schema: {
                 ...designSchema,
                 title: fields.text({ label: 'Title', defaultValue: 'References' }),
+                rawContent: fields.text({ label: 'Auto-Detect References (Paste text here)', multiline: true, description: 'Paste a list of references. URLs will be auto-detected.' }),
                 citations: fields.array(
                   fields.object({
                     text: fields.text({ label: 'Citation Text (e.g. APA format)', multiline: true }),

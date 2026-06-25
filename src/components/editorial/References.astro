@@ -1,18 +1,45 @@
 ---
 import BlockWrapper from './BlockWrapper.astro';
-const { title = 'References', citations = [], ...designProps } = Astro.props;
+const { title = 'References', citations = [], rawContent = '', ...designProps } = Astro.props;
+
+let parsedCitations = [...citations];
+
+if (rawContent) {
+  const urlRegex = /(https?:\/\/[^\s]+)/i;
+  const lines = rawContent.split('\n').map((l: string) => l.trim()).filter((l: string) => l.length > 0);
+  
+  for (const line of lines) {
+    const match = line.match(urlRegex);
+    if (match) {
+      const url = match[0];
+      const text = line.replace(url, '').trim() || url;
+      parsedCitations.push({ text, url });
+    } else {
+      parsedCitations.push({ text: line, url: null });
+    }
+  }
+}
 ---
 <BlockWrapper {...designProps} class={`references-block my-12 pt-8 border-t border-gray-200 dark:border-gray-800 not-prose ${designProps.class || ''}`}>
-  <h3 class="text-sm font-bold uppercase tracking-widest text-gray-500 font-sans mb-4">{title}</h3>
-  <ol class="list-decimal list-outside ml-4 space-y-2 text-xs md:text-sm text-gray-500 font-sans">
-    {citations.map((cit: any) => (
-      <li class="pl-2">
-        {cit.url ? (
-          <a href={cit.url} target="_blank" rel="noopener noreferrer" class="hover:text-brand dark:hover:text-brand-dark hover:underline">{cit.text}</a>
-        ) : (
-          <span>{cit.text}</span>
-        )}
-      </li>
-    ))}
-  </ol>
+  <details class="group [&_summary::-webkit-details-marker]:hidden">
+    <summary class="flex cursor-pointer items-center gap-2 text-sm font-bold uppercase tracking-widest text-gray-500 font-sans select-none hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+      {title}
+      <svg class="h-4 w-4 transform transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
+    <div class="mt-4">
+      <ol class="list-decimal list-outside ml-4 space-y-2 text-xs md:text-sm text-gray-500 font-sans">
+        {parsedCitations.map((cit: any) => (
+          <li class="pl-2">
+            {cit.url ? (
+              <a href={cit.url} target="_blank" rel="noopener noreferrer" class="hover:text-brand dark:hover:text-brand-dark hover:underline">{cit.text}</a>
+            ) : (
+              <span>{cit.text}</span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </details>
 </BlockWrapper>

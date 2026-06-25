@@ -1,10 +1,33 @@
 ---
 import BlockWrapper from './BlockWrapper.astro';
-const { questions = [], ...designProps } = Astro.props;
+const { questions = [], rawContent = '', ...designProps } = Astro.props;
+
+let parsedQuestions = [...questions];
+
+if (rawContent) {
+  const lines = rawContent.split('\n').map((l: string) => l.trim()).filter((l: string) => l.length > 0);
+  let currentQ: string | null = null;
+  let currentA: string[] = [];
+
+  for (const line of lines) {
+    if (line.match(/^Q\s*:/i) || line.endsWith('?')) {
+      if (currentQ) {
+        parsedQuestions.push({ question: currentQ, answer: currentA.join(' ') });
+      }
+      currentQ = line.replace(/^Q\s*:\s*/i, '');
+      currentA = [];
+    } else {
+      currentA.push(line.replace(/^A\s*:\s*/i, ''));
+    }
+  }
+  if (currentQ) {
+    parsedQuestions.push({ question: currentQ, answer: currentA.join(' ') });
+  }
+}
 ---
 <BlockWrapper {...designProps} class={`faq-block my-10 not-prose ${designProps.class || ''}`}>
   <div class="space-y-6">
-    {questions.map((q: any) => (
+    {parsedQuestions.map((q: any) => (
       <details class="group bg-white dark:bg-[#1a1a1a] rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-transparent dark:border-white/5 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] [&_summary::-webkit-details-marker]:hidden overflow-hidden">
         <summary class="flex cursor-pointer items-center justify-between gap-4 p-6 font-sans font-semibold text-gray-900 dark:text-gray-100 select-none">
           <h2 class="text-lg md:text-xl m-0">{q.question}</h2>
