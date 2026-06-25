@@ -257,12 +257,39 @@ function getRelativeTime(date: Date) {
 					<!-- Right Sidebar: Latest Articles -->
 					<div class="hidden xl:block xl:col-span-3">
 						<div class="sticky top-24">
-							<LatestArticlesRail posts={relatedPosts} />
+							<LatestArticlesRail currentPostId={currentId} />
 						</div>
 					</div>
-
 				</div>
 			</main>
+
+			<!-- Mobile TOC Floating Button -->
+			{headings.length > 0 && (
+				<div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 lg:hidden no-print">
+					<button id="mobile-toc-btn" aria-label="Open Table of Contents" class="flex items-center gap-2 px-5 py-3 bg-gray-900/95 dark:bg-gray-100/95 backdrop-blur text-white dark:text-gray-900 rounded-full shadow-2xl hover:-translate-y-1 transition-all">
+						<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+						<span class="font-sans font-bold text-sm tracking-wide">Outline</span>
+					</button>
+				</div>
+				
+				<!-- Mobile TOC Modal -->
+				<div id="mobile-toc-modal" class="fixed inset-0 z-50 hidden no-print" aria-modal="true" role="dialog">
+					<!-- Backdrop -->
+					<div id="mobile-toc-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity opacity-0"></div>
+					<!-- Bottom Sheet -->
+					<div id="mobile-toc-sheet" class="absolute bottom-0 left-0 right-0 bg-bg dark:bg-bg-dark rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] transition-transform translate-y-full max-h-[85vh] flex flex-col">
+						<div class="p-6 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center sticky top-0 bg-bg/90 dark:bg-bg-dark/90 backdrop-blur z-10 rounded-t-3xl">
+							<h3 class="font-sans font-black text-xl">Article Outline</h3>
+							<button id="mobile-toc-close" class="p-2 bg-gray-200 dark:bg-gray-800 rounded-full text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors" aria-label="Close Outline">
+								<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+							</button>
+						</div>
+						<div class="p-6 overflow-y-auto overscroll-contain">
+							<ArticleRail headings={headings} />
+						</div>
+					</div>
+				</div>
+			)}
 		</article>
 		<Footer />
 
@@ -305,6 +332,48 @@ function getRelativeTime(date: Date) {
 					toast.classList.add('opacity-0');
 				}, 1500);
 			}
+
+			function setupMobileTOC() {
+				const btn = document.getElementById('mobile-toc-btn');
+				const closeBtn = document.getElementById('mobile-toc-close');
+				const modal = document.getElementById('mobile-toc-modal');
+				const backdrop = document.getElementById('mobile-toc-backdrop');
+				const sheet = document.getElementById('mobile-toc-sheet');
+
+				if (!btn || !modal || !backdrop || !sheet) return;
+
+				function openModal() {
+					modal.classList.remove('hidden');
+					// Small delay to allow display block to apply before animating
+					setTimeout(() => {
+						backdrop.classList.remove('opacity-0');
+						sheet.classList.remove('translate-y-full');
+					}, 10);
+					document.body.style.overflow = 'hidden';
+				}
+
+				function closeModal() {
+					backdrop.classList.add('opacity-0');
+					sheet.classList.add('translate-y-full');
+					setTimeout(() => {
+						modal.classList.add('hidden');
+						document.body.style.overflow = '';
+					}, 300); // Wait for transition
+				}
+
+				btn.addEventListener('click', openModal);
+				closeBtn?.addEventListener('click', closeModal);
+				backdrop.addEventListener('click', closeModal);
+
+				// Also close modal when a link inside it is clicked
+				const links = sheet.querySelectorAll('a');
+				links.forEach(link => {
+					link.addEventListener('click', closeModal);
+				});
+			}
+
+			// Initialize on first load and after view transitions
+			document.addEventListener('astro:page-load', setupMobileTOC);
 
 			function setupArticleActions() {
 				const twitter = document.querySelector<HTMLButtonElement>('[data-share="twitter"]');
