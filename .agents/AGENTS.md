@@ -28,3 +28,7 @@ When assigned an editorial task, you must progress through these runtime states.
 * **Formatting:** Always use the Keystatic formatting blocks defined in `keystatic.config.ts` (e.g., `<Callout>`, `<Topline>`, `<SectionDivider>`) to elevate the presentation.
 
 *If you need deeper guidance on a specific recipe or style rule, refer to the source `.docx` manuals located in the root of this project.*
+
+## 5. KEYSTATIC COMPONENT INTEGRATION
+* **Schema is Absolute Law:** When adding or modifying custom components (e.g., `<Callout>`, `<Hero>`, `<ComparisonTable>`) in `.mdx` files, NEVER guess the props based on naming conventions or `.astro` files.
+* **Strict Validation:** You MUST execute a `view_file` on `keystatic.config.ts` and perfectly match the props defined in the `schema` object for that specific block. Passing a prop that is not in `keystatic.config.ts` will fatally crash the editor.
