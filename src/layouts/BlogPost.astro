@@ -154,8 +154,8 @@ function getRelativeTime(date: Date) {
 				</div>
 
 				{displayImage && (
-					<div class="w-full relative overflow-hidden mt-6" style="height: 60vh; min-height: 400px; max-height: 800px;">
-						<img id="parallax-hero" class="absolute top-0 left-0 w-full h-[120%] object-cover shadow-2xl transition-transform duration-75 ease-out" src={displayImage} alt={title} />
+					<div class="w-full max-w-5xl mx-auto mt-10 mb-2 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800">
+						<img class="w-full h-auto object-cover max-h-[600px]" src={displayImage} alt={title} />
 					</div>
 				)}
 			</div>
