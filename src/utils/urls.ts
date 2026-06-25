@@ -30,6 +30,10 @@ export function getSafeGoogleMapsEmbed(value: string) {
 			parsed.hostname.endsWith('.google.com');
 
 		if (parsed.protocol === 'https:' && isGoogleHost && parsed.pathname.startsWith('/maps/')) {
+			// Strip /u/0/ to prevent X-Frame-Options SAMEORIGIN block on redirect
+			if (parsed.pathname.startsWith('/maps/d/u/0/embed')) {
+				parsed.pathname = parsed.pathname.replace('/maps/d/u/0/embed', '/maps/d/embed');
+			}
 			return parsed.toString();
 		}
 	} catch {
