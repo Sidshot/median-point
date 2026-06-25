@@ -274,7 +274,11 @@ export default config({
                   ],
                   defaultValue: 'image',
                 }),
-                bgUrl: fields.text({ label: 'Background URL (Image or Video)' }),
+                bgUrl: fields.image({ 
+                  label: 'Background Image', 
+                  directory: 'public/images/blog', 
+                  publicPath: '/images/blog/'
+                }),
                 overlayOpacity: fields.select({
                   label: 'Overlay Opacity',
                   options: [
