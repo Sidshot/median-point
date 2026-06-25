@@ -283,22 +283,22 @@
     @apply my-8;
   }
   .image-caption-block img {
-    @apply w-full h-auto rounded-lg;
+    @apply w-full h-auto rounded-none shadow-md;
   }
   .image-caption-block.full-width {
     @apply -mx-4 md:-mx-16 lg:-mx-24;
   }
   .image-caption-block.full-width img {
-    @apply rounded-none;
+    @apply rounded-none shadow-none;
   }
   .image-caption-text {
-    @apply mt-3 text-sm font-sans text-gray-500 dark:text-gray-400 leading-relaxed;
+    @apply mt-3 text-[10px] font-serif text-gray-500 dark:text-gray-400 leading-snug;
   }
   .caption-main {
-    display: block;
+    @apply inline;
   }
   .caption-credit {
-    @apply text-xs text-gray-400 dark:text-gray-500 italic mt-1 block;
+    @apply inline text-gray-500 dark:text-gray-400 ml-1;
   }
 
   /* ─── Info Box ─── */

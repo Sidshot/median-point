@@ -3,7 +3,7 @@ import BlockWrapper from './BlockWrapper.astro';
 const { beforeImage, afterImage, beforeLabel = 'Before', afterLabel = 'After', ...designProps } = Astro.props;
 const id = Math.random().toString(36).substring(7);
 ---
-<BlockWrapper {...designProps} class={`before-after-slider my-10 not-prose relative overflow-hidden rounded-xl shadow-lg ${designProps.class || ''}`}>
+<BlockWrapper {...designProps} class={`before-after-slider my-10 not-prose relative overflow-hidden rounded-none shadow-lg ${designProps.class || ''}`}>
   <div class="relative w-full aspect-video select-none" id={`ba-${id}`}>
     {/* After Image (Background) */}
     <img src={afterImage} class="absolute inset-0 w-full h-full object-cover pointer-events-none" />

@@ -154,7 +154,7 @@ function getRelativeTime(date: Date) {
 				</div>
 
 				{displayImage && (
-					<div class="w-full max-w-5xl mx-auto mt-10 mb-2 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800">
+					<div class="w-full max-w-5xl mx-auto mt-10 mb-2 rounded-none overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800">
 						<img class="w-full h-auto object-cover max-h-[600px]" src={displayImage} alt={title} />
 					</div>
 				)}
@@ -171,7 +171,7 @@ function getRelativeTime(date: Date) {
 					<!-- Main Content Column -->
 					<div class="lg:col-span-9 xl:col-span-6 w-full max-w-[720px] mx-auto">
 						
-						<div class={`prose dark:prose-invert prose-lg md:prose-xl max-w-none font-serif leading-relaxed text-justify text-gray-800 dark:text-gray-200 prose-img:shadow-2xl prose-img:rounded-md ${headingColor === 'brand' ? 'prose-headings:text-brand dark:prose-headings:text-brand-dark' : ''}`}>
+						<div class={`prose dark:prose-invert prose-lg md:prose-xl max-w-none font-serif leading-relaxed text-justify text-gray-800 dark:text-gray-200 prose-img:shadow-2xl prose-img:rounded-none ${headingColor === 'brand' ? 'prose-headings:text-brand dark:prose-headings:text-brand-dark' : ''}`}>
 							<slot />
 						</div>
 

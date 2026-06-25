@@ -10,7 +10,7 @@ const gridClass = layout === 'masonry'
   <div class={gridClass}>
     {images.map((img: any) => (
       <figure class={`m-0 ${layout === 'masonry' ? 'break-inside-avoid mb-4' : ''}`}>
-        <img src={img.src} alt={img.alt} class="w-full h-auto rounded-lg shadow-sm" loading="lazy" />
+        <img src={img.src} alt={img.alt} class="w-full h-auto rounded-none shadow-sm" loading="lazy" />
         {img.caption && <figcaption class="text-xs text-gray-500 mt-2 font-sans text-center">{img.caption}</figcaption>}
       </figure>
     ))}

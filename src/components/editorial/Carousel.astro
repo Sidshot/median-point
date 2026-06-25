@@ -7,7 +7,7 @@ const { images = [], ...designProps } = Astro.props;
     {images.map((img: any) => (
       <div class="snap-center shrink-0 w-full md:w-3/4 first:ml-0 last:mr-0">
         <figure class="m-0">
-          <img src={img.src} alt={img.alt} class="w-full h-64 md:h-96 object-cover rounded-xl shadow-md" loading="lazy" />
+          <img src={img.src} alt={img.alt} class="w-full h-64 md:h-96 object-cover rounded-none shadow-md" loading="lazy" />
           {img.caption && <figcaption class="text-sm text-gray-500 mt-2 font-sans text-center">{img.caption}</figcaption>}
         </figure>
       </div>
