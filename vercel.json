@@ -25,7 +25,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://platform.twitter.com https://syndication.twitter.com https://www.youtube.com https://s.ytimg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https:; frame-src 'self' https://platform.twitter.com https://syndication.twitter.com https://www.youtube.com https://www.instagram.com https://www.facebook.com https://power.lowyinstitute.org https://www.google.com/maps/ https://datawrapper.dwcdn.net https://flo.uri.sh; object-src 'none'; base-uri 'self';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://platform.twitter.com https://syndication.twitter.com https://www.youtube.com https://s.ytimg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https:; frame-src 'self' https://platform.twitter.com https://syndication.twitter.com https://www.youtube.com https://www.youtube-nocookie.com https://www.instagram.com https://www.facebook.com https://power.lowyinstitute.org https://www.google.com/maps/ https://datawrapper.dwcdn.net https://flo.uri.sh; object-src 'none'; base-uri 'self';"
         }
       ]
     }
