@@ -1,35 +1,71 @@
 ---
+import { getSafeInstagramUrl } from '../../utils/urls';
+
 interface Props {
   url: string;
 }
 
 const { url } = Astro.props;
-const cleanUrl = url.replace(/\?.*$/, '').replace(/\/$/, '');
+const cleanUrl = getSafeInstagramUrl(url);
 ---
 
 <div class="social-embed instagram-embed not-prose">
-  <blockquote
-    class="instagram-media"
-    data-instgrm-captioned
-    data-instgrm-permalink={cleanUrl + '/?utm_source=ig_embed'}
-    data-instgrm-version="14">
-    <div class="ig-loading-placeholder">
-      <a href={cleanUrl} target="_blank" rel="noopener noreferrer">
-        View this post on Instagram
-      </a>
+  {cleanUrl ? (
+    <blockquote
+      class="instagram-media"
+      data-instgrm-captioned
+      data-instgrm-permalink={`${cleanUrl}?utm_source=ig_embed`}
+      data-instgrm-version="14">
+      <div class="ig-loading-placeholder">
+        <a href={cleanUrl} target="_blank" rel="noopener noreferrer">
+          View this post on Instagram
+        </a>
+      </div>
+    </blockquote>
+  ) : (
+    <div class="embed-fallback-card">
+      This Instagram embed could not be displayed because the post URL is invalid.
     </div>
-  </blockquote>
+  )}
 </div>
 
 <script is:inline>
 (function () {
+  window.__mpEmbeds = window.__mpEmbeds || {};
+
+  function processInstagram() {
+    if (!window.instgrm || !window.instgrm.Embeds) return;
+    if (window.__mpEmbeds.instagramFrame) return;
+
+    window.__mpEmbeds.instagramFrame = window.requestAnimationFrame(function () {
+      window.__mpEmbeds.instagramFrame = 0;
+      window.instgrm.Embeds.process();
+    });
+  }
+
   if (!document.querySelector('script[src*="instagram.com/embed.js"]')) {
+    if (window.__mpEmbeds.instagramLoading) return;
+    window.__mpEmbeds.instagramLoading = true;
+
     var s = document.createElement('script');
     s.src = 'https://www.instagram.com/embed.js';
     s.async = true;
+    s.onload = function () {
+      window.__mpEmbeds.instagramLoading = false;
+      processInstagram();
+    };
+    s.onerror = function () {
+      window.__mpEmbeds.instagramLoading = false;
+    };
     document.head.appendChild(s);
-  } else if (window.instgrm) {
-    window.instgrm.Embeds.process();
+  } else {
+    processInstagram();
+  }
+
+  if (!window.__mpEmbeds.instagramBound) {
+    document.addEventListener('astro:page-load', processInstagram);
+    document.addEventListener('astro:after-swap', processInstagram);
+    window.__mpEmbeds.instagramBound = true;
   }
 })();
 </script>
@@ -57,5 +93,21 @@ const cleanUrl = url.replace(/\?.*$/, '').replace(/\/$/, '');
   .dark .instagram-media {
     background: #1a1a1a !important;
     box-shadow: 0 0 1px 0 rgba(255,255,255,0.15), 0 1px 10px 0 rgba(0,0,0,0.4) !important;
+  }
+  .embed-fallback-card {
+    display: block;
+    width: 100%;
+    max-width: 550px;
+    margin: 2rem auto;
+    padding: 1rem;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    border-radius: 0.75rem;
+    color: #64748b;
+    text-align: center;
+    text-decoration: none;
+  }
+  .dark .embed-fallback-card {
+    border-color: rgba(100, 116, 139, 0.45);
+    color: #94a3b8;
   }
 </style>

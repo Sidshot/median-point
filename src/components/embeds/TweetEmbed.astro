@@ -1,46 +1,81 @@
 ---
+import { getSafeTwitterStatusUrl } from '../../utils/urls';
+
 interface Props {
   id: string;
 }
 
 const { id } = Astro.props;
-
-let tweetUrl = id;
-if (tweetUrl && !tweetUrl.startsWith('http')) {
-  tweetUrl = `https://twitter.com/x/status/${id}`;
-}
+const tweetUrl = getSafeTwitterStatusUrl(id);
 ---
 
 <div class="social-embed twitter-embed my-8 flex justify-center not-prose">
-  <blockquote class="twitter-tweet" data-dnt="true">
-    <a href={tweetUrl}>Loading tweet...</a>
-  </blockquote>
+  {tweetUrl ? (
+    <blockquote class="twitter-tweet" data-dnt="true">
+      <a href={tweetUrl}>Loading tweet...</a>
+    </blockquote>
+  ) : (
+    <div class="embed-fallback-card">
+      This X/Twitter embed could not be displayed because the post URL is invalid.
+    </div>
+  )}
 </div>
 
 <script is:inline>
 (function () {
+  window.__mpEmbeds = window.__mpEmbeds || {};
+
   function getTheme() {
     return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
   }
 
+  function processTweets() {
+    document.querySelectorAll('.twitter-tweet:not([data-theme])').forEach(function (el) {
+      el.setAttribute('data-theme', getTheme());
+    });
+
+    if (!window.twttr || !window.twttr.widgets) return;
+    if (window.__mpEmbeds.twitterFrame) return;
+
+    window.__mpEmbeds.twitterFrame = window.requestAnimationFrame(function () {
+      window.__mpEmbeds.twitterFrame = 0;
+      window.twttr.widgets.load();
+    });
+  }
+
   function loadWidgets() {
     if (document.querySelector('script[src*="platform.twitter.com/widgets.js"]')) {
-      if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
+      processTweets();
       return;
     }
+
+    if (window.__mpEmbeds.twitterLoading) return;
+    window.__mpEmbeds.twitterLoading = true;
+
     var s = document.createElement('script');
     s.src = 'https://platform.twitter.com/widgets.js';
     s.async = true;
-    s.charset = 'utf-8';
+    s.onload = function () {
+      window.__mpEmbeds.twitterLoading = false;
+      processTweets();
+    };
+    s.onerror = function () {
+      window.__mpEmbeds.twitterLoading = false;
+    };
     document.head.appendChild(s);
   }
 
-  // Set theme on all tweet blockquotes before the SDK processes them
-  document.querySelectorAll('.twitter-tweet:not([data-theme])').forEach(function (el) {
-    el.setAttribute('data-theme', getTheme());
-  });
-
+  processTweets();
   loadWidgets();
+
+  if (!window.__mpEmbeds.twitterBound) {
+    document.addEventListener('astro:page-load', function () {
+      processTweets();
+      loadWidgets();
+    });
+    document.addEventListener('astro:after-swap', processTweets);
+    window.__mpEmbeds.twitterBound = true;
+  }
 })();
 </script>
 
@@ -50,5 +85,17 @@ if (tweetUrl && !tweetUrl.startsWith('http')) {
     max-width: 550px;
     width: 100%;
     margin: 0 auto;
+  }
+
+  .embed-fallback-card {
+    display: block;
+    width: 100%;
+    max-width: 550px;
+    padding: 1rem;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    border-radius: 0.75rem;
+    color: #64748b;
+    text-align: center;
+    text-decoration: none;
   }
 </style>

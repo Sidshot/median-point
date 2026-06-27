@@ -1,5 +1,5 @@
 ---
-const { questions = [], rawContent = '', ...designProps } = Astro.props;
+const { questions = [], rawContent = '' } = Astro.props;
 
 let parsedQuestions = [...questions];
 
@@ -73,54 +73,80 @@ if (rawContent) {
 </aside>
 
 <script>
-  function initFaqDrawers() {
-    const containers = document.querySelectorAll('.faq-drawer-container');
-    containers.forEach(container => {
-      // Prevent double initialization
-      if (container.dataset.initialized) return;
-      container.dataset.initialized = 'true';
+  type FaqWindow = Window & {
+    __mpFaqCleanup?: () => void;
+    __mpFaqPageLoadBound?: boolean;
+  };
 
-      const tab = container.querySelector('.faq-tab');
-      const closeBtn = container.querySelector('.faq-close');
-      const modal = container.querySelector('.faq-modal');
-      const backdrop = container.querySelector('.faq-backdrop');
-      const panel = container.querySelector('.faq-panel');
+  function initFaqDrawers() {
+    const faqWindow = window as FaqWindow;
+    faqWindow.__mpFaqCleanup?.();
+
+    const cleanupHandlers: Array<() => void> = [];
+    const containers = document.querySelectorAll<HTMLElement>('.faq-drawer-container');
+
+    containers.forEach(container => {
+      const tab = container.querySelector<HTMLButtonElement>('.faq-tab');
+      const closeBtn = container.querySelector<HTMLButtonElement>('.faq-close');
+      const modal = container.querySelector<HTMLElement>('.faq-modal');
+      const backdrop = container.querySelector<HTMLElement>('.faq-backdrop');
+      const panel = container.querySelector<HTMLElement>('.faq-panel');
 
       if (!tab || !modal || !backdrop || !panel) return;
 
+      const modalEl = modal;
+      const backdropEl = backdrop;
+      const panelEl = panel;
+
       function openDrawer() {
-        modal.classList.remove('pointer-events-none');
-        backdrop.classList.remove('pointer-events-none');
-        panel.classList.remove('pointer-events-none');
+        modalEl.classList.remove('pointer-events-none');
+        backdropEl.classList.remove('pointer-events-none');
+        panelEl.classList.remove('pointer-events-none');
         
         setTimeout(() => {
-          backdrop.classList.remove('opacity-0');
-          panel.classList.remove('-translate-x-full');
+          backdropEl.classList.remove('opacity-0');
+          panelEl.classList.remove('-translate-x-full');
         }, 10);
         
         document.body.style.overflow = 'hidden';
       }
 
       function closeDrawer() {
-        backdrop.classList.add('opacity-0');
-        panel.classList.add('-translate-x-full');
+        backdropEl.classList.add('opacity-0');
+        panelEl.classList.add('-translate-x-full');
         
         setTimeout(() => {
-          modal.classList.add('pointer-events-none');
-          backdrop.classList.add('pointer-events-none');
-          panel.classList.add('pointer-events-none');
+          modalEl.classList.add('pointer-events-none');
+          backdropEl.classList.add('pointer-events-none');
+          panelEl.classList.add('pointer-events-none');
           document.body.style.overflow = '';
         }, 300);
       }
 
-      tab.addEventListener('click', openDrawer);
-      if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-      backdrop.addEventListener('click', closeDrawer);
+      tab.onclick = openDrawer;
+      if (closeBtn) closeBtn.onclick = closeDrawer;
+      backdropEl.onclick = closeDrawer;
+
+      cleanupHandlers.push(() => {
+        tab.onclick = null;
+        if (closeBtn) closeBtn.onclick = null;
+        backdropEl.onclick = null;
+        document.body.style.overflow = '';
+      });
     });
+
+    faqWindow.__mpFaqCleanup = () => {
+      cleanupHandlers.forEach(cleanup => cleanup());
+    };
   }
 
   // Initialize on page load and after Astro view transitions
-  document.addEventListener('astro:page-load', initFaqDrawers);
+  const faqWindow = window as FaqWindow;
+  if (!faqWindow.__mpFaqPageLoadBound) {
+    document.addEventListener('astro:page-load', initFaqDrawers);
+    faqWindow.__mpFaqPageLoadBound = true;
+  }
+
   // Also run immediately in case the script executes after DOMContentLoaded
   initFaqDrawers();
 </script>

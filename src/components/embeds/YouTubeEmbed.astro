@@ -1,0 +1,161 @@
+---
+import { getSafeYouTubeVideoId } from '../../utils/urls';
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+const videoId = getSafeYouTubeVideoId(id);
+const thumbnailUrl = videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : '';
+const watchUrl = videoId ? `https://www.youtube.com/watch?v=${videoId}` : '';
+---
+
+<div class="social-embed youtube-embed not-prose">
+  {videoId ? (
+    <div class="youtube-shell" data-youtube-id={videoId}>
+      <button type="button" class="youtube-poster" data-youtube-activate aria-label="Play YouTube video">
+        <img src={thumbnailUrl} alt="YouTube video thumbnail" loading="lazy" decoding="async" />
+        <span class="youtube-play" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M8 5v14l11-7z"></path>
+          </svg>
+        </span>
+      </button>
+      <noscript>
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+          title="YouTube video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      </noscript>
+      <a class="youtube-fallback-link" href={watchUrl} target="_blank" rel="noopener noreferrer">
+        Open on YouTube
+      </a>
+    </div>
+  ) : (
+    <div class="embed-fallback-card">
+      This YouTube embed could not be displayed because the video URL or ID is invalid.
+    </div>
+  )}
+</div>
+
+<script is:inline>
+(function () {
+  window.__mpEmbeds = window.__mpEmbeds || {};
+  if (window.__mpEmbeds.youtubeBound) return;
+
+  function activateYouTube(button) {
+    var shell = button.closest('[data-youtube-id]');
+    if (!shell || shell.dataset.youtubeLoaded === 'true') return;
+
+    var videoId = shell.dataset.youtubeId;
+    if (!videoId) return;
+
+    shell.dataset.youtubeLoaded = 'true';
+
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(videoId) + '?autoplay=1&rel=0';
+    iframe.title = 'YouTube video';
+    iframe.loading = 'lazy';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+
+    shell.replaceChildren(iframe);
+  }
+
+  document.addEventListener('click', function (event) {
+    if (!(event.target instanceof Element)) return;
+    var button = event.target.closest('[data-youtube-activate]');
+    if (!button) return;
+    event.preventDefault();
+    activateYouTube(button);
+  });
+
+  window.__mpEmbeds.youtubeBound = true;
+})();
+</script>
+
+<style>
+  .youtube-embed {
+    width: 100%;
+  }
+
+  .youtube-shell {
+    position: relative;
+    width: min(100%, 760px);
+    aspect-ratio: 16 / 9;
+    margin: 2rem auto;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    background: #0f172a;
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.18);
+  }
+
+  .youtube-poster,
+  .youtube-shell iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .youtube-poster {
+    display: block;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .youtube-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.88;
+    transition: opacity 180ms ease, transform 240ms ease;
+  }
+
+  .youtube-poster:hover img {
+    opacity: 1;
+    transform: scale(1.015);
+  }
+
+  .youtube-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    width: 4rem;
+    height: 4rem;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(185, 28, 28, 0.94);
+    color: white;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.36);
+  }
+
+  .youtube-play svg {
+    width: 1.7rem;
+    height: 1.7rem;
+    fill: currentColor;
+    transform: translateX(0.1rem);
+  }
+
+  .youtube-fallback-link {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    z-index: 2;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.72);
+    color: white;
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.38rem 0.7rem;
+    text-decoration: none;
+  }
+</style>

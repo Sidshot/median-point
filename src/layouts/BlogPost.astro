@@ -40,29 +40,6 @@ const relatedPosts = getPublishedPosts(await getCollection('blog'))
 
 const globalSettings = await getEntry('settings', 'global');
 const themeClass = globalSettings?.data?.siteTheme || 'theme-default';
-
-function getRelativeTime(date: Date) {
-	const now = new Date();
-	const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-	const intervals = [
-		{ label: 'year', seconds: 31536000 },
-		{ label: 'month', seconds: 2592000 },
-		{ label: 'week', seconds: 604800 },
-		{ label: 'day', seconds: 86400 },
-		{ label: 'hour', seconds: 3600 },
-		{ label: 'minute', seconds: 60 }
-	];
-
-	for (let i = 0; i < intervals.length; i++) {
-		const interval = intervals[i];
-		const count = Math.floor(diffInSeconds / interval.seconds);
-		if (count >= 1) {
-			return `${count} ${interval.label}${count !== 1 ? 's' : ''} ago`;
-		}
-	}
-	return 'just now';
-}
 ---
 
 <html lang="en">
@@ -308,6 +285,7 @@ function getRelativeTime(date: Date) {
 		<script>
 			type ArticleActionsWindow = Window & {
 				__articleActionsPageLoadBound?: boolean;
+				__articleEffectsCleanup?: () => void;
 			};
 
 			function openShareWindow(url: string) {
@@ -342,21 +320,25 @@ function getRelativeTime(date: Date) {
 
 				if (!btn || !modal || !backdrop || !sheet) return;
 
+				const modalEl = modal;
+				const backdropEl = backdrop;
+				const sheetEl = sheet;
+
 				function openModal() {
-					modal.classList.remove('hidden');
+					modalEl.classList.remove('hidden');
 					// Small delay to allow display block to apply before animating
 					setTimeout(() => {
-						backdrop.classList.remove('opacity-0');
-						sheet.classList.remove('translate-y-full');
+						backdropEl.classList.remove('opacity-0');
+						sheetEl.classList.remove('translate-y-full');
 					}, 10);
 					document.body.style.overflow = 'hidden';
 				}
 
 				function closeModal() {
-					backdrop.classList.add('opacity-0');
-					sheet.classList.add('translate-y-full');
+					backdropEl.classList.add('opacity-0');
+					sheetEl.classList.add('translate-y-full');
 					setTimeout(() => {
-						modal.classList.add('hidden');
+						modalEl.classList.add('hidden');
 						document.body.style.overflow = '';
 					}, 300); // Wait for transition
 				}
@@ -403,21 +385,33 @@ function getRelativeTime(date: Date) {
 			}
 
 			const articleActionsWindow = window as ArticleActionsWindow;
+
+			function setupArticleMediaPerformance() {
+				const article = document.getElementById('article-content');
+				if (!article) return;
+
+				const images = article.querySelectorAll<HTMLImageElement>('.prose img');
+				images.forEach((image, index) => {
+					if (!image.hasAttribute('loading')) image.loading = index === 0 ? 'eager' : 'lazy';
+					image.decoding = 'async';
+				});
+
+				const iframes = article.querySelectorAll<HTMLIFrameElement>('.prose iframe, .custom-html-block iframe, .social-embed iframe');
+				iframes.forEach((iframe) => {
+					if (!iframe.hasAttribute('loading')) iframe.loading = 'lazy';
+				});
+			}
 			
 			function setupScrollEffects() {
-				const heroImg = document.getElementById('parallax-hero');
-				
-				const handleScroll = () => {
-					if (heroImg) {
-						const scrolled = window.scrollY;
-						if (scrolled < window.innerHeight) {
-							heroImg.style.transform = `translateY(${scrolled * 0.3}px)`;
-						}
-					}
-				};
+				articleActionsWindow.__articleEffectsCleanup?.();
+				document.querySelectorAll('.reveal-up.is-revealed').forEach((el) => {
+					el.classList.remove('reveal-up', 'is-revealed');
+				});
 
-				window.addEventListener('scroll', handleScroll, { passive: true });
-				handleScroll();
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+					articleActionsWindow.__articleEffectsCleanup = undefined;
+					return;
+				}
 
 				// Reveal Observer
 				const observerOptions = {
@@ -436,17 +430,24 @@ function getRelativeTime(date: Date) {
 
 				const revealElements = document.querySelectorAll('#article-content .prose > p, #article-content .prose > div, #article-content .prose > figure, #article-content .prose > ul, #article-content .prose > blockquote, .article-rail-aside, .latest-articles-aside');
 				revealElements.forEach(el => {
+					if (el.classList.contains('is-revealed')) return;
 					el.classList.add('reveal-up');
 					observer.observe(el);
 				});
+
+				articleActionsWindow.__articleEffectsCleanup = () => {
+					observer.disconnect();
+				};
 			}
 
 			setupArticleActions();
+			setupArticleMediaPerformance();
 			setupScrollEffects();
 
 			if (!articleActionsWindow.__articleActionsPageLoadBound) {
 				document.addEventListener('astro:page-load', () => {
 					setupArticleActions();
+					setupArticleMediaPerformance();
 					setupScrollEffects();
 				});
 				articleActionsWindow.__articleActionsPageLoadBound = true;

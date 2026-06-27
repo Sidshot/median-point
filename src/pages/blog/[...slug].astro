@@ -1,9 +1,9 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
-import { YouTube } from '@astro-community/astro-embed-youtube';
 
 // Social Embeds
+import YouTubeEmbed from '../../components/embeds/YouTubeEmbed.astro';
 import TweetEmbed from '../../components/embeds/TweetEmbed.astro';
 import InstagramEmbed from '../../components/embeds/InstagramEmbed.astro';
 import FacebookEmbed from '../../components/embeds/FacebookEmbed.astro';
@@ -63,7 +63,7 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
 <BlogPost {...post.data} id={post.id} headings={headings} readingTime={readingTime}>
 	<Content components={{
-		YouTube,
+		YouTube: YouTubeEmbed,
 		Tweet: TweetEmbed,
 		Instagram: InstagramEmbed,
 		Facebook: FacebookEmbed,

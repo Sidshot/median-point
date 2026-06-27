@@ -1,24 +1,35 @@
 ---
+import { getSafeFacebookUrl } from '../../utils/urls';
+
 interface Props {
   url: string;
 }
 
 const { url } = Astro.props;
+const safeUrl = getSafeFacebookUrl(url);
 ---
 
 <div class="social-embed facebook-embed not-prose">
-  <div class="fb-post"
-    data-href={url}
-    data-width="500"
-    data-show-text="true">
-    <blockquote cite={url} class="fb-xfbml-parse-ignore">
-      <a href={url} target="_blank" rel="noopener noreferrer">View post on Facebook</a>
-    </blockquote>
-  </div>
+  {safeUrl ? (
+    <div class="fb-post"
+      data-href={safeUrl}
+      data-width="500"
+      data-show-text="true">
+      <blockquote cite={safeUrl} class="fb-xfbml-parse-ignore">
+        <a href={safeUrl} target="_blank" rel="noopener noreferrer">View post on Facebook</a>
+      </blockquote>
+    </div>
+  ) : (
+    <div class="embed-fallback-card">
+      This Facebook embed could not be displayed because the post URL is invalid.
+    </div>
+  )}
 </div>
 
 <script is:inline>
 (function () {
+  window.__mpEmbeds = window.__mpEmbeds || {};
+
   // Ensure fb-root exists exactly once
   if (!document.getElementById('fb-root')) {
     var root = document.createElement('div');
@@ -26,16 +37,42 @@ const { url } = Astro.props;
     document.body.prepend(root);
   }
 
+  function processFacebook() {
+    if (!window.FB || !window.FB.XFBML) return;
+    if (window.__mpEmbeds.facebookFrame) return;
+
+    window.__mpEmbeds.facebookFrame = window.requestAnimationFrame(function () {
+      window.__mpEmbeds.facebookFrame = 0;
+      window.FB.XFBML.parse();
+    });
+  }
+
   // Load SDK exactly once
   if (!window.FB && !document.querySelector('script[src*="connect.facebook.net"]')) {
+    if (window.__mpEmbeds.facebookLoading) return;
+    window.__mpEmbeds.facebookLoading = true;
+
     var s = document.createElement('script');
     s.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v21.0';
     s.async = true;
     s.defer = true;
     s.crossOrigin = 'anonymous';
+    s.onload = function () {
+      window.__mpEmbeds.facebookLoading = false;
+      processFacebook();
+    };
+    s.onerror = function () {
+      window.__mpEmbeds.facebookLoading = false;
+    };
     document.head.appendChild(s);
-  } else if (window.FB) {
-    window.FB.XFBML.parse();
+  } else {
+    processFacebook();
+  }
+
+  if (!window.__mpEmbeds.facebookBound) {
+    document.addEventListener('astro:page-load', processFacebook);
+    document.addEventListener('astro:after-swap', processFacebook);
+    window.__mpEmbeds.facebookBound = true;
   }
 })();
 </script>

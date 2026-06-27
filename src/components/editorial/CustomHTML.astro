@@ -1,7 +1,16 @@
 ---
 import BlockWrapper from './BlockWrapper.astro';
+import { getSafeCustomEmbedHtml } from '../../utils/urls';
+
 const { code = '', ...designProps } = Astro.props;
+const safeEmbedHtml = getSafeCustomEmbedHtml(code);
 ---
 <BlockWrapper {...designProps} class={`custom-html-block my-8 not-prose ${designProps.class || ''}`}>
-  <div set:html={code} />
+  {safeEmbedHtml ? (
+    <div class="custom-embed-frame" set:html={safeEmbedHtml} />
+  ) : (
+    <div class="embed-fallback-card">
+      This embed could not be displayed. Paste a valid iframe from Datawrapper, Flourish, Lowy, YouTube, or Google Maps.
+    </div>
+  )}
 </BlockWrapper>
