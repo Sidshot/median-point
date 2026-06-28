@@ -1,16 +1,102 @@
 ---
 import BlockWrapper from './BlockWrapper.astro';
-import { getSafeCustomEmbedHtml } from '../../utils/urls';
+import { getSafeCustomEmbed, getSafeCustomEmbedHtml } from '../../utils/urls';
 
 const { code = '', ...designProps } = Astro.props;
+const safeEmbed = getSafeCustomEmbed(code);
 const safeEmbedHtml = getSafeCustomEmbedHtml(code);
 ---
 <BlockWrapper {...designProps} class={`custom-html-block my-8 not-prose ${designProps.class || ''}`}>
-  {safeEmbedHtml ? (
+  {safeEmbed?.type === 'tableau' ? (
+    <div class="custom-embed-frame custom-embed-frame-tableau">
+      <script is:inline type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+      {safeEmbed.hideTabs ? (
+        <tableau-viz
+          src={safeEmbed.src}
+          toolbar={safeEmbed.toolbar}
+          class="tableau-viz-shell"
+          hide-tabs
+        ></tableau-viz>
+      ) : (
+        <tableau-viz
+          src={safeEmbed.src}
+          toolbar={safeEmbed.toolbar}
+          class="tableau-viz-shell"
+        ></tableau-viz>
+      )}
+    </div>
+  ) : safeEmbedHtml ? (
     <div class="custom-embed-frame" set:html={safeEmbedHtml} />
   ) : (
     <div class="embed-fallback-card">
-      This embed could not be displayed. Paste a valid iframe from Datawrapper, Flourish, Lowy, YouTube, or Google Maps.
+      This embed could not be displayed. Paste a valid embed from Datawrapper, Tableau Public, Flourish, Lowy, YouTube, or Google Maps.
     </div>
   )}
 </BlockWrapper>
+
+<script is:inline>
+  const scope = window;
+  if (!scope.__mpDatawrapperResizeBound) {
+    window.addEventListener('message', (event) => {
+      const payload = event.data;
+      if (!payload || typeof payload !== 'object' || !('datawrapper-height' in payload)) return;
+
+      const heights = payload['datawrapper-height'];
+      if (!heights || typeof heights !== 'object') return;
+
+      Object.entries(heights).forEach(([id, height]) => {
+        const iframe = document.getElementById(`datawrapper-chart-${id}`);
+        const nextHeight = Number(height);
+        if (iframe && Number.isFinite(nextHeight)) {
+          iframe.style.height = `${Math.max(nextHeight, 360)}px`;
+        }
+      });
+    });
+
+    scope.__mpDatawrapperResizeBound = true;
+  }
+</script>
+
+<style>
+  .custom-embed-frame {
+    overflow: hidden;
+    border-radius: 1rem;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  .custom-embed-frame :global(iframe) {
+    display: block;
+    width: 100%;
+  }
+
+  .custom-embed-frame-tableau {
+    padding: 0.25rem;
+  }
+
+  .custom-embed-frame-tableau :global(tableau-viz),
+  .custom-embed-frame-tableau :global(.tableau-viz-shell) {
+    display: block;
+    width: 100%;
+    min-height: 780px;
+    background: transparent;
+  }
+
+  .embed-fallback-card {
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    color: rgb(100 116 139);
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  :global(.dark) .custom-embed-frame,
+  :global(.dark) .embed-fallback-card {
+    border-color: rgba(148, 163, 184, 0.16);
+    background: rgba(15, 23, 42, 0.5);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.24);
+  }
+</style>

@@ -3,11 +3,30 @@ const SAFE_CUSTOM_EMBED_HOSTS = new Set([
 	'datawrapper.dwcdn.net',
 	'flo.uri.sh',
 	'power.lowyinstitute.org',
+	'public.tableau.com',
 	'www.youtube.com',
 	'youtube.com',
 	'www.youtube-nocookie.com',
 	'youtube-nocookie.com',
 ]);
+
+type SafeIframeEmbed = {
+	type: 'iframe';
+	src: string;
+	title: string;
+	height: number;
+	provider: 'generic' | 'datawrapper';
+	id?: string;
+};
+
+type SafeTableauEmbed = {
+	type: 'tableau';
+	src: string;
+	hideTabs: boolean;
+	toolbar: 'bottom' | 'hidden';
+};
+
+export type SafeCustomEmbed = SafeIframeEmbed | SafeTableauEmbed;
 
 export function getSafeLink(value: string, options: { allowMailto?: boolean } = {}) {
 	const url = value.trim();
@@ -192,7 +211,80 @@ function getSafeIframeHeight(value: string) {
 	return 520;
 }
 
-export function getSafeCustomEmbedHtml(value: string) {
+function getDatawrapperIdFromSrc(src: string) {
+	try {
+		const parsed = new URL(src);
+		if (parsed.hostname !== 'datawrapper.dwcdn.net') return null;
+		return parsed.pathname.split('/').filter(Boolean)[0] ?? null;
+	} catch {
+		return null;
+	}
+}
+
+function getDatawrapperEmbedFromValue(value: string): SafeIframeEmbed | null {
+	const scriptMatch = value.match(/https:\/\/datawrapper\.dwcdn\.net\/([A-Za-z0-9]+)\/embed\.js(?:\?v=\d+)?/i);
+	if (scriptMatch?.[1]) {
+		const chartId = scriptMatch[1];
+		return {
+			type: 'iframe',
+			src: `https://datawrapper.dwcdn.net/${chartId}/`,
+			title: 'Datawrapper chart',
+			height: 620,
+			provider: 'datawrapper',
+			id: `datawrapper-chart-${chartId}`,
+		};
+	}
+
+	const iframeMatch = value.match(/<iframe\b([^>]*)>(?:<\/iframe>)?/i);
+	if (!iframeMatch) return null;
+
+	const attributes = iframeMatch[1] ?? '';
+	const safeSrc = getSafeCustomEmbedUrl(getIframeAttribute(attributes, 'src'));
+	if (!safeSrc || !safeSrc.includes('datawrapper.dwcdn.net')) return null;
+	const chartId = getDatawrapperIdFromSrc(safeSrc) ?? 'chart';
+
+	return {
+		type: 'iframe',
+		src: safeSrc,
+		title: getIframeAttribute(attributes, 'title') || 'Datawrapper chart',
+		height: getSafeIframeHeight(getIframeAttribute(attributes, 'height')) || 620,
+		provider: 'datawrapper',
+		id: `datawrapper-chart-${chartId}`,
+	};
+}
+
+function getTableauEmbedFromValue(value: string): SafeTableauEmbed | null {
+	const directUrlMatch = value.match(/https:\/\/public\.tableau\.com\/views\/([A-Za-z0-9_-]+\/[A-Za-z0-9_-]+)/i);
+	if (directUrlMatch?.[1]) {
+		return {
+			type: 'tableau',
+			src: `https://public.tableau.com/views/${directUrlMatch[1]}?:showVizHome=no`,
+			hideTabs: false,
+			toolbar: 'bottom',
+		};
+	}
+
+	const nameMatch = value.match(/<param\s+name=['"]name['"]\s+value=['"]([^'"]+)['"]/i);
+	if (!nameMatch?.[1]) return null;
+
+	const tabsValue = value.match(/<param\s+name=['"]tabs['"]\s+value=['"]([^'"]+)['"]/i)?.[1]?.toLowerCase();
+	const toolbarValue = value.match(/<param\s+name=['"]toolbar['"]\s+value=['"]([^'"]+)['"]/i)?.[1]?.toLowerCase();
+
+	return {
+		type: 'tableau',
+		src: `https://public.tableau.com/views/${nameMatch[1]}?:showVizHome=no`,
+		hideTabs: tabsValue !== 'yes',
+		toolbar: toolbarValue === 'yes' ? 'bottom' : 'hidden',
+	};
+}
+
+export function getSafeCustomEmbed(value: string): SafeCustomEmbed | null {
+	const tableauEmbed = getTableauEmbedFromValue(value);
+	if (tableauEmbed) return tableauEmbed;
+
+	const datawrapperEmbed = getDatawrapperEmbedFromValue(value);
+	if (datawrapperEmbed) return datawrapperEmbed;
+
 	const iframeMatches = Array.from(value.matchAll(/<iframe\b([^>]*)>(?:<\/iframe>)?/gi));
 	if (iframeMatches.length === 0) return null;
 
@@ -202,12 +294,25 @@ export function getSafeCustomEmbedHtml(value: string) {
 			const safeSrc = getSafeCustomEmbedUrl(getIframeAttribute(attributes, 'src'));
 			if (!safeSrc) return null;
 
-			const title = getIframeAttribute(attributes, 'title') || 'Embedded media';
-			const height = getSafeIframeHeight(getIframeAttribute(attributes, 'height'));
-
-			return `<iframe src="${escapeHtmlAttribute(safeSrc)}" title="${escapeHtmlAttribute(title)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width:100%;min-height:${height}px;border:0;"></iframe>`;
+			return {
+				type: 'iframe' as const,
+				src: safeSrc,
+				title: getIframeAttribute(attributes, 'title') || 'Embedded media',
+				height: getSafeIframeHeight(getIframeAttribute(attributes, 'height')),
+				provider: (safeSrc.includes('datawrapper.dwcdn.net') ? 'datawrapper' : 'generic') as 'datawrapper' | 'generic',
+				id: safeSrc.includes('datawrapper.dwcdn.net')
+					? `datawrapper-chart-${getDatawrapperIdFromSrc(safeSrc) ?? 'chart'}`
+					: undefined,
+			};
 		})
 		.filter(Boolean);
 
-	return safeIframes.length > 0 ? safeIframes.join('') : null;
+	return safeIframes[0] ?? null;
+}
+
+export function getSafeCustomEmbedHtml(value: string) {
+	const embed = getSafeCustomEmbed(value);
+	if (!embed || embed.type !== 'iframe') return null;
+
+	return `<iframe${embed.id ? ` id="${escapeHtmlAttribute(embed.id)}"` : ''} src="${escapeHtmlAttribute(embed.src)}" title="${escapeHtmlAttribute(embed.title)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen scrolling="no" style="width:100%;min-height:${embed.height}px;border:0;overflow:hidden;"></iframe>`;
 }
