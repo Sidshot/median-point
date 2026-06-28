@@ -3,10 +3,60 @@ import BlockWrapper from './BlockWrapper.astro';
 import { getSafeCustomEmbed, getSafeCustomEmbedHtml } from '../../utils/urls';
 
 const { code = '', ...designProps } = Astro.props;
+const safeEmbed = getSafeCustomEmbed(code);
 const safeEmbedHtml = getSafeCustomEmbedHtml(code);
+const tableauId = safeEmbed?.type === 'tableau'
+  ? `tableau-viz-${safeEmbed.name.replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase()}`
+  : null;
 ---
 <BlockWrapper {...designProps} class={`custom-html-block my-8 not-prose ${designProps.class || ''}`}>
-  {safeEmbedHtml ? (
+  {safeEmbed?.type === 'tableau' ? (
+    <div class="custom-embed-frame custom-embed-frame-tableau">
+      <div class="tableau-placeholder" id={tableauId}>
+        {safeEmbed.staticImage ? (
+          <noscript>
+            <a href={`https://public.tableau.com/views/${safeEmbed.name}`}>
+              <img src={safeEmbed.staticImage} alt="Tableau visualization preview" style="border: none;" />
+            </a>
+          </noscript>
+        ) : null}
+        <object class="tableauViz" style="display:none;">
+          <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+          <param name="embed_code_version" value="3" />
+          <param name="site_root" value="" />
+          <param name="name" value={safeEmbed.name} />
+          <param name="tabs" value={safeEmbed.tabs} />
+          <param name="toolbar" value={safeEmbed.toolbar} />
+          {safeEmbed.staticImage ? <param name="static_image" value={safeEmbed.staticImage} /> : null}
+          <param name="animate_transition" value="yes" />
+          <param name="display_static_image" value="yes" />
+          <param name="display_spinner" value="yes" />
+          <param name="display_overlay" value="yes" />
+          <param name="display_count" value="yes" />
+          <param name="language" value={safeEmbed.language} />
+        </object>
+      </div>
+      <script is:inline define:vars={{ tableauId }}>
+        (function () {
+          var divElement = document.getElementById(tableauId);
+          if (!divElement) return;
+
+          var vizElement = divElement.getElementsByTagName('object')[0];
+          if (!vizElement) return;
+
+          vizElement.style.width = '100%';
+          vizElement.style.minHeight = '860px';
+          vizElement.style.display = 'block';
+
+          if (!document.querySelector('script[src="https://public.tableau.com/javascripts/api/viz_v1.js"]')) {
+            var scriptElement = document.createElement('script');
+            scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+            vizElement.parentNode.insertBefore(scriptElement, vizElement);
+          }
+        })();
+      </script>
+    </div>
+  ) : safeEmbedHtml ? (
     <div class="custom-embed-frame" set:html={safeEmbedHtml} />
   ) : (
     <div class="embed-fallback-card">
@@ -54,6 +104,12 @@ const safeEmbedHtml = getSafeCustomEmbedHtml(code);
 
   .custom-embed-frame-tableau {
     padding: 0.25rem;
+    overflow: hidden;
+  }
+
+  .custom-embed-frame-tableau :global(.tableau-placeholder) {
+    width: 100%;
+    min-height: 860px;
   }
 
   .embed-fallback-card {

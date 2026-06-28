@@ -15,10 +15,20 @@ type SafeIframeEmbed = {
 	src: string;
 	title: string;
 	height: number;
-	provider: 'generic' | 'datawrapper' | 'tableau';
+	provider: 'generic' | 'datawrapper';
 	id?: string;
 };
-export type SafeCustomEmbed = SafeIframeEmbed;
+
+type SafeTableauEmbed = {
+	type: 'tableau';
+	name: string;
+	staticImage?: string;
+	toolbar: 'yes' | 'no';
+	tabs: 'yes' | 'no';
+	language: string;
+};
+
+export type SafeCustomEmbed = SafeIframeEmbed | SafeTableauEmbed;
 
 export function getSafeLink(value: string, options: { allowMailto?: boolean } = {}) {
 	const url = value.trim();
@@ -245,27 +255,33 @@ function getDatawrapperEmbedFromValue(value: string): SafeIframeEmbed | null {
 	};
 }
 
-function getTableauEmbedFromValue(value: string): SafeIframeEmbed | null {
+function getTableauEmbedFromValue(value: string): SafeTableauEmbed | null {
 	const directUrlMatch = value.match(/https:\/\/public\.tableau\.com\/views\/([A-Za-z0-9_-]+\/[A-Za-z0-9_-]+)/i);
 	if (directUrlMatch?.[1]) {
 		return {
-			type: 'iframe',
-			src: `https://public.tableau.com/views/${directUrlMatch[1]}?:showVizHome=no&:embed=yes`,
-			title: 'Tableau visualization',
-			height: 860,
-			provider: 'tableau',
+			type: 'tableau',
+			name: directUrlMatch[1],
+			toolbar: 'yes',
+			tabs: 'no',
+			language: 'en-GB',
 		};
 	}
 
 	const nameMatch = value.match(/<param\s+name=['"]name['"]\s+value=['"]([^'"]+)['"]/i);
 	if (!nameMatch?.[1]) return null;
 
+	const staticImage = value.match(/<param\s+name=['"]static_image['"]\s+value=['"]([^'"]+)['"]/i)?.[1];
+	const tabsValue = value.match(/<param\s+name=['"]tabs['"]\s+value=['"]([^'"]+)['"]/i)?.[1]?.toLowerCase() === 'yes' ? 'yes' : 'no';
+	const toolbarValue = value.match(/<param\s+name=['"]toolbar['"]\s+value=['"]([^'"]+)['"]/i)?.[1]?.toLowerCase() === 'no' ? 'no' : 'yes';
+	const languageValue = value.match(/<param\s+name=['"]language['"]\s+value=['"]([^'"]+)['"]/i)?.[1] || 'en-GB';
+
 	return {
-		type: 'iframe',
-		src: `https://public.tableau.com/views/${nameMatch[1]}?:showVizHome=no&:embed=yes`,
-		title: 'Tableau visualization',
-		height: 860,
-		provider: 'tableau',
+		type: 'tableau',
+		name: nameMatch[1],
+		staticImage,
+		toolbar: toolbarValue,
+		tabs: tabsValue,
+		language: languageValue,
 	};
 }
 
