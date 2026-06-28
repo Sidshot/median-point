@@ -3,29 +3,10 @@ import BlockWrapper from './BlockWrapper.astro';
 import { getSafeCustomEmbed, getSafeCustomEmbedHtml } from '../../utils/urls';
 
 const { code = '', ...designProps } = Astro.props;
-const safeEmbed = getSafeCustomEmbed(code);
 const safeEmbedHtml = getSafeCustomEmbedHtml(code);
 ---
 <BlockWrapper {...designProps} class={`custom-html-block my-8 not-prose ${designProps.class || ''}`}>
-  {safeEmbed?.type === 'tableau' ? (
-    <div class="custom-embed-frame custom-embed-frame-tableau">
-      <script is:inline type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
-      {safeEmbed.hideTabs ? (
-        <tableau-viz
-          src={safeEmbed.src}
-          toolbar={safeEmbed.toolbar}
-          class="tableau-viz-shell"
-          hide-tabs
-        ></tableau-viz>
-      ) : (
-        <tableau-viz
-          src={safeEmbed.src}
-          toolbar={safeEmbed.toolbar}
-          class="tableau-viz-shell"
-        ></tableau-viz>
-      )}
-    </div>
-  ) : safeEmbedHtml ? (
+  {safeEmbedHtml ? (
     <div class="custom-embed-frame" set:html={safeEmbedHtml} />
   ) : (
     <div class="embed-fallback-card">
@@ -73,14 +54,6 @@ const safeEmbedHtml = getSafeCustomEmbedHtml(code);
 
   .custom-embed-frame-tableau {
     padding: 0.25rem;
-  }
-
-  .custom-embed-frame-tableau :global(tableau-viz),
-  .custom-embed-frame-tableau :global(.tableau-viz-shell) {
-    display: block;
-    width: 100%;
-    min-height: 780px;
-    background: transparent;
   }
 
   .embed-fallback-card {

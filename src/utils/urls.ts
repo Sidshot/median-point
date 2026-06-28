@@ -15,18 +15,10 @@ type SafeIframeEmbed = {
 	src: string;
 	title: string;
 	height: number;
-	provider: 'generic' | 'datawrapper';
+	provider: 'generic' | 'datawrapper' | 'tableau';
 	id?: string;
 };
-
-type SafeTableauEmbed = {
-	type: 'tableau';
-	src: string;
-	hideTabs: boolean;
-	toolbar: 'bottom' | 'hidden';
-};
-
-export type SafeCustomEmbed = SafeIframeEmbed | SafeTableauEmbed;
+export type SafeCustomEmbed = SafeIframeEmbed;
 
 export function getSafeLink(value: string, options: { allowMailto?: boolean } = {}) {
 	const url = value.trim();
@@ -253,28 +245,27 @@ function getDatawrapperEmbedFromValue(value: string): SafeIframeEmbed | null {
 	};
 }
 
-function getTableauEmbedFromValue(value: string): SafeTableauEmbed | null {
+function getTableauEmbedFromValue(value: string): SafeIframeEmbed | null {
 	const directUrlMatch = value.match(/https:\/\/public\.tableau\.com\/views\/([A-Za-z0-9_-]+\/[A-Za-z0-9_-]+)/i);
 	if (directUrlMatch?.[1]) {
 		return {
-			type: 'tableau',
-			src: `https://public.tableau.com/views/${directUrlMatch[1]}?:showVizHome=no`,
-			hideTabs: false,
-			toolbar: 'bottom',
+			type: 'iframe',
+			src: `https://public.tableau.com/views/${directUrlMatch[1]}?:showVizHome=no&:embed=yes`,
+			title: 'Tableau visualization',
+			height: 860,
+			provider: 'tableau',
 		};
 	}
 
 	const nameMatch = value.match(/<param\s+name=['"]name['"]\s+value=['"]([^'"]+)['"]/i);
 	if (!nameMatch?.[1]) return null;
 
-	const tabsValue = value.match(/<param\s+name=['"]tabs['"]\s+value=['"]([^'"]+)['"]/i)?.[1]?.toLowerCase();
-	const toolbarValue = value.match(/<param\s+name=['"]toolbar['"]\s+value=['"]([^'"]+)['"]/i)?.[1]?.toLowerCase();
-
 	return {
-		type: 'tableau',
-		src: `https://public.tableau.com/views/${nameMatch[1]}?:showVizHome=no`,
-		hideTabs: tabsValue !== 'yes',
-		toolbar: toolbarValue === 'yes' ? 'bottom' : 'hidden',
+		type: 'iframe',
+		src: `https://public.tableau.com/views/${nameMatch[1]}?:showVizHome=no&:embed=yes`,
+		title: 'Tableau visualization',
+		height: 860,
+		provider: 'tableau',
 	};
 }
 
