@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
+import { getPostSlug } from '../utils/posts';
 
 interface Props {
 	posts: CollectionEntry<'blog'>[];
@@ -44,7 +45,7 @@ const { posts } = Astro.props;
 				<div class="latest-articles-list">
 					{
 						posts.map((post) => (
-							<a href={`/blog/${post.id}/`} class="latest-article-link">
+							<a href={`/blog/${getPostSlug(post)}/`} class="latest-article-link">
 								<h3>{post.data.title}</h3>
 								<div><FormattedDate date={post.data.pubDate} /></div>
 							</a>

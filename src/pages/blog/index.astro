@@ -5,7 +5,7 @@ import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
-import { getPublishedPosts } from '../../utils/posts';
+import { getPostSlug, getPublishedPosts } from '../../utils/posts';
 
 const posts = getPublishedPosts(await getCollection('blog'));
 
@@ -37,7 +37,7 @@ function getPreviewImage(body = '', coverImage?: string) {
 						const previewImage = getPreviewImage(post.body, post.data.coverImage);
 
 						return (
-							<a href={`/blog/${post.id}/`} class="group block no-underline">
+							<a href={`/blog/${getPostSlug(post)}/`} class="group block no-underline">
 								<article class="h-full overflow-hidden rounded-none border border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
 									{previewImage && (
 										<img

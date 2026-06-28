@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { SITE_TITLE } from '../consts';
-import { getPublishedPosts } from '../utils/posts';
+import { getPostSlug, getPublishedPosts } from '../utils/posts';
 
 const posts = getPublishedPosts(await getCollection('blog'));
 const categories = [...new Set(posts.map((post) => post.data.category || 'Analysis'))].sort();
@@ -45,7 +45,7 @@ const categories = [...new Set(posts.map((post) => post.data.category || 'Analys
 							data-category={post.data.category || 'Analysis'}
 							data-tags={JSON.stringify(post.data.tags)}
 						>
-							<a href={`/blog/${post.id}/`} class="block no-underline">
+							<a href={`/blog/${getPostSlug(post)}/`} class="block no-underline">
 								<div class="flex items-center justify-between gap-4 mb-3">
 									<div class="text-xs text-brand dark:text-brand-dark font-sans font-bold uppercase tracking-wider bg-red-50 dark:bg-red-900/20 px-3 py-1 rounded-full inline-block">
 										{post.data.category || 'Analysis'}

@@ -6,7 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import type { APIRoute, GetStaticPaths } from 'astro';
 import type { ReactNode } from 'react';
-import { getPublishedPosts } from '../../utils/posts';
+import { getPostSlug, getPublishedPosts } from '../../utils/posts';
 
 interface OgImageProps {
   title: string;
@@ -16,7 +16,7 @@ interface OgImageProps {
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = getPublishedPosts(await getCollection('blog'));
   return posts.map((post) => ({
-    params: { slug: post.id },
+    params: { slug: getPostSlug(post) },
     props: {
       title: post.data.title,
       category: post.data.category || 'Analysis',

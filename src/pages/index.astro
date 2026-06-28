@@ -6,7 +6,7 @@ import GlassLogo from "../components/GlassLogo.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
-import { getPublishedPosts } from "../utils/posts";
+import { getPostSlug, getPublishedPosts } from "../utils/posts";
 
 const posts = getPublishedPosts(await getCollection("blog"));
 
@@ -97,7 +97,7 @@ const getFirstImage = (body?: string) => {
 						<div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:auto-rows-[250px] lg:auto-rows-[300px]">
 							{/* 1st Article - Large (2 cols, 2 rows) */}
 							{bentoPosts[0] && (
-								<a href={`/blog/${bentoPosts[0].id}/`} class="block md:col-span-2 md:row-span-2 group no-underline relative overflow-hidden rounded-none bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 min-h-[400px] md:min-h-0">
+								<a href={`/blog/${getPostSlug(bentoPosts[0])}/`} class="block md:col-span-2 md:row-span-2 group no-underline relative overflow-hidden rounded-none bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 min-h-[400px] md:min-h-0">
 									{getFirstImage(bentoPosts[0].body) ? (
 										<img src={getFirstImage(bentoPosts[0].body)} alt={bentoPosts[0].data.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
 									) : (
@@ -120,7 +120,7 @@ const getFirstImage = (body?: string) => {
 							
 							{/* 2nd Article - Wide (2 cols, 1 row) */}
 							{bentoPosts[1] && (
-								<a href={`/blog/${bentoPosts[1].id}/`} class="block md:col-span-2 md:row-span-1 group no-underline relative overflow-hidden rounded-none bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 min-h-[250px] md:min-h-0">
+								<a href={`/blog/${getPostSlug(bentoPosts[1])}/`} class="block md:col-span-2 md:row-span-1 group no-underline relative overflow-hidden rounded-none bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 min-h-[250px] md:min-h-0">
 									{getFirstImage(bentoPosts[1].body) ? (
 										<img src={getFirstImage(bentoPosts[1].body)} alt={bentoPosts[1].data.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
 									) : (
@@ -140,7 +140,7 @@ const getFirstImage = (body?: string) => {
 
 							{/* 3rd Article - Small (1 col, 1 row) */}
 							{bentoPosts[2] && (
-								<a href={`/blog/${bentoPosts[2].id}/`} class="block md:col-span-1 md:row-span-1 group no-underline relative overflow-hidden rounded-none bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 min-h-[250px] md:min-h-0">
+								<a href={`/blog/${getPostSlug(bentoPosts[2])}/`} class="block md:col-span-1 md:row-span-1 group no-underline relative overflow-hidden rounded-none bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 min-h-[250px] md:min-h-0">
 									{getFirstImage(bentoPosts[2].body) ? (
 										<img src={getFirstImage(bentoPosts[2].body)} alt={bentoPosts[2].data.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
 									) : (
@@ -160,7 +160,7 @@ const getFirstImage = (body?: string) => {
 
 							{/* 4th Article - Small (1 col, 1 row) */}
 							{bentoPosts[3] && (
-								<a href={`/blog/${bentoPosts[3].id}/`} class="block md:col-span-1 md:row-span-1 group no-underline relative overflow-hidden rounded-none bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 min-h-[250px] md:min-h-0">
+								<a href={`/blog/${getPostSlug(bentoPosts[3])}/`} class="block md:col-span-1 md:row-span-1 group no-underline relative overflow-hidden rounded-none bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 min-h-[250px] md:min-h-0">
 									{getFirstImage(bentoPosts[3].body) ? (
 										<img src={getFirstImage(bentoPosts[3].body)} alt={bentoPosts[3].data.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
 									) : (
@@ -193,7 +193,7 @@ const getFirstImage = (body?: string) => {
 
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 					{remainingPosts.map((post) => (
-						<a href={`/blog/${post.id}/`} class="block no-underline group">
+						<a href={`/blog/${getPostSlug(post)}/`} class="block no-underline group">
 							<article class="insight-card bg-white dark:bg-[#111] border border-gray-200/60 dark:border-gray-800 rounded-none overflow-hidden hover:shadow-lg dark:hover:shadow-brand/5 hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
 								{/* Article Thumbnail */}
 								{getFirstImage(post.body) ? (

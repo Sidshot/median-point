@@ -3,6 +3,23 @@ import { block, wrapper, mark } from '@keystatic/core/content-components';
 import { createElement } from 'react';
 import { designSchema } from './src/keystatic/designSchema';
 
+function sanitizeAssetFilename(originalFilename: string) {
+  const lastDot = originalFilename.lastIndexOf('.');
+  const hasExtension = lastDot > 0;
+  const baseName = hasExtension ? originalFilename.slice(0, lastDot) : originalFilename;
+  const extension = hasExtension ? originalFilename.slice(lastDot).toLowerCase() : '';
+
+  const sanitizedBaseName = baseName
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/-{2,}/g, '-')
+    .toLowerCase();
+
+  return `${sanitizedBaseName || 'asset'}${extension}`;
+}
+
 export default config({
   storage: {
     kind: 'github',
@@ -52,6 +69,10 @@ export default config({
       format: { contentField: 'content' },
       schema: {
         title: fields.slug({ name: { label: 'Title' } }),
+        slug: fields.text({
+          label: 'Public URL slug (optional)',
+          description: 'Leave blank for new posts unless you need to preserve an older live URL.',
+        }),
         isDraft: fields.checkbox({ label: 'Save as Draft (Do not publish yet)', defaultValue: false }),
         seoTitle: fields.text({ label: 'SEO Title (Optional - overrides article title for search engines)' }),
         seoDescription: fields.text({ label: 'SEO Description (Optional - overrides description for search engines)', multiline: true }),
@@ -94,7 +115,8 @@ export default config({
           options: {
             image: {
               directory: 'public/images/blog',
-              publicPath: '/images/blog/'
+              publicPath: '/images/blog/',
+              transformFilename: sanitizeAssetFilename,
             }
           },
           components: {

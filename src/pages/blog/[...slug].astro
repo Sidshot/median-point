@@ -44,12 +44,12 @@ import StatisticsGrid from '../../components/editorial/StatisticsGrid.astro';
 import FAQ from '../../components/editorial/FAQ.astro';
 import References from '../../components/editorial/References.astro';
 import CustomHTML from '../../components/editorial/CustomHTML.astro';
-import { getPublishedPosts } from '../../utils/posts';
+import { getPostSlug, getPublishedPosts } from '../../utils/posts';
 
 export async function getStaticPaths() {
 	const posts = getPublishedPosts(await getCollection('blog'));
 	return posts.map((post) => ({
-		params: { slug: post.id },
+		params: { slug: getPostSlug(post) },
 		props: post,
 	}));
 }
@@ -61,7 +61,7 @@ const wordCount = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
 const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 ---
 
-<BlogPost {...post.data} id={post.id} headings={headings} readingTime={readingTime}>
+<BlogPost {...post.data} id={getPostSlug(post)} headings={headings} readingTime={readingTime}>
 	<Content components={{
 		YouTube: YouTubeEmbed,
 		Tweet: TweetEmbed,

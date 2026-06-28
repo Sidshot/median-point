@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { getPublishedPosts } from '../utils/posts';
+import { getPostSlug, getPublishedPosts } from '../utils/posts';
 
 export const GET: APIRoute = async () => {
 	const posts = getPublishedPosts(await getCollection('blog'));
@@ -9,7 +9,7 @@ export const GET: APIRoute = async () => {
 		description: post.data.description,
 		category: post.data.category || '',
 		tags: post.data.tags || [],
-		slug: post.id,
+		slug: getPostSlug(post),
 		pubDate: post.data.pubDate.toISOString(),
 		author: post.data.author || 'Sudhanshu Verma',
 	}));
