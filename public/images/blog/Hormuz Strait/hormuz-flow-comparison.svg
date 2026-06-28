@@ -1,0 +1,41 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="900" fill="#F7F9FC"/>
+  <rect x="90" y="88" width="1220" height="724" rx="28" fill="white" stroke="#D7E0EA" stroke-width="3"/>
+
+  <text x="118" y="156" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="800">Hormuz vs the alternatives</text>
+  <text x="118" y="204" fill="#58738D" font-family="Inter, Arial, sans-serif" font-size="25">A simple visual for why bypass routes reduce risk but do not replace the strait.</text>
+
+  <line x1="170" y1="715" x2="1250" y2="715" stroke="#A9BACB" stroke-width="3"/>
+  <line x1="170" y1="280" x2="170" y2="715" stroke="#A9BACB" stroke-width="3"/>
+
+  <text x="160" y="300" text-anchor="end" fill="#6B839B" font-family="Inter, Arial, sans-serif" font-size="22">100%</text>
+  <text x="160" y="408" text-anchor="end" fill="#6B839B" font-family="Inter, Arial, sans-serif" font-size="22">75%</text>
+  <text x="160" y="516" text-anchor="end" fill="#6B839B" font-family="Inter, Arial, sans-serif" font-size="22">50%</text>
+  <text x="160" y="624" text-anchor="end" fill="#6B839B" font-family="Inter, Arial, sans-serif" font-size="22">25%</text>
+  <text x="160" y="722" text-anchor="end" fill="#6B839B" font-family="Inter, Arial, sans-serif" font-size="22">0</text>
+
+  <line x1="170" y1="392" x2="1250" y2="392" stroke="#E5EDF5" stroke-width="2"/>
+  <line x1="170" y1="500" x2="1250" y2="500" stroke="#E5EDF5" stroke-width="2"/>
+  <line x1="170" y1="608" x2="1250" y2="608" stroke="#E5EDF5" stroke-width="2"/>
+
+  <rect x="245" y="280" width="155" height="435" rx="20" fill="#1B4D8E"/>
+  <text x="322.5" y="762" text-anchor="middle" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">Normal Hormuz flow</text>
+  <text x="322.5" y="256" text-anchor="middle" fill="#1B4D8E" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">100%</text>
+
+  <rect x="500" y="435" width="155" height="280" rx="20" fill="#4C8FD1"/>
+  <text x="577.5" y="762" text-anchor="middle" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">Saudi East-West</text>
+  <text x="577.5" y="411" text-anchor="middle" fill="#4C8FD1" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">~40%</text>
+
+  <rect x="755" y="575" width="155" height="140" rx="20" fill="#79AEE2"/>
+  <text x="832.5" y="762" text-anchor="middle" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">ADCOP</text>
+  <text x="832.5" y="551" text-anchor="middle" fill="#79AEE2" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">~20%</text>
+
+  <rect x="1010" y="610" width="155" height="105" rx="20" fill="#A7CAE9"/>
+  <text x="1087.5" y="762" text-anchor="middle" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">Other routes</text>
+  <text x="1087.5" y="586" text-anchor="middle" fill="#7AA6CF" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">&lt;15%</text>
+
+  <rect x="939" y="94" width="323" height="124" rx="18" fill="#F9FBFE" stroke="#D7E0EA" stroke-width="3"/>
+  <text x="969" y="138" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">Reading the chart</text>
+  <text x="969" y="176" fill="#58738D" font-family="Inter, Arial, sans-serif" font-size="22">The bypass system helps, but it cannot fully absorb</text>
+  <text x="969" y="204" fill="#58738D" font-family="Inter, Arial, sans-serif" font-size="22">the scale of normal Hormuz throughput.</text>
+</svg>

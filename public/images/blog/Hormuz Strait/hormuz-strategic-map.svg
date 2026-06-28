@@ -1,0 +1,56 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="900" fill="#F4F7FB"/>
+  <rect x="0" y="0" width="1400" height="900" fill="url(#bgGrid)" opacity="0.3"/>
+
+  <path d="M90 245C220 170 355 150 495 165C620 178 720 210 830 262C940 314 1030 372 1145 455C1232 518 1300 602 1340 690V810H85L90 245Z" fill="#D8E7F7"/>
+  <path d="M180 290C286 228 395 214 510 229C624 243 719 278 819 331C915 382 998 436 1087 516C1147 570 1202 631 1235 698V810H180V290Z" fill="#BFD8EF"/>
+
+  <path d="M102 228C196 174 293 148 395 146C469 144 542 158 623 184L688 208L658 262L593 241C524 219 459 207 394 208C305 210 220 232 137 278L102 228Z" fill="#EAD8B1" stroke="#C9AC73" stroke-width="3"/>
+  <path d="M1126 248C1185 310 1236 390 1267 476C1298 561 1308 652 1296 750L1232 742C1241 657 1232 581 1205 511C1178 441 1134 372 1081 316L1126 248Z" fill="#EAD8B1" stroke="#C9AC73" stroke-width="3"/>
+
+  <path d="M570 316C635 309 704 313 774 330C851 348 915 381 979 429L943 482C886 439 832 411 761 396C698 383 636 379 579 385L570 316Z" fill="#EDF5FF" stroke="#5B86B0" stroke-width="4"/>
+  <path d="M509 325C534 318 553 316 570 316L579 385C565 385 552 387 534 392L509 325Z" fill="#EDF5FF" stroke="#5B86B0" stroke-width="4"/>
+  <path d="M979 429C997 442 1012 455 1028 471L984 522C971 510 959 499 943 482L979 429Z" fill="#EDF5FF" stroke="#5B86B0" stroke-width="4"/>
+
+  <rect x="628" y="330" width="195" height="48" rx="24" fill="#D64045"/>
+  <text x="725.5" y="361" text-anchor="middle" fill="white" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700">STRAIT OF HORMUZ</text>
+
+  <path d="M588 355C613 349 625 347 648 347" stroke="#D64045" stroke-width="4" stroke-linecap="round"/>
+  <path d="M804 347C830 347 846 349 882 360" stroke="#D64045" stroke-width="4" stroke-linecap="round"/>
+
+  <rect x="122" y="107" width="300" height="124" rx="20" fill="white" stroke="#D7E0EA" stroke-width="3"/>
+  <text x="150" y="148" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="800">PERSIAN GULF</text>
+  <text x="150" y="188" fill="#47637E" font-family="Inter, Arial, sans-serif" font-size="24">Energy-export basin feeding</text>
+  <text x="150" y="220" fill="#47637E" font-family="Inter, Arial, sans-serif" font-size="24">the Hormuz corridor</text>
+
+  <rect x="1010" y="620" width="250" height="114" rx="20" fill="white" stroke="#D7E0EA" stroke-width="3"/>
+  <text x="1135" y="660" text-anchor="middle" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">ARABIAN SEA</text>
+  <text x="1135" y="698" text-anchor="middle" fill="#47637E" font-family="Inter, Arial, sans-serif" font-size="22">Open-ocean route toward</text>
+  <text x="1135" y="726" text-anchor="middle" fill="#47637E" font-family="Inter, Arial, sans-serif" font-size="22">Asian import markets</text>
+
+  <circle cx="421" cy="250" r="9" fill="#0F2940"/>
+  <text x="438" y="257" fill="#0F2940" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">Bandar Abbas (Iran)</text>
+
+  <circle cx="996" cy="280" r="9" fill="#0F2940"/>
+  <text x="1013" y="287" fill="#0F2940" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">Musandam / Oman</text>
+
+  <circle cx="1070" cy="472" r="9" fill="#0F2940"/>
+  <text x="1087" y="479" fill="#0F2940" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">Gulf of Oman</text>
+
+  <circle cx="851" cy="253" r="9" fill="#0F2940"/>
+  <text x="868" y="260" fill="#0F2940" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">Fujairah bypass outlet</text>
+
+  <path d="M378 447C462 467 567 483 682 489C824 497 951 484 1064 455" stroke="#0F2940" stroke-width="5" stroke-linecap="round" stroke-dasharray="10 10"/>
+  <polygon points="1062,444 1097,450 1070,475" fill="#0F2940"/>
+  <text x="544" y="545" fill="#0F2940" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700">Main commercial shipping corridor</text>
+
+  <rect x="106" y="748" width="474" height="92" rx="18" fill="white" stroke="#D7E0EA" stroke-width="3"/>
+  <text x="137" y="790" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="27" font-weight="800">Why this geography matters</text>
+  <text x="137" y="824" fill="#47637E" font-family="Inter, Arial, sans-serif" font-size="22">A narrow maritime gate links Gulf exports to the wider ocean.</text>
+
+  <defs>
+    <pattern id="bgGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" stroke="#D2DCE8" stroke-width="1"/>
+    </pattern>
+  </defs>
+</svg>

@@ -1,0 +1,33 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="900" fill="#F5F8FC"/>
+  <path d="M0 640C145 560 312 510 480 506C672 501 856 560 1017 648C1116 702 1229 752 1400 790V900H0V640Z" fill="#DDEAF7"/>
+
+  <path d="M165 255C270 210 363 195 463 198C594 202 707 247 816 317C915 381 1000 462 1075 560C1118 616 1155 673 1184 734L1115 760C1088 706 1054 655 1013 604C944 517 865 442 775 385C676 322 575 280 460 272C376 267 297 279 192 321L165 255Z" fill="#C7DBF0" stroke="#7EA4C9" stroke-width="4"/>
+
+  <path d="M198 225C289 182 366 167 451 168C591 168 725 220 855 312C969 392 1061 490 1138 619" stroke="#E1C37A" stroke-width="30" stroke-linecap="round" opacity="0.75"/>
+  <path d="M199 225C290 182 367 167 452 168C592 168 726 220 856 312C970 392 1062 490 1139 619" stroke="#A86A22" stroke-width="6" stroke-linecap="round" stroke-dasharray="14 14"/>
+
+  <circle cx="459" cy="170" r="14" fill="#D64045"/>
+  <text x="490" y="180" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">Hormuz gateway</text>
+
+  <circle cx="895" cy="355" r="14" fill="#1B4D8E"/>
+  <text x="926" y="365" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">Gulf of Oman</text>
+
+  <circle cx="1140" cy="622" r="14" fill="#0F7B6C"/>
+  <text x="1171" y="632" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">India-bound sea lanes</text>
+
+  <rect x="115" y="90" width="438" height="142" rx="24" fill="white" stroke="#D7E0EA" stroke-width="3"/>
+  <text x="145" y="138" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="38" font-weight="800">India's shipping problem</text>
+  <text x="145" y="180" fill="#58738D" font-family="Inter, Arial, sans-serif" font-size="25">The crisis was not just about oil prices.</text>
+  <text x="145" y="212" fill="#58738D" font-family="Inter, Arial, sans-serif" font-size="25">It was about whether cargoes could move safely at all.</text>
+
+  <rect x="835" y="96" width="420" height="154" rx="24" fill="white" stroke="#D7E0EA" stroke-width="3"/>
+  <text x="865" y="142" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800">Operational adaptation</text>
+  <text x="865" y="184" fill="#58738D" font-family="Inter, Arial, sans-serif" font-size="24">- Escorts arranged beyond the chokepoint</text>
+  <text x="865" y="214" fill="#58738D" font-family="Inter, Arial, sans-serif" font-size="24">- Safer routing and reporting protocols</text>
+  <text x="865" y="244" fill="#58738D" font-family="Inter, Arial, sans-serif" font-size="24">- Merchant protection as state strategy</text>
+
+  <rect x="120" y="714" width="430" height="114" rx="20" fill="white" stroke="#D7E0EA" stroke-width="3"/>
+  <text x="149" y="758" fill="#19324A" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">Why it matters for the article</text>
+  <text x="149" y="795" fill="#58738D" font-family="Inter, Arial, sans-serif" font-size="23">Energy security, naval protection, and diplomacy merged into a single operating problem.</text>
+</svg>
