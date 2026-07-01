@@ -1,5 +1,7 @@
 const SAFE_WEB_PROTOCOLS = new Set(['http:', 'https:']);
 const SAFE_CUSTOM_EMBED_HOSTS = new Set([
+	'archive.ourworldindata.org',
+	'ourworldindata.org',
 	'datawrapper.dwcdn.net',
 	'flo.uri.sh',
 	'power.lowyinstitute.org',
