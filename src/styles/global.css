@@ -79,6 +79,8 @@
   }
   .prose p {
     margin-bottom: 1.6em;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
   .article-body > p:first-of-type::first-letter {
     @apply float-left text-7xl font-black leading-none mr-4 mt-2 text-brand dark:text-brand-dark;

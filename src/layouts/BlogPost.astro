@@ -148,7 +148,7 @@ const themeClass = globalSettings?.data?.siteTheme || 'theme-default';
 					<!-- Main Content Column -->
 					<div class="lg:col-span-9 xl:col-span-6 w-full max-w-[720px] mx-auto">
 						
-						<div class={`prose dark:prose-invert prose-lg md:prose-xl max-w-none font-serif leading-relaxed text-justify text-gray-800 dark:text-gray-200 prose-img:shadow-2xl prose-img:rounded-none ${headingColor === 'brand' ? 'prose-headings:text-brand dark:prose-headings:text-brand-dark' : ''}`}>
+						<div class={`prose dark:prose-invert prose-lg md:prose-xl max-w-none font-serif leading-relaxed text-left md:text-justify hyphens-auto text-gray-800 dark:text-gray-200 prose-img:shadow-2xl prose-img:rounded-none ${headingColor === 'brand' ? 'prose-headings:text-brand dark:prose-headings:text-brand-dark' : ''}`}>
 							<slot />
 						</div>
 

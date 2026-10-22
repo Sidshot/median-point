@@ -10,14 +10,13 @@ const { year, ...designProps } = Astro.props;
 
 const defaultDesign = {
   padding: designProps.padding || '2rem 1.5rem',
-  border: designProps.border || '1px solid currentColor',
-  theme: designProps.theme || 'theme-nyt', // NYT theme feels historical
+  theme: designProps.theme || 'theme-nyt',
 };
 const mergedProps = { ...defaultDesign, ...designProps };
 ---
 
-<BlockWrapper {...mergedProps} class={`historical-context my-10 border-t-4 border-b-4 ${designProps.class || ''}`}>
-  {year && <div class="text-4xl font-serif font-bold text-gray-300 dark:text-gray-700 mb-2">{year}</div>}
+<BlockWrapper {...mergedProps} class={`historical-context my-10 border-t-4 border-b-4 border-gray-300 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/30 ${designProps.class || ''}`}>
+  {year && <div class="text-4xl font-serif font-bold text-gray-400 dark:text-gray-500 mb-2 tracking-tight">{year}</div>}
   <div class="font-serif italic text-lg leading-relaxed text-gray-800 dark:text-gray-200">
     <slot />
   </div>

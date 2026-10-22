@@ -43,6 +43,14 @@ Articles live in `src/content/blog` and are managed through Keystatic. Draft and
 - RSS
 - generated Open Graph images
 
+## Editorial Workflow Docs
+
+For the semi-automated article workflow and reusable generation forms, see:
+
+- [ARTICLE_REQUEST_TEMPLATE.md](</D:/IDE - My sites/Median Point IDE/ARTICLE_REQUEST_TEMPLATE.md>)
+- [ARTICLE_GENERATION_PROTOCOL.md](</D:/IDE - My sites/Median Point IDE/ARTICLE_GENERATION_PROTOCOL.md>)
+- [CMS_GUIDE.md](</D:/IDE - My sites/Median Point IDE/CMS_GUIDE.md>)
+
 ## Deployment
 
 The `main` branch deploys through Vercel. Production configuration is in:
