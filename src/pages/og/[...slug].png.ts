@@ -31,6 +31,10 @@ export const GET: APIRoute = async ({ props }) => {
   const fontPath = path.resolve('./node_modules/@fontsource/inter/files/inter-latin-800-normal.woff');
   const fontData = fs.readFileSync(fontPath);
 
+  const titleLength = title.length;
+  const titleFontSize = titleLength > 70 ? '50px' : titleLength > 45 ? '62px' : '76px';
+  const titleLineHeight = titleLength > 70 ? '1.15' : '1.1';
+
   const markup = html`
     <div style="display: flex; flex-direction: column; width: 1200px; height: 630px; background-color: #0c1220; color: white; padding: 80px; box-sizing: border-box; justify-content: space-between; position: relative;">
       
@@ -49,7 +53,7 @@ export const GET: APIRoute = async ({ props }) => {
           </div>
         </div>
         
-        <div style="display: flex; font-size: 80px; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em;">
+        <div style="display: flex; font-size: ${titleFontSize}; font-weight: 800; line-height: ${titleLineHeight}; letter-spacing: -0.02em;">
           ${title}
         </div>
       </div>
@@ -64,7 +68,7 @@ export const GET: APIRoute = async ({ props }) => {
           </div>
         </div>
         <div style="display: flex; font-size: 28px; font-weight: 800; letter-spacing: 0.2em; color: rgba(255, 255, 255, 0.5);">
-          MEDIANPOINT.COM
+          MEDIAN POINT
         </div>
       </div>
     </div>

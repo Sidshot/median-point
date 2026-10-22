@@ -1,19 +1,75 @@
 ---
 import BlockWrapper from './BlockWrapper.astro';
 const { images = [], ...designProps } = Astro.props;
+const carouselId = `carousel-${Math.random().toString(36).substring(7)}`;
 ---
-<BlockWrapper {...designProps} class={`carousel-block my-10 not-prose ${designProps.class || ''}`}>
-  <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide">
-    {images.map((img: any) => (
-      <div class="snap-center shrink-0 w-full md:w-3/4 first:ml-0 last:mr-0">
-        <figure class="m-0">
-          <img src={img.src} alt={img.alt} class="w-full h-64 md:h-96 object-cover rounded-none shadow-md" loading="lazy" />
-          {img.caption && <figcaption class="text-sm text-gray-500 mt-2 font-sans text-center">{img.caption}</figcaption>}
-        </figure>
-      </div>
-    ))}
+<BlockWrapper {...designProps} class={`carousel-block my-10 not-prose relative group/carousel ${designProps.class || ''}`}>
+  <div class="relative">
+    <!-- Carousel Track -->
+    <div id={carouselId} class="carousel-track flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth scrollbar-hide">
+      {images.map((img: any) => (
+        <div class="snap-center shrink-0 w-full md:w-3/4 first:ml-0 last:mr-0">
+          <figure class="m-0">
+            <img src={img.src} alt={img.alt} class="w-full h-64 md:h-96 object-cover rounded-none shadow-md" loading="lazy" />
+            {img.caption && <figcaption class="text-sm text-gray-500 mt-2 font-sans text-center">{img.caption}</figcaption>}
+          </figure>
+        </div>
+      ))}
+    </div>
+
+    {images.length > 1 && (
+      <>
+        <!-- Previous Button -->
+        <button
+          type="button"
+          class="carousel-prev absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-sm shadow-lg opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 transition-opacity duration-200"
+          aria-label="Previous slide"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <!-- Next Button -->
+        <button
+          type="button"
+          class="carousel-next absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-sm shadow-lg opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 transition-opacity duration-200"
+          aria-label="Next slide"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </>
+    )}
   </div>
 </BlockWrapper>
+
+<script>
+  function setupCarousels() {
+    document.querySelectorAll<HTMLElement>('.carousel-block').forEach((carousel) => {
+      const track = carousel.querySelector<HTMLElement>('.carousel-track');
+      const prevBtn = carousel.querySelector<HTMLButtonElement>('.carousel-prev');
+      const nextBtn = carousel.querySelector<HTMLButtonElement>('.carousel-next');
+
+      if (!track || !prevBtn || !nextBtn) return;
+
+      prevBtn.onclick = () => {
+        const step = track.clientWidth * 0.75;
+        track.scrollBy({ left: -step, behavior: 'smooth' });
+      };
+
+      nextBtn.onclick = () => {
+        const step = track.clientWidth * 0.75;
+        track.scrollBy({ left: step, behavior: 'smooth' });
+      };
+    });
+  }
+
+  setupCarousels();
+  document.addEventListener('astro:page-load', setupCarousels);
+</script>
+
 <style>
   .scrollbar-hide::-webkit-scrollbar { display: none; }
   .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }

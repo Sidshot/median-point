@@ -21,10 +21,12 @@ function sanitizeAssetFilename(originalFilename: string) {
 }
 
 export default config({
-  storage: {
-    kind: 'github',
-    repo: 'Sidshot/median-point'
-  },
+  storage: process.env.NODE_ENV === 'development'
+    ? { kind: 'local' }
+    : {
+        kind: 'github',
+        repo: 'Sidshot/median-point',
+      },
   singletons: {
     settings: singleton({
       label: 'Global Settings',

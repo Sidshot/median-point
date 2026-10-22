@@ -346,6 +346,11 @@ const themeClass = globalSettings?.data?.siteTheme || 'theme-default';
 				btn.addEventListener('click', openModal);
 				closeBtn?.addEventListener('click', closeModal);
 				backdrop.addEventListener('click', closeModal);
+				window.addEventListener('keydown', (e) => {
+					if (e.key === 'Escape' && !modalEl.classList.contains('hidden')) {
+						closeModal();
+					}
+				});
 
 				// Also close modal when a link inside it is clicked
 				const links = sheet.querySelectorAll('a');
@@ -428,7 +433,7 @@ const themeClass = globalSettings?.data?.siteTheme || 'theme-default';
 					});
 				}, observerOptions);
 
-				const revealElements = document.querySelectorAll('#article-content .prose > p, #article-content .prose > div, #article-content .prose > figure, #article-content .prose > ul, #article-content .prose > blockquote, .article-rail-aside, .latest-articles-aside');
+				const revealElements = document.querySelectorAll('#article-content .prose > p, #article-content .prose > div, #article-content .prose > figure, #article-content .prose > ul, #article-content .prose > blockquote');
 				revealElements.forEach(el => {
 					if (el.classList.contains('is-revealed')) return;
 					el.classList.add('reveal-up');

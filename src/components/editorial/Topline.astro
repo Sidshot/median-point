@@ -1,15 +1,20 @@
 ---
+import BlockWrapper from './BlockWrapper.astro';
+
 interface Props {
   text?: string;
+  [key: string]: any;
 }
 
-const { text } = Astro.props;
+const { text, ...designProps } = Astro.props;
 ---
 
-<div class="topline-block not-prose bg-red-50/60 dark:bg-red-950/20 p-6 md:p-8 mb-10 border border-red-100 dark:border-red-900/30 shadow-sm rounded-sm">
-  <div class="text-sm font-bold uppercase tracking-widest text-brand dark:text-brand-dark font-sans mb-4">Topline</div>
-  <div class="font-serif text-lg text-gray-800 dark:text-gray-200 leading-relaxed max-w-none prose dark:prose-invert prose-p:my-2 prose-img:mt-6 prose-img:mb-2 prose-img:w-full prose-figcaption:text-xs prose-figcaption:font-sans prose-figcaption:text-gray-500">
-    {text && <p>{text}</p>}
-    <slot />
+<BlockWrapper {...designProps} class={`topline-block not-prose mb-10 ${designProps.class || ''}`}>
+  <div class="bg-red-50/60 dark:bg-red-950/20 p-6 md:p-8 border border-red-100 dark:border-red-900/30 shadow-sm rounded-sm">
+    <div class="text-sm font-bold uppercase tracking-widest text-brand dark:text-brand-dark font-sans mb-4">Topline</div>
+    <div class="font-serif text-lg text-gray-800 dark:text-gray-200 leading-relaxed max-w-none prose dark:prose-invert prose-p:my-2 prose-img:mt-6 prose-img:mb-2 prose-img:w-full prose-figcaption:text-xs prose-figcaption:font-sans prose-figcaption:text-gray-500">
+      {text && <p>{text}</p>}
+      <slot />
+    </div>
   </div>
-</div>
+</BlockWrapper>

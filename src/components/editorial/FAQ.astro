@@ -26,12 +26,12 @@ if (rawContent) {
 ---
 
 <aside class="faq-drawer-container no-print not-prose">
-  <!-- The floating button/tab on the left edge -->
+  <!-- The floating button/tab on the left edge (positioned high on mobile to avoid thumb scrolling) -->
   <button 
-    class="faq-tab fixed left-0 top-1/2 -translate-y-1/2 z-40 bg-brand dark:bg-brand-dark text-white shadow-xl py-5 px-1.5 rounded-r-lg flex flex-col items-center justify-center gap-2 hover:pr-3 hover:bg-brand-dark transition-all"
+    class="faq-tab fixed left-0 top-36 md:top-1/2 md:-translate-y-1/2 z-40 bg-brand dark:bg-brand-dark text-white shadow-xl py-3 px-1 md:py-5 md:px-1.5 rounded-r-lg flex flex-col items-center justify-center gap-2 hover:pr-3 hover:bg-brand-dark transition-all"
     aria-label="Open FAQ"
   >
-    <span class="font-sans font-black text-sm tracking-widest uppercase [writing-mode:vertical-lr] rotate-180">FAQ</span>
+    <span class="font-sans font-black text-xs md:text-sm tracking-widest uppercase [writing-mode:vertical-lr] rotate-180">FAQ</span>
   </button>
 
   <!-- The sliding drawer & backdrop -->
@@ -123,14 +123,22 @@ if (rawContent) {
         }, 300);
       }
 
+      function handleKeyDown(e: KeyboardEvent) {
+        if (e.key === 'Escape' && !modalEl.classList.contains('pointer-events-none')) {
+          closeDrawer();
+        }
+      }
+
       tab.onclick = openDrawer;
       if (closeBtn) closeBtn.onclick = closeDrawer;
       backdropEl.onclick = closeDrawer;
+      window.addEventListener('keydown', handleKeyDown);
 
       cleanupHandlers.push(() => {
         tab.onclick = null;
         if (closeBtn) closeBtn.onclick = null;
         backdropEl.onclick = null;
+        window.removeEventListener('keydown', handleKeyDown);
         document.body.style.overflow = '';
       });
     });
